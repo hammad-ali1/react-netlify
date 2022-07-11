@@ -4,9 +4,10 @@ const register = async (userData) => {
   try {
     const response = await (await axios.post(`/users`, userData)).data;
     const token = response.user.token;
-    console.log(token);
     localStorage.setItem("authtoken", token); //save user token
+    return token;
   } catch (err) {
+    console.log(err);
     window.alert(err.response.data.err);
   }
 };
@@ -15,15 +16,19 @@ const register = async (userData) => {
 const login = async (userData) => {
   try {
     const response = await (await axios.post(`/users/login`, userData)).data;
+
     const token = response.user.token;
     localStorage.setItem("authtoken", token);
+    return token;
   } catch (err) {
+    console.log(err);
     window.alert(err.response.data.err);
   }
 };
 
 // Logout user
 const logout = () => {
+  console.log("logging out");
   localStorage.removeItem("authtoken");
 };
 
@@ -36,4 +41,4 @@ const getUser = async () => {
     console.log(err.response.data.err);
   }
 };
-export { register, getUser };
+export { register, getUser, logout, login };
