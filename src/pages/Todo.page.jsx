@@ -40,6 +40,8 @@ function Todo({ user }) {
   if (todos.length === 0) {
     return (
       <Wrapper>
+        <input type="text" id="task" />
+        <button onClick={addTask}>Add a Task</button>
         <p>Woo hoo!! You have no tasks todo!</p>
       </Wrapper>
     );
