@@ -1,13 +1,18 @@
-import Card from "../components/Card";
 import { Wrapper } from "../styles/Todo.styles";
 import { getTodos, addTodo } from "../api/todos.api";
 import { useEffect, useState } from "react";
+import Card from "../components/Card";
+import Spinner from "../components/Spinner";
 
 function Todo({ user }) {
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (user) {
-      getTodos().then((todos) => setTodos(todos));
+      getTodos().then((todos) => {
+        setTodos(todos);
+        setLoading(false);
+      });
     }
   }, [user]);
   const cards = todos.map((todo, index) => {
@@ -25,9 +30,17 @@ function Todo({ user }) {
     const task = document.getElementById("task");
     console.log(task.value);
     addTodo(user.id, task.value).then(() => {
-      getTodos().then((todos) => setTodos(todos));
+      setLoading(true);
+      getTodos().then((todos) => {
+        setTodos(todos);
+        setLoading(false);
+      });
     });
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
   if (!user) {
     return (
       <Wrapper>
