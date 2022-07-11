@@ -1,25 +1,23 @@
 import React, { useState } from "react";
-import { Wrapper, Form } from "../styles/signUp.styles";
-import { register } from "../api/auth.api";
+import { Wrapper, Form } from "../styles/logIn.styles";
+import { login } from "../api/auth.api";
 import { useNavigate } from "react-router-dom";
 
-function SignUp({ setToken }) {
+function LogIn({ setToken }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userid: "",
-    username: "",
     password: "",
   });
-  const { userid, username, password } = formData;
+  const { userid, password } = formData;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const userData = {
       userid,
-      username,
       password,
     };
-    register(userData).then((token) => {
+    login(userData).then((token) => {
       setToken(token);
       navigate("/", { replace: true });
     });
@@ -44,14 +42,6 @@ function SignUp({ setToken }) {
           onChange={onChange}
         />
         <input
-          type="text"
-          placeholder="user name"
-          required
-          name="username"
-          value={username}
-          onChange={onChange}
-        />
-        <input
           type="password"
           placeholder="password"
           required
@@ -59,10 +49,10 @@ function SignUp({ setToken }) {
           value={password}
           onChange={onChange}
         />
-        <input type="submit" value="Create New Account" />
+        <input type="submit" value="Log In" />
       </Form>
     </Wrapper>
   );
 }
 
-export default SignUp;
+export default LogIn;
