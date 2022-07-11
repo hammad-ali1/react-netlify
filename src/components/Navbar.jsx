@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Grid,
@@ -30,7 +29,9 @@ function Navbar({ value, setValue, links, baseUrl, title }) {
           {isSmall ? (
             <>
               <Link style={{ textDecoration: "none" }} to={baseUrl}>
-                <Typography style={{ fontSize: "28px" }}>{title}</Typography>
+                <Typography style={{ fontSize: "28px", color: "white" }}>
+                  {title}
+                </Typography>
               </Link>
               <DrawerComponent links={links} />
             </>
@@ -38,7 +39,9 @@ function Navbar({ value, setValue, links, baseUrl, title }) {
             <Grid sx={{ placeItems: "center" }} container spacing={1}>
               <Grid item xs={4}>
                 <Link style={{ textDecoration: "none" }} to={baseUrl}>
-                  <Typography style={{ fontSize: "28px" }}>{title}</Typography>
+                  <Typography style={{ fontSize: "28px", color: "white" }}>
+                    {title}
+                  </Typography>
                 </Link>
               </Grid>
               <Grid xs={8} item={true}>
