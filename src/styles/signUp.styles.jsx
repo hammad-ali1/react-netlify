@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+  margin: auto;
   gap: 5px;
   width: 300px;
 `;

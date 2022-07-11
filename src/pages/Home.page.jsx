@@ -1,8 +1,13 @@
+import { Link } from "react-router-dom";
 import { Wrapper } from "../styles/Home.styles";
 function Home() {
   return (
     <Wrapper>
-      <h1>My projects</h1>
+      <ul>
+        <Link style={{ textDecoration: "none" }} to={"/todo"}>
+          <li>ToDo App</li>
+        </Link>
+      </ul>
     </Wrapper>
   );
 }
