@@ -19,7 +19,10 @@ function DrawerComponent({ links }) {
           {links.map((link, index) => (
             <Link style={{ textDecoration: "none" }} to={link.href}>
               <ListItemButton
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  if (link.action) link.action();
+                  setOpen(false);
+                }}
                 key={index}
                 divider
               >
