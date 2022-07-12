@@ -72,9 +72,6 @@ function Todo({ user }) {
     );
   });
 
-  if (loading) {
-    return <Spinner />;
-  }
   if (!user) {
     return (
       <Wrapper>
@@ -83,6 +80,10 @@ function Todo({ user }) {
         </p>
       </Wrapper>
     );
+  }
+
+  if (loading) {
+    return <Spinner />;
   }
 
   return (
