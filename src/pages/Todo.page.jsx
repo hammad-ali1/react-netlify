@@ -32,6 +32,7 @@ function Todo({ user }) {
     setOpen(false);
     setFormData(initialFormData);
     setFormFields(initialFormFields);
+    setUpdateId(null);
   };
   const handleFormSubmit = () => {
     if (updateId) {
