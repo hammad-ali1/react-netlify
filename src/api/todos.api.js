@@ -9,9 +9,11 @@ const getTodos = async () => {
   }
 };
 
-const addTodo = async (user, task) => {
+const addTodo = async (user, task, title) => {
   try {
-    const response = await (await axios.post("/todos", { user, task })).data;
+    const response = await (
+      await axios.post("/todos", { user, task, title })
+    ).data;
     return response;
   } catch (err) {
     console.log(err);
