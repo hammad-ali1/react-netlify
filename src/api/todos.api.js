@@ -20,4 +20,21 @@ const addTodo = async (user, task, title) => {
   }
 };
 
-export { getTodos, addTodo };
+const deleteTodo = async (id) => {
+  try {
+    const response = await (await axios.post(`/todos/${id}`)).data;
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const updateTodo = async (id, newTodo) => {
+  try {
+    const response = await (await axios.put(`/todos/${id}`, newTodo)).data;
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export { getTodos, addTodo, deleteTodo, updateTodo };

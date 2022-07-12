@@ -11,6 +11,8 @@ export default function OutlinedCard({
   mainTitle,
   subTitle,
   description,
+  handleDelete,
+  handleUpdate,
 }) {
   const card = (
     <React.Fragment>
@@ -26,8 +28,13 @@ export default function OutlinedCard({
         </Typography>
         <Typography variant="body2">{description}</Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Actions</Button>
+      <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button onClick={handleDelete} size="small">
+          Delete
+        </Button>
+        <Button onClick={handleUpdate} size="small">
+          Update
+        </Button>
       </CardActions>
     </React.Fragment>
   );
