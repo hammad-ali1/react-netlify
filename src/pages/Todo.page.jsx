@@ -1,5 +1,5 @@
 import { Wrapper } from "../styles/Todo.styles";
-import { getTodos, addTodo } from "../api/todos.api";
+import { getTodos, addTodo, deleteTodo, updateTodo } from "../api/todos.api";
 import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Spinner from "../components/Spinner";
@@ -9,6 +9,7 @@ import AddButton from "../components/AddButton";
 function Todo({ user }) {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [updateId, setUpdateId] = useState(null);
   //form hook starts here
   const initialFormData = {
     task: "",
@@ -30,17 +31,33 @@ function Todo({ user }) {
   const handleClose = () => {
     setOpen(false);
     setFormData(initialFormData);
+    setFormFields(initialFormFields);
   };
   const handleFormSubmit = () => {
-    addTodo(user.id, formData.task, formData.title).then(() => {
-      setLoading(true);
-      getTodos().then((todos) => {
-        setTodos(todos);
-        setLoading(false);
+    if (updateId) {
+      const newTodo = {
+        task: formData.task,
+        title: formData.title,
+      };
+      updateTodo(updateId, newTodo).then(() => {
+        setLoading(true);
+        getTodos().then((todos) => {
+          setTodos(todos);
+          setLoading(false);
+          setUpdateId(null);
+        });
       });
-    });
-    setFormData(initialFormData);
-    setFormFields(initialFormFields);
+    } else {
+      addTodo(user.id, formData.task, formData.title).then(() => {
+        setLoading(true);
+        getTodos().then((todos) => {
+          setTodos(todos);
+          setLoading(false);
+        });
+      });
+    }
+
+    handleClose();
   };
 
   const onChange = (event) => {
@@ -61,13 +78,54 @@ function Todo({ user }) {
       });
     }
   }, [user]);
+
+  //deletes todo
+  const handleDelete = (id) => {
+    deleteTodo(id).then(() => {
+      setLoading(true);
+      getTodos().then((todos) => {
+        setTodos(todos);
+        setLoading(false);
+      });
+    });
+  };
+
+  //update todo
+  //WARNING BAD CODE CHANGE LATER
+  //USE EITHER FORMDATA OR FORMFIELDS IN TABLE
+  const handleUpdate = (id) => {
+    const selectedTodo = todos.find((todo) => (todo._id = id));
+    setFormData({
+      task: selectedTodo.task,
+      title: selectedTodo.title,
+    });
+    const newFields = [
+      {
+        label: "Title",
+        placeholder: "Add Title",
+        id: "title",
+        value: selectedTodo.title,
+      },
+      {
+        label: "Task",
+        placeholder: "Add Task",
+        id: "task",
+        value: selectedTodo.task,
+      },
+    ];
+    setFormFields(newFields);
+    handleClickOpen();
+    setUpdateId(id);
+  };
   const cards = todos.map((todo, index) => {
     return (
       <Card
-        key={todo.id}
+        key={todo._id}
         heading={`Task number ${index + 1}`}
         mainTitle={todo.title}
         description={todo.task}
+        handleDelete={() => handleDelete(todo._id)}
+        handleUpdate={() => handleUpdate(todo._id)}
       />
     );
   });
@@ -103,7 +161,7 @@ function Todo({ user }) {
         handleFormSubmit={handleFormSubmit}
         formFields={formFields}
         title={"Add New Task"}
-        buttonText={"Submit"}
+        buttonText={updateId ? "Update" : "Add"}
       ></Form>
     </Wrapper>
   );
