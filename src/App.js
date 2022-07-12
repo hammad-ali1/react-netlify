@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import io from "socket.io-client";
+
 //styles
 import { GlobalStyle } from "./GlobalStyle";
 //components
@@ -12,6 +14,8 @@ import Todo from "./pages/Todo.page";
 //apis
 import { getUser, logout } from "./api/auth.api";
 import axios from "axios";
+
+const socket = io("http://localhost:5000", { transports: ["websocket"] });
 
 function App() {
   //states
