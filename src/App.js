@@ -9,9 +9,12 @@ import SignUp from "./pages/signUp.page";
 import LogIn from "./pages/logIn.page";
 import Home from "./pages/Home.page";
 import Todo from "./pages/Todo.page";
+import Socket from "./pages/Socket.page";
 //apis
 import { getUser, logout } from "./api/auth.api";
 import axios from "axios";
+//contexts
+import { SocketContext, socket } from "./contexts/socket.context";
 
 function App() {
   //states
@@ -26,7 +29,10 @@ function App() {
     setToken(localStorage.getItem("authtoken"));
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     if (token) {
-      getUser().then((user) => setUser(user));
+      getUser().then((user) => {
+        setUser(user);
+        socket.emit("user", user);
+      });
     } else {
       setUser(null);
     }
@@ -61,24 +67,26 @@ function App() {
 
   //return statement
   return (
-    <Router>
-      <Navbar
-        value={tabValue}
-        setValue={setTabValue}
-        links={navLinks}
-        baseUrl="/"
-        title="React Projects"
-      />
-      {user && <h1>{`Welcome ${user.username}`}</h1>}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<SignUp setToken={setToken} />} />
-        <Route path="/login" element={<LogIn setToken={setToken} />} />
-        <Route path="/todo" element={<Todo user={user} />} />
-      </Routes>
-
-      <GlobalStyle />
-    </Router>
+    <SocketContext.Provider value={socket}>
+      <Router>
+        <Navbar
+          value={tabValue}
+          setValue={setTabValue}
+          links={navLinks}
+          baseUrl="/"
+          title="React Projects"
+        />
+        {user && <h1>{`Welcome ${user.username}`}</h1>}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<SignUp setToken={setToken} />} />
+          <Route path="/login" element={<LogIn setToken={setToken} />} />
+          <Route path="/todo" element={<Todo user={user} />} />
+          <Route path="/socket" element={<Socket user={user} />} />
+        </Routes>
+        <GlobalStyle />
+      </Router>
+    </SocketContext.Provider>
   );
 }
 
