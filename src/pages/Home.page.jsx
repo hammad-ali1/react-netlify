@@ -10,6 +10,9 @@ function Home() {
         <Link style={{ textDecoration: "none" }} to={"/socket"}>
           <li>Socket App</li>
         </Link>
+        <Link style={{ textDecoration: "none" }} to={"/tttgame"}>
+          <li>Tic Tac Toe</li>
+        </Link>
       </ul>
     </Wrapper>
   );
