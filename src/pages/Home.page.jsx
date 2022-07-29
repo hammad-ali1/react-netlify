@@ -13,6 +13,9 @@ function Home() {
         <Link style={{ textDecoration: "none" }} to={"/tttgame"}>
           <li>Tic Tac Toe</li>
         </Link>
+        <Link style={{ textDecoration: "none" }} to={"/guess-thief"}>
+          <li>Guess Thief</li>
+        </Link>
       </ul>
     </Wrapper>
   );

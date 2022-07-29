@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Board from "./Board";
-import { Wrapper } from "../styles/TicTacToe.styles";
+import { Wrapper } from "../../styles/TicTacToe.styles";
 
 function TicTacToe({ playerName, marker, socket, roomId }) {
   const [winner, setWinner] = useState(null);
@@ -24,7 +24,7 @@ function TicTacToe({ playerName, marker, socket, roomId }) {
   }, [marker, socket]);
 
   const handleClick = (i) => {
-    if (calculateWinner(squares) || squares[i] || !isTurn) {
+    if (winner || squares[i] || !isTurn) {
       //if someone won or square is non empty. Do nothing
       return;
     }
@@ -33,6 +33,7 @@ function TicTacToe({ playerName, marker, socket, roomId }) {
     setSquares(newSquares);
     setIsTurn(false);
     socket.emit("refresh-squares", { squares: newSquares, roomId });
+    calculateWinner(squares);
   };
   const calculateWinner = (squares) => {
     const lines = [
@@ -52,7 +53,7 @@ function TicTacToe({ playerName, marker, socket, roomId }) {
         squares[a] === squares[b] &&
         squares[a] === squares[c]
       ) {
-        setWinner(`${playerName} WON!!`);
+        setWinner(squares[a] === marker ? `${playerName} WON!!` : "You Lost!");
         return squares[a];
       }
     }
