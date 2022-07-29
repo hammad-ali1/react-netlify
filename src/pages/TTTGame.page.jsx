@@ -2,7 +2,7 @@ import { Wrapper } from "../styles/TTTGame.styles";
 import { SocketContext } from "../contexts/socket.context";
 import { useContext, useEffect, useState } from "react";
 import { TextField, Autocomplete } from "@mui/material";
-import TicTacToe from "../components/TicTacToe";
+import TicTacToe from "../components/TTTGame/TicTacToe";
 
 function TTTGame({ user, onlineUsers }) {
   const socket = useContext(SocketContext);

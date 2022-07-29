@@ -11,6 +11,7 @@ import Home from "./pages/Home.page";
 import Todo from "./pages/Todo.page";
 import Socket from "./pages/Socket.page";
 import TTTGame from "./pages/TTTGame.page";
+import GuessThief from "./pages/GuessThief.page";
 //apis
 import { getUser, logout } from "./api/auth.api";
 import axios from "axios";
@@ -104,6 +105,10 @@ function App() {
           <Route
             path="/tttgame"
             element={<TTTGame onlineUsers={onlineUsers} user={user} />}
+          />
+          <Route
+            path="/guess-thief"
+            element={<GuessThief onlineUsers={onlineUsers} user={user} />}
           />
         </Routes>
         <GlobalStyle />
