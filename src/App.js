@@ -11,7 +11,7 @@ import Home from "./pages/Home.page";
 import Todo from "./pages/Todo.page";
 import Socket from "./pages/Socket.page";
 import TTTGame from "./pages/TTTGame.page";
-import GuessThief from "./pages/GuessThief.page";
+import GuessThiefGame from "./pages/GuessThief.page";
 //apis
 import { getUser, logout } from "./api/auth.api";
 import axios from "axios";
@@ -34,6 +34,8 @@ function App() {
   useEffect(() => {
     if (socket)
       socket.on("new-users", (newUsers) => {
+        newUsers = newUsers.filter((newUser) => newUser.socketId !== socket.id);
+        console.log(newUsers);
         setOnlineUsers(newUsers);
       });
   }, [socket]);
@@ -65,6 +67,7 @@ function App() {
           action: () => {
             logout();
             setToken("");
+            socket.disconnect();
           },
         },
       ];
@@ -108,7 +111,7 @@ function App() {
           />
           <Route
             path="/guess-thief"
-            element={<GuessThief onlineUsers={onlineUsers} user={user} />}
+            element={<GuessThiefGame onlineUsers={onlineUsers} user={user} />}
           />
         </Routes>
         <GlobalStyle />
