@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import TicTacToe from "../components/TTTGame/TicTacToe";
 
 function Socket({ user, onlineUsers }) {
-  const socket = useContext(SocketContext);
+  const { socket } = useContext(SocketContext);
   const [marker, setMarker] = useState("X"); //the one who starts the room has the default marker of X
   const [roomId, setRoomId] = useState(null);
   const [roomUsers, setRoomUsers] = useState([]);

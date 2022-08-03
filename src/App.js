@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GlobalStyle } from "./GlobalStyle";
 //components
 import Navbar from "./components/Navbar";
+import SimpleSnackbar from "./components/Snackbar";
 //pages
 import SignUp from "./pages/signUp.page";
 import LogIn from "./pages/logIn.page";
@@ -19,7 +20,7 @@ import axios from "axios";
 import socketio from "socket.io-client";
 import { SERVER_URL } from "./config";
 
-import { SocketContext } from "./contexts/socket.context";
+import { SocketContext, SnackbarContext } from "./contexts/socket.context";
 
 function App() {
   //states
@@ -29,15 +30,25 @@ function App() {
   const [navLinks, setNavLinks] = useState([]);
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
+  const [snackBarButtons, setSnackBarButtons] = useState([]);
+
   //hooks
   //hook for online users
   useEffect(() => {
-    if (socket)
+    if (socket) {
       socket.on("new-users", (newUsers) => {
         newUsers = newUsers.filter((newUser) => newUser.socketId !== socket.id);
         console.log(newUsers);
         setOnlineUsers(newUsers);
       });
+      socket.on("open-main-snackbar", ({ message, buttons }) => {
+        setSnackBarButtons(buttons);
+        setSnackBarMessage(message);
+        setOpenSnackBar(true);
+      });
+    }
   }, [socket]);
   //hook for fetching user from token
   useEffect(() => {
@@ -86,7 +97,14 @@ function App() {
 
   //return statement
   return (
-    <SocketContext.Provider value={socket}>
+    <SocketContext.Provider
+      value={{
+        socket,
+        setSnackBarMessage,
+        setSnackBarButtons,
+        setOpenSnackBar,
+      }}
+    >
       <Router>
         <Navbar
           value={tabValue}
@@ -114,6 +132,13 @@ function App() {
             element={<GuessThiefGame onlineUsers={onlineUsers} user={user} />}
           />
         </Routes>
+        <SimpleSnackbar
+          buttons={snackBarButtons}
+          message={snackBarMessage}
+          open={openSnackBar}
+          setOpen={setOpenSnackBar}
+          user={user}
+        />
         <GlobalStyle />
       </Router>
     </SocketContext.Provider>

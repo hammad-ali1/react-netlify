@@ -5,7 +5,7 @@ import { TextField, Autocomplete } from "@mui/material";
 import TicTacToe from "../components/TTTGame/TicTacToe";
 
 function TTTGame({ user, onlineUsers }) {
-  const socket = useContext(SocketContext);
+  const { socket } = useContext(SocketContext);
   const [marker, setMarker] = useState("X"); //the one who starts the room has the default marker of X
   const [roomId, setRoomId] = useState("ttt/" + (socket ? socket.id : ""));
   const [roomUsers, setRoomUsers] = useState([]);

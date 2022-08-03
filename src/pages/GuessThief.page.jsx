@@ -8,34 +8,59 @@ import SimpleSnackbar from "../components/Snackbar";
 import GuessThief from "../components/GuessThief/GuessThief";
 
 function GuessThiefGame({ user, onlineUsers }) {
-  const socket = useContext(SocketContext);
+  const {
+    socket,
+    setOpenSnackBar: setOpenMainSnackBar,
+    setSnackBarMessage: setMainSnackBarMessage,
+    setSnackBarButtons: setMainSnackBarButtons,
+  } = useContext(SocketContext);
+
   const [roomId, setRoomId] = useState(
     "GuessThief/" + (socket ? socket.id : "")
   );
-  const [roomUsers, setRoomUsers] = useState([]);
+  const [roomUsers, setRoomUsers] = useState([user]);
+  const [playersToInvite, setPlayersToInvite] = useState([]);
   const [start, setStart] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [inviteRejected, setInviteRejected] = useState(false);
   useEffect(() => {
     if (socket) {
       socket.emit("join-room", { roomId });
       socket.on("start-GuessThief", () => {
         setStart(true);
       });
-      socket.on("room-invite", ({ roomId }) => {
+      socket.on("update-roomid", ({ roomId }) => {
+        console.log("updating room id");
         setRoomId(roomId);
       });
+
+      socket.on("room-invite-reject", ({ msg }) => {
+        console.log(msg);
+        setMainSnackBarMessage(msg);
+        setOpenMainSnackBar(true);
+        setMainSnackBarButtons([]);
+        // setInviteRejected(true);
+      });
+      // socket.on("room-invite", ({ roomId }) => {
+      //   setRoomId(roomId);
+      // });
       if (roomId) {
         socket.on("refresh-room-users", (newRoomUsers) => {
           console.log("Refreshing users");
-
+          console.log(newRoomUsers);
           setRoomUsers(newRoomUsers);
+          if (newRoomUsers.length === 4) {
+            setStart(true);
+            socket.emit("start-GuessThief", { roomId });
+          }
         });
       }
     }
 
     return () => {
       if (socket) {
-        socket.off("room-invite");
+        // socket.off("room-invite");
+        socket.off("update-roomid");
         socket.off("refresh-room-users");
         if (roomId) socket.emit("leave-room", roomId);
       }
@@ -44,16 +69,35 @@ function GuessThiefGame({ user, onlineUsers }) {
 
   //handlers
   const handleStart = () => {
-    if (roomUsers.length !== 4) {
-      console.log(roomUsers);
+    if (playersToInvite.length !== 3) {
       setOpenSnackBar(true);
     } else {
-      roomUsers.forEach((roomUser) => {
-        if (roomUser._id !== user._id)
-          socket.emit("room-invite", { socketId: roomUser.socketId, roomId });
+      playersToInvite.forEach((playerToInvite) => {
+        // socket.emit("room-invite", {
+        //   socketId: playerToInvite.socketId,
+        //   roomId,
+        // });
+        socket.emit("open-main-snackbar", {
+          roomId: playerToInvite.socketId,
+          message: `${user.username} is inviting you to play GuessThief`,
+          buttons: [
+            {
+              type: "room-invite-accept",
+              text: "accept",
+              roomId,
+              variant: "contained",
+            },
+            {
+              type: "room-invite-reject",
+              text: "reject",
+              roomId,
+            },
+          ],
+        });
       });
-      setStart(true);
-      socket.emit("start-GuessThief", { roomId });
+
+      // setStart(true);
+      // socket.emit("start-GuessThief", { roomId });
     }
   };
 
@@ -80,7 +124,8 @@ function GuessThiefGame({ user, onlineUsers }) {
           onChange={(event, newValue) => {
             const owner = user;
             owner.socketId = socket.id;
-            setRoomUsers([...newValue, owner]);
+            setPlayersToInvite(newValue);
+            // setRoomUsers([...newValue, owner]);
           }}
           renderInput={(params) => (
             <TextField
