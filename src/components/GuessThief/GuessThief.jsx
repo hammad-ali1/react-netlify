@@ -67,6 +67,9 @@ function GuessThief({ players, roomId, user }) {
     socket.on("update-points", ({ newPoints }) => {
       setPoints(newPoints);
     });
+    socket.on("show-cards", ({ show }) => {
+      setShowAll(show);
+    });
     socket.on("play-again-GuessThief", () => {
       resetPoints();
       setFinish(false);
@@ -75,6 +78,7 @@ function GuessThief({ players, roomId, user }) {
       setFinish(true);
     });
     socket.on("room-user-left", () => {
+      console.log("user left");
       socket.emit("finish-game", { roomId });
     });
   }, [socket, user]);
@@ -119,7 +123,7 @@ function GuessThief({ players, roomId, user }) {
 
     // setPoints(newPoints);
     socket.emit("update-points", { newPoints, roomId });
-    setShowAll(true);
+    socket.emit("show-cards", { show: true, roomId });
     if (timer.current) clearInterval(timer.current);
     timer.current = setTimeout(() => {
       console.log("Timeout function");
