@@ -2,6 +2,7 @@ import { SocketContext } from "../../contexts/socket.context";
 import { useContext, useEffect, useRef, useState } from "react";
 import RoleCard from "./RoleCard";
 import PointsTable from "./PointsTable";
+import SimpleSnackbar from "../../components/Snackbar";
 
 const defaultCards = [
   {
@@ -46,6 +47,8 @@ function GuessThief({ players, roomId, user }) {
   const [currentRole, setCurrentRole] = useState(null);
   const [points, setPoints] = useState({});
   const [finish, setFinish] = useState(false);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
   const clickAllowed = useRef(true);
   const timer = useRef(null);
   useEffect(() => {
@@ -73,6 +76,11 @@ function GuessThief({ players, roomId, user }) {
     socket.on("play-again-GuessThief", () => {
       resetPoints();
       setFinish(false);
+    });
+    socket.on("open-snackbar", ({ message }) => {
+      console.log(message);
+      setSnackBarMessage(message);
+      setOpenSnackBar(true);
     });
     socket.on("finish-game", () => {
       setFinish(true);
@@ -121,7 +129,17 @@ function GuessThief({ players, roomId, user }) {
       else newPoints[card.player._id] = card.points + points[card.player._id];
     });
 
-    // setPoints(newPoints);
+    if (event.target.innerText.includes("Thief")) {
+      socket.emit("open-snackbar", {
+        message: `${user.username} choose correct Thief 😎`,
+        roomId,
+      });
+    } else {
+      socket.emit("open-snackbar", {
+        message: `${user.username} choose wrong Thief 😭`,
+        roomId,
+      });
+    }
     socket.emit("update-points", { newPoints, roomId });
     socket.emit("show-cards", { show: true, roomId });
     if (timer.current) clearInterval(timer.current);
@@ -195,6 +213,11 @@ function GuessThief({ players, roomId, user }) {
 
       <div className="cards">{renderCards()}</div>
       <PointsTable players={players} currentPoints={points} />
+      <SimpleSnackbar
+        open={openSnackBar}
+        setOpen={setOpenSnackBar}
+        message={snackBarMessage}
+      />
     </>
   );
 }
