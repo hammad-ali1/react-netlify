@@ -4,73 +4,60 @@ import { TextField, Autocomplete } from "@mui/material";
 
 import { Wrapper } from "../styles/GuessThief.styles";
 import SimpleSnackbar from "../components/Snackbar";
-import RoleCard from "../components/GuessThief/RoleCard";
 
-const defaultCards = [
-  {
-    points: 500,
-    title: "Queen",
-    player: false,
-    img: "img",
-  },
-  {
-    points: 1000,
-    title: "King",
-    player: false,
-    img: "img",
-  },
-  {
-    points: 300,
-    title: "Soldier",
-    player: false,
-    img: "img",
-  },
-  {
-    points: 0,
-    title: "Thief",
-    player: false,
-    img: "img",
-  },
-];
-function GuessThief({ user, onlineUsers }) {
+import GuessThief from "../components/GuessThief/GuessThief";
+
+function GuessThiefGame({ user, onlineUsers }) {
   const socket = useContext(SocketContext);
-  const [roomId, setRoomId] = useState("GuessThief/" + socket.id);
+  const [roomId, setRoomId] = useState(
+    "GuessThief/" + (socket ? socket.id : "")
+  );
   const [roomUsers, setRoomUsers] = useState([]);
   const [start, setStart] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
-  const [cards, setCards] = useState(defaultCards);
   useEffect(() => {
-    socket.emit("join-room", { roomId });
-    socket.on("room-invite", ({ roomId }) => {
-      setRoomId(roomId);
-    });
-    if (roomId) {
-      socket.on("refresh-room-users", (newRoomUsers) => {
-        console.log("Refreshing users");
-        setRoomUsers(newRoomUsers);
+    if (socket) {
+      socket.emit("join-room", { roomId });
+      socket.on("start-GuessThief", () => {
+        setStart(true);
       });
+      socket.on("room-invite", ({ roomId }) => {
+        setRoomId(roomId);
+      });
+      if (roomId) {
+        socket.on("refresh-room-users", (newRoomUsers) => {
+          console.log("Refreshing users");
+
+          setRoomUsers(newRoomUsers);
+        });
+      }
     }
+
     return () => {
-      socket.off("room-invite");
-      socket.off("refresh-room-users");
-      if (roomId) socket.emit("leave-room", roomId);
+      if (socket) {
+        socket.off("room-invite");
+        socket.off("refresh-room-users");
+        if (roomId) socket.emit("leave-room", roomId);
+      }
     };
   }, [socket, roomId]);
 
   //handlers
   const handleStart = () => {
-    if (roomUsers.length !== 2) {
+    if (roomUsers.length !== 4) {
       console.log(roomUsers);
       setOpenSnackBar(true);
     } else {
+      roomUsers.forEach((roomUser) => {
+        if (roomUser._id !== user._id)
+          socket.emit("room-invite", { socketId: roomUser.socketId, roomId });
+      });
       setStart(true);
+      socket.emit("start-GuessThief", { roomId });
     }
   };
-  const handleReset = () => {
-    setRoomUsers([]);
-    setStart(false);
-  };
-  if (!user) {
+
+  if (!user || !socket) {
     return <h1>You must be logged in to play this game</h1>;
   }
   if (!start) {
@@ -83,8 +70,17 @@ function GuessThief({ user, onlineUsers }) {
           id="secondPlayer"
           options={onlineUsers}
           getOptionLabel={(option) => option.username}
+          renderOption={(props, option) => {
+            return (
+              <li {...props} key={option.socketId}>
+                {option.username}
+              </li>
+            );
+          }}
           onChange={(event, newValue) => {
-            setRoomUsers([...newValue, user]);
+            const owner = user;
+            owner.socketId = socket.id;
+            setRoomUsers([...newValue, owner]);
           }}
           renderInput={(params) => (
             <TextField
@@ -108,14 +104,9 @@ function GuessThief({ user, onlineUsers }) {
   }
   return (
     <Wrapper>
-      <button onClick={handleReset}>Reset</button>
-      <div className="cards">
-        {cards.map((card) => (
-          <RoleCard title={card.title} points={card.points} img={card.img} />
-        ))}
-      </div>
+      <GuessThief players={roomUsers} roomId={roomId} user={user} />
     </Wrapper>
   );
 }
 
-export default GuessThief;
+export default GuessThiefGame;

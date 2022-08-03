@@ -7,30 +7,34 @@ import TicTacToe from "../components/TTTGame/TicTacToe";
 function TTTGame({ user, onlineUsers }) {
   const socket = useContext(SocketContext);
   const [marker, setMarker] = useState("X"); //the one who starts the room has the default marker of X
-  const [roomId, setRoomId] = useState("ttt/" + socket.id);
+  const [roomId, setRoomId] = useState("ttt/" + (socket ? socket.id : ""));
   const [roomUsers, setRoomUsers] = useState([]);
   const [secondPlayer, setSecondPlayer] = useState(null);
   useEffect(() => {
-    socket.emit("join-room", { roomId });
-    socket.on("room-invite", ({ roomId }) => {
-      setRoomId(roomId);
-    });
-    socket.on("update-marker", ({ marker }) => {
-      setMarker(marker);
-    });
-    if (roomId) {
-      socket.on("refresh-room-users", (newRoomUsers) => {
-        console.log("Refreshing users");
-        setRoomUsers(newRoomUsers);
+    if (socket) {
+      socket.emit("join-room", { roomId });
+      socket.on("room-invite", ({ roomId }) => {
+        setRoomId(roomId);
       });
+      socket.on("update-marker", ({ marker }) => {
+        setMarker(marker);
+      });
+      if (roomId) {
+        socket.on("refresh-room-users", (newRoomUsers) => {
+          console.log("Refreshing users");
+          setRoomUsers(newRoomUsers);
+        });
+      }
     }
 
     return () => {
-      socket.off("room-message");
-      socket.off("room-invite");
-      socket.off("refresh-room-users");
-      socket.off("update-marker");
-      if (roomId) socket.emit("leave-room", roomId);
+      if (socket) {
+        socket.off("room-message");
+        socket.off("room-invite");
+        socket.off("refresh-room-users");
+        socket.off("update-marker");
+        if (roomId) socket.emit("leave-room", roomId);
+      }
     };
   }, [socket, roomId]);
 

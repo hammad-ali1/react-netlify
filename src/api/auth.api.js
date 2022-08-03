@@ -19,6 +19,7 @@ const login = async (userData) => {
 
     const token = response.user.token;
     localStorage.setItem("authtoken", token);
+
     return token;
   } catch (err) {
     console.log(err);
