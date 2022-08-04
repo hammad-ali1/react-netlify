@@ -28,6 +28,9 @@ function GuessThiefGame({ user, onlineUsers }) {
   const [roundLimit, setRoundLimit] = useState(null);
 
   useEffect(() => {
+    console.log("XXX EFFECT NEW ROUND LIMIT " + roundLimit);
+  }, [roundLimit]);
+  useEffect(() => {
     if (socket) {
       socket.emit("join-room", { roomId });
       socket.on("start-GuessThief", () => {
@@ -44,13 +47,17 @@ function GuessThiefGame({ user, onlineUsers }) {
       socket.on("finish-game", () => {
         setFinish(true);
       });
+      socket.on("update-roundLimit", ({ roundLimit }) => {
+        console.log("UPDATING ROUND LIMIT TO XXX:  " + roundLimit);
+        setRoundLimit(roundLimit);
+      });
     }
     return () => {
       if (socket) {
         socket.off("start-GuessThief");
         socket.off("play-again-GuessThief");
         socket.off("finish-game");
-
+        socket.off("update-roundLimit");
         socket.emit("leave-room", roomId);
       }
     };
@@ -118,17 +125,27 @@ function GuessThiefGame({ user, onlineUsers }) {
       setOpenSnackBar(true);
     } else {
       playersToInvite.forEach((playerToInvite) => {
+        socket.emit("update-roundLimit", {
+          //send round limit to players
+          roomId: playerToInvite.socketId,
+          roundLimit,
+        });
         socket.emit("open-main-snackbar", {
+          //confirm invitation from players
           roomId: playerToInvite.socketId,
           message: `${user.username} is inviting you to play GuessThief`,
           buttons: [
             {
+              //button for accepting invitation.
+              //handler written in evaluate method of snackbar component
               type: "room-invite-accept",
               text: "accept",
               roomId,
               variant: "contained",
             },
             {
+              //button for rejecting invitation.
+              //handler written in evaluate method of snackbar component
               type: "room-invite-reject",
               text: "reject",
               roomId,
@@ -181,6 +198,7 @@ function GuessThiefGame({ user, onlineUsers }) {
               options={rounds}
               getOptionLabel={(option) => option.toString()}
               onChange={(event, newValue) => {
+                console.log("XXX onchange event of autocomplete");
                 setRoundLimit(newValue);
               }}
               renderInput={(params) => (
