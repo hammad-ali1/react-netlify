@@ -24,12 +24,23 @@ function GuessThiefGame({ user, onlineUsers }) {
   const [finish, setFinish] = useState(false); //finsih the game
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [isRoomFull, setIsRoomFull] = useState(false);
+
   useEffect(() => {
     if (socket) {
       socket.emit("join-room", { roomId });
       socket.on("start-GuessThief", () => {
         setStart(true);
       });
+    }
+    return () => {
+      if (socket) {
+        socket.off("start-GuessThief");
+        socket.emit("leave-room", roomId);
+      }
+    };
+  }, [socket, roomId]);
+  useEffect(() => {
+    if (socket) {
       socket.on("update-roomid", ({ roomId }) => {
         console.log("updating room id");
         setRoomId(roomId);
@@ -68,7 +79,10 @@ function GuessThiefGame({ user, onlineUsers }) {
     return () => {
       if (socket) {
         socket.off("update-roomid");
-        socket.off("refresh-room-users");
+        socket.off("finish-game");
+        socket.off("room-invite-reject");
+        socket.off("play-again-GuessThief");
+
         if (roomId) {
           if (start) {
             socket.emit("open-snackbar", {
@@ -77,7 +91,8 @@ function GuessThiefGame({ user, onlineUsers }) {
             });
             socket.emit("finish-game", { roomId });
           }
-          socket.emit("leave-room", roomId);
+
+          socket.off("refresh-room-users");
         }
       }
     };
