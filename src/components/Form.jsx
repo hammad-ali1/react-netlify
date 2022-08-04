@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TextField } from "@mui/material";
@@ -22,8 +21,6 @@ export default function Form({
   buttonText,
   formFields,
 }) {
-  const { C_ID, C_name, city, address, capacity, M_ID } = data;
-
   return (
     <div>
       <Dialog
