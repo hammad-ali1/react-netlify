@@ -32,7 +32,7 @@ const defaultCards = [
   },
 ];
 
-const roundLimt = 5;
+const roundLimt = 2;
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -85,7 +85,7 @@ function GuessThief({
     players.forEach((player) => (newPoints[player._id] = 0));
     setPoints(newPoints);
   }, [players]);
-  //useEffectes
+  //useEffects
   useEffect(() => {
     if (isRoomFull) {
       resetPoints();
