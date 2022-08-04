@@ -34,7 +34,7 @@ export default function SimpleSnackbar({
       navigate("/guess-thief", { replace: true });
       setTimeout(() => {
         socket.emit("join-room", { roomId: buttonDetail.roomId });
-      }, 2000);
+      }, 1000);
     }
     if (type === "room-invite-reject") {
       console.log("reject logic here");
