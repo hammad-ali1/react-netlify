@@ -18,7 +18,7 @@ function GuessThiefGame({ user, onlineUsers }) {
   const [roomId, setRoomId] = useState(
     "GuessThief/" + (socket ? socket.id : "")
   );
-  const [roomUsers, setRoomUsers] = useState([user]);
+  const [roomUsers, setRoomUsers] = useState([]);
   const [playersToInvite, setPlayersToInvite] = useState([]);
   const [start, setStart] = useState(false); //set players for starting the game
   const [finish, setFinish] = useState(false); //finsih the game
@@ -31,10 +31,22 @@ function GuessThiefGame({ user, onlineUsers }) {
       socket.on("start-GuessThief", () => {
         setStart(true);
       });
+      socket.on("play-again-GuessThief", () => {
+        setRoomUsers([]);
+        setFinish(false);
+        setStart(false);
+        setIsRoomFull(false);
+      });
+      socket.on("finish-game", () => {
+        setFinish(true);
+      });
     }
     return () => {
       if (socket) {
         socket.off("start-GuessThief");
+        socket.off("play-again-GuessThief");
+        socket.off("finish-game");
+
         socket.emit("leave-room", roomId);
       }
     };
@@ -45,9 +57,7 @@ function GuessThiefGame({ user, onlineUsers }) {
         console.log("updating room id");
         setRoomId(roomId);
       });
-      socket.on("finish-game", () => {
-        setFinish(true);
-      });
+
       socket.on("room-invite-reject", ({ msg }) => {
         console.log(msg);
         setMainSnackBarMessage(msg);
@@ -55,12 +65,6 @@ function GuessThiefGame({ user, onlineUsers }) {
         setMainSnackBarButtons([]);
       });
 
-      socket.on("play-again-GuessThief", () => {
-        setRoomUsers([user]);
-        setFinish(false);
-        setStart(false);
-        setIsRoomFull(false);
-      });
       if (roomId) {
         socket.on("refresh-room-users", (newRoomUsers) => {
           console.log("Refreshing users");
@@ -79,9 +83,7 @@ function GuessThiefGame({ user, onlineUsers }) {
     return () => {
       if (socket) {
         socket.off("update-roomid");
-        socket.off("finish-game");
         socket.off("room-invite-reject");
-        socket.off("play-again-GuessThief");
 
         if (roomId) {
           if (start) {
@@ -101,7 +103,7 @@ function GuessThiefGame({ user, onlineUsers }) {
     roomId,
     start,
     setMainSnackBarMessage,
-    user,
+    user.username,
     setOpenMainSnackBar,
     setMainSnackBarButtons,
   ]);
