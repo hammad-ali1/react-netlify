@@ -114,11 +114,6 @@ function GuessThief({
         setSnackBarMessage(message);
         setOpenSnackBar(true);
       });
-
-      socket.on("room-user-left", () => {
-        console.log("user left");
-        socket.emit("finish-game", { roomId });
-      });
     }
     return () => {
       if (socket) {
@@ -126,7 +121,6 @@ function GuessThief({
         socket.off("update-points");
         socket.off("show-cards");
         socket.off("open-snackbar");
-        socket.off("room-user-left");
       }
     };
   }, [socket, user, roomId]);
@@ -172,10 +166,12 @@ function GuessThief({
     if (timer.current) clearInterval(timer.current);
     timer.current = setTimeout(() => {
       console.log("Timeout function");
-
-      clickAllowed.current = true;
-      shuffleCards();
-      if (points.round === roundLimt) socket.emit("finish-game", { roomId });
+      if (points.round === roundLimt) {
+        socket.emit("finish-game", { roomId });
+      } else {
+        clickAllowed.current = true;
+        shuffleCards();
+      }
     }, 5000);
   };
   const [showAll, setShowAll] = useState(false);
