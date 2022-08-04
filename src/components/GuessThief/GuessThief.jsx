@@ -62,20 +62,22 @@ function GuessThief({
 
   //useCallbacks
   const shuffleCards = useCallback(() => {
-    const shuffledPlayers = [...players];
-    shuffleArray(shuffledPlayers);
+    if (players.length === 4) {
+      const shuffledPlayers = [...players];
+      shuffleArray(shuffledPlayers);
 
-    setCards((cards) => {
-      const newCards = [...cards];
-      shuffleArray(newCards);
+      setCards((cards) => {
+        const newCards = [...cards];
+        shuffleArray(newCards);
 
-      newCards.forEach((card, index) => {
-        card.player = shuffledPlayers[index];
-        // if (card.player._id === user._id) setCurrentRole(card);
+        newCards.forEach((card, index) => {
+          card.player = shuffledPlayers[index];
+          // if (card.player._id === user._id) setCurrentRole(card);
+        });
+        socket.emit("refresh-cards", { roomId, newCards });
+        return newCards;
       });
-      socket.emit("refresh-cards", { roomId, newCards });
-      return newCards;
-    });
+    }
   }, [players, socket, roomId]);
 
   const resetPoints = useCallback(() => {
@@ -118,6 +120,15 @@ function GuessThief({
         socket.emit("finish-game", { roomId });
       });
     }
+    return () => {
+      if (socket) {
+        socket.off("refresh-cards");
+        socket.off("update-points");
+        socket.off("show-cards");
+        socket.off("open-snackbar");
+        socket.off("room-user-left");
+      }
+    };
   }, [socket, user, roomId]);
 
   useEffect(() => {
