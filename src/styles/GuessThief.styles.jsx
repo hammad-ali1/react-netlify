@@ -15,6 +15,13 @@ export const Wrapper = styled.div`
   .others {
     color: blue;
   }
+  .column-container {
+    display: flex;
+    width: 40%;
+    margin: auto;
+    gap: 10px;
+    flex-direction: column;
+  }
   /* .card1 {
     grid-area: card1;
   }
