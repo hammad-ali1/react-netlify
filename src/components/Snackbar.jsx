@@ -16,9 +16,6 @@ export default function SimpleSnackbar({
 }) {
   const { socket } = React.useContext(SocketContext);
   const navigate = useNavigate();
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

@@ -42,11 +42,8 @@ function GuessThiefGame({ user, onlineUsers }) {
         setMainSnackBarMessage(msg);
         setOpenMainSnackBar(true);
         setMainSnackBarButtons([]);
-        // setInviteRejected(true);
       });
-      // socket.on("room-invite", ({ roomId }) => {
-      //   setRoomId(roomId);
-      // });
+
       socket.on("play-again-GuessThief", () => {
         setRoomUsers([user]);
         setFinish(false);
@@ -84,17 +81,15 @@ function GuessThiefGame({ user, onlineUsers }) {
         }
       }
     };
-  }, [socket, roomId, start]);
-  // useEffect(() => {
-  //   return () => {
-  //     if (roomId) {
-  //       if (start) {
-  //
-  //       }
-  //
-  //     }
-  //   };
-  // }, [roomId, socket]);
+  }, [
+    socket,
+    roomId,
+    start,
+    setMainSnackBarMessage,
+    user,
+    setOpenMainSnackBar,
+    setMainSnackBarButtons,
+  ]);
 
   //handlers
   const handleStart = () => {
@@ -126,13 +121,13 @@ function GuessThiefGame({ user, onlineUsers }) {
       });
     }
   };
-
-  if (!user || !socket) {
-    return <h1>You must be logged in to play this game</h1>;
-  }
   const handlePlayAgain = () => {
     socket.emit("play-again-GuessThief", { roomId });
   };
+  if (!user || !socket) {
+    return <h1>You must be logged in to play this game</h1>;
+  }
+
   return (
     <Wrapper>
       {!start && (
@@ -155,7 +150,6 @@ function GuessThiefGame({ user, onlineUsers }) {
               const owner = user;
               owner.socketId = socket.id;
               setPlayersToInvite(newValue);
-              // setRoomUsers([...newValue, owner]);
             }}
             renderInput={(params) => (
               <TextField
@@ -163,7 +157,6 @@ function GuessThiefGame({ user, onlineUsers }) {
                 placeholder="Choose 4 Players to Invite"
                 sx={{ backgroundColor: "white", borderRadius: "5px" }}
                 variant="outlined"
-                // label="Choose Player To Invite"
               />
             )}
           />

@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //styles
 import { GlobalStyle } from "./GlobalStyle";
@@ -20,7 +20,7 @@ import axios from "axios";
 import socketio from "socket.io-client";
 import { SERVER_URL } from "./config";
 
-import { SocketContext, SnackbarContext } from "./contexts/socket.context";
+import { SocketContext } from "./contexts/socket.context";
 
 function App() {
   //states
@@ -93,7 +93,7 @@ function App() {
       setNavLinks(newLinks);
       setTabValue(0);
     }
-  }, [user]);
+  }, [user, socket]);
 
   //return statement
   return (

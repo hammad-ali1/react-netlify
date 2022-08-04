@@ -1,5 +1,5 @@
 import { SocketContext } from "../../contexts/socket.context";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import RoleCard from "./RoleCard";
 import PointsTable from "./PointsTable";
 import SimpleSnackbar from "../../components/Snackbar";
@@ -50,20 +50,42 @@ function GuessThief({
   isRoomFull,
 }) {
   const { socket } = useContext(SocketContext);
-
+  //useStates
   const [cards, setCards] = useState(defaultCards);
   const [currentRole, setCurrentRole] = useState(null);
   const [points, setPoints] = useState({});
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
+  //useRefs
   const clickAllowed = useRef(true);
   const timer = useRef(null);
+
+  //useCallbacks
+  const shuffleCards = useCallback(() => {
+    const shuffledPlayers = [...players];
+    shuffleArray(shuffledPlayers);
+    const newCards = [...cards];
+    shuffleArray(newCards);
+    newCards.forEach((card, index) => {
+      card.player = shuffledPlayers[index];
+      // if (card.player._id === user._id) setCurrentRole(card);
+    });
+    setCards(newCards);
+    socket.emit("refresh-cards", { roomId, newCards });
+  }, [cards, players, socket, roomId]);
+
+  const resetPoints = useCallback(() => {
+    const newPoints = { round: 1 };
+    players.forEach((player) => (newPoints[player._id] = 0));
+    setPoints(newPoints);
+  }, [players]);
+  //useEffectes
   useEffect(() => {
     if (isRoomFull) {
       resetPoints();
       shuffleCards();
     }
-  }, [isRoomFull]); //setting up points
+  }, [isRoomFull, shuffleCards, resetPoints]); //setting up points
   useEffect(() => {
     if (socket) {
       socket.on("refresh-cards", ({ newCards }) => {
@@ -92,7 +114,7 @@ function GuessThief({
         socket.emit("finish-game", { roomId });
       });
     }
-  }, [socket, user]);
+  }, [socket, user, roomId]);
 
   useEffect(() => {
     console.log(currentRole);
@@ -100,19 +122,6 @@ function GuessThief({
   useEffect(() => {
     console.log(points);
   }, [points]);
-
-  const shuffleCards = () => {
-    const shuffledPlayers = [...players];
-    shuffleArray(shuffledPlayers);
-    const newCards = [...cards];
-    shuffleArray(newCards);
-    newCards.forEach((card, index) => {
-      card.player = shuffledPlayers[index];
-      // if (card.player._id === user._id) setCurrentRole(card);
-    });
-    setCards(newCards);
-    socket.emit("refresh-cards", { roomId, newCards });
-  };
 
   const handleClick = (event) => {
     if (currentRole.title !== "Queen" || !clickAllowed.current) return; //if not queen or click not allowed
@@ -175,11 +184,6 @@ function GuessThief({
         showAll={showAll}
       />
     ));
-  };
-  const resetPoints = () => {
-    const newPoints = { round: 1 };
-    players.forEach((player) => (newPoints[player._id] = 0));
-    setPoints(newPoints);
   };
 
   if (!start) {
