@@ -7,6 +7,7 @@ import SimpleSnackbar from "../components/Snackbar";
 
 import GuessThief from "../components/GuessThief/GuessThief";
 
+const rounds = [3, 5, 7, 10];
 function GuessThiefGame({ user, onlineUsers }) {
   const {
     socket,
@@ -24,6 +25,7 @@ function GuessThiefGame({ user, onlineUsers }) {
   const [finish, setFinish] = useState(false); //finsih the game
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [isRoomFull, setIsRoomFull] = useState(false);
+  const [roundLimit, setRoundLimit] = useState(null);
 
   useEffect(() => {
     if (socket) {
@@ -116,10 +118,6 @@ function GuessThiefGame({ user, onlineUsers }) {
       setOpenSnackBar(true);
     } else {
       playersToInvite.forEach((playerToInvite) => {
-        // socket.emit("room-invite", {
-        //   socketId: playerToInvite.socketId,
-        //   roomId,
-        // });
         socket.emit("open-main-snackbar", {
           roomId: playerToInvite.socketId,
           message: `${user.username} is inviting you to play GuessThief`,
@@ -151,35 +149,52 @@ function GuessThiefGame({ user, onlineUsers }) {
     <Wrapper>
       {!start && (
         <>
-          <Autocomplete
-            disablePortal
-            multiple={true}
-            sx={{ marginBottom: "5px", width: "350px", margin: "auto" }}
-            id="secondPlayer"
-            options={onlineUsers}
-            getOptionLabel={(option) => option.username}
-            renderOption={(props, option) => {
-              return (
-                <li {...props} key={option.socketId}>
-                  {option.username}
-                </li>
-              );
-            }}
-            onChange={(event, newValue) => {
-              const owner = user;
-              owner.socketId = socket.id;
-              setPlayersToInvite(newValue);
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                placeholder="Choose 4 Players to Invite"
-                sx={{ backgroundColor: "white", borderRadius: "5px" }}
-                variant="outlined"
-              />
-            )}
-          />
-          <button onClick={handleStart}> Start Game </button>
+          <div className="column-container">
+            <Autocomplete
+              disablePortal
+              multiple={true}
+              options={onlineUsers}
+              getOptionLabel={(option) => option.username}
+              renderOption={(props, option) => {
+                return (
+                  <li {...props} key={option.socketId}>
+                    {option.username}
+                  </li>
+                );
+              }}
+              onChange={(event, newValue) => {
+                const owner = user;
+                owner.socketId = socket.id;
+                setPlayersToInvite(newValue);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Choose 4 Players to Invite"
+                  sx={{ backgroundColor: "white", borderRadius: "5px" }}
+                  variant="outlined"
+                />
+              )}
+            />
+            <Autocomplete
+              disablePortal
+              options={rounds}
+              getOptionLabel={(option) => option.toString()}
+              onChange={(event, newValue) => {
+                setRoundLimit(newValue);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Set Round"
+                  sx={{ backgroundColor: "white", borderRadius: "5px" }}
+                  variant="outlined"
+                />
+              )}
+            />
+          </div>
+
+          {roundLimit && <button onClick={handleStart}> Start Game </button>}
           <SimpleSnackbar
             open={openSnackBar}
             setOpen={setOpenSnackBar}
