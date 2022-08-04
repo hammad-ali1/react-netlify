@@ -64,15 +64,19 @@ function GuessThief({
   const shuffleCards = useCallback(() => {
     const shuffledPlayers = [...players];
     shuffleArray(shuffledPlayers);
-    const newCards = [...cards];
-    shuffleArray(newCards);
-    newCards.forEach((card, index) => {
-      card.player = shuffledPlayers[index];
-      // if (card.player._id === user._id) setCurrentRole(card);
+
+    setCards((cards) => {
+      const newCards = [...cards];
+      shuffleArray(newCards);
+
+      newCards.forEach((card, index) => {
+        card.player = shuffledPlayers[index];
+        // if (card.player._id === user._id) setCurrentRole(card);
+      });
+      socket.emit("refresh-cards", { roomId, newCards });
+      return newCards;
     });
-    setCards(newCards);
-    socket.emit("refresh-cards", { roomId, newCards });
-  }, [cards, players, socket, roomId]);
+  }, [players, socket, roomId]);
 
   const resetPoints = useCallback(() => {
     const newPoints = { round: 1 };
