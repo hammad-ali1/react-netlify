@@ -40,30 +40,30 @@ function shuffleArray(array) {
   }
 }
 
-function GuessThief({ players, roomId, user }) {
+function GuessThief({
+  players,
+  roomId,
+  user,
+  handlePlayAgain,
+  finish,
+  start,
+  isRoomFull,
+}) {
   const { socket } = useContext(SocketContext);
 
   const [cards, setCards] = useState(defaultCards);
   const [currentRole, setCurrentRole] = useState(null);
   const [points, setPoints] = useState({});
-  const [finish, setFinish] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const clickAllowed = useRef(true);
   const timer = useRef(null);
   useEffect(() => {
-    resetPoints();
-    shuffleCards();
-    return () => {
-      if (players.length < 4) {
-        socket.emit("open-snackbar", {
-          roomId,
-          message: "Someone chickened out 😒. Here are the final results",
-        });
-        socket.emit("finish-game", { roomId });
-      }
-    };
-  }, []); //setting up points
+    if (isRoomFull) {
+      resetPoints();
+      shuffleCards();
+    }
+  }, [isRoomFull]); //setting up points
   useEffect(() => {
     if (socket) {
       socket.on("refresh-cards", ({ newCards }) => {
@@ -80,18 +80,13 @@ function GuessThief({ players, roomId, user }) {
       socket.on("show-cards", ({ show }) => {
         setShowAll(show);
       });
-      socket.on("play-again-GuessThief", () => {
-        resetPoints();
-        setFinish(false);
-      });
+
       socket.on("open-snackbar", ({ message }) => {
         console.log(message);
         setSnackBarMessage(message);
         setOpenSnackBar(true);
       });
-      socket.on("finish-game", () => {
-        setFinish(true);
-      });
+
       socket.on("room-user-left", () => {
         console.log("user left");
         socket.emit("finish-game", { roomId });
@@ -186,14 +181,21 @@ function GuessThief({ players, roomId, user }) {
     players.forEach((player) => (newPoints[player._id] = 0));
     setPoints(newPoints);
   };
+
+  if (!start) {
+    return <></>;
+  }
   if (finish) {
     return (
       <>
         <button
-          onClick={() => {
-            socket.emit("play-again-GuessThief", { roomId });
-            shuffleCards();
-          }}
+          onClick={
+            handlePlayAgain
+            //   () => {
+            //   socket.emit("play-again-GuessThief", { roomId });
+            //   shuffleCards();
+            // }
+          }
         >
           Play Again
         </button>
