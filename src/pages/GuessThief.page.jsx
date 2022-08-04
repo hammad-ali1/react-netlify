@@ -36,6 +36,8 @@ function GuessThiefGame({ user, onlineUsers }) {
         setFinish(false);
         setStart(false);
         setIsRoomFull(false);
+        socket.emit("clean-room", { roomId });
+        socket.emit("join-room", { roomId });
       });
       socket.on("finish-game", () => {
         setFinish(true);
@@ -91,7 +93,7 @@ function GuessThiefGame({ user, onlineUsers }) {
               roomId,
               message: `${user.username} got afraid and chickened out 😒. Here are the final results`,
             });
-            socket.emit("finish-game", { roomId });
+            // socket.emit("finish-game", { roomId });
           }
 
           socket.off("refresh-room-users");
