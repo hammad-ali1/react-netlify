@@ -39,7 +39,7 @@ function GuessThiefGame({ user, onlineUsers }) {
         roundLimit,
       });
     }
-  }, [start, roundLimit, roomId, socket]);
+  }, [start, roomId, socket]);
   useEffect(() => {
     if (socket) {
       socket.emit("join-room", { roomId });
@@ -238,6 +238,7 @@ function GuessThiefGame({ user, onlineUsers }) {
         handlePlayAgain={handlePlayAgain}
         finish={finish}
         isRoomFull={isRoomFull}
+        roundLimit={roundLimit}
       />
     </Wrapper>
   );

@@ -32,7 +32,7 @@ const defaultCards = [
   },
 ];
 
-const roundLimt = 2;
+// const roundLimt = 2;
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -48,6 +48,7 @@ function GuessThief({
   finish,
   start,
   isRoomFull,
+  roundLimit,
 }) {
   const { socket } = useContext(SocketContext);
   //useStates
@@ -166,7 +167,8 @@ function GuessThief({
     if (timer.current) clearInterval(timer.current);
     timer.current = setTimeout(() => {
       console.log("Timeout function");
-      if (points.round === roundLimt) {
+      console.log("ROund limit in timeout function is  " + roundLimit);
+      if (points.round >= roundLimit) {
         socket.emit("finish-game", { roomId });
       } else {
         clickAllowed.current = true;
