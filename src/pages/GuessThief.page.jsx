@@ -31,6 +31,16 @@ function GuessThiefGame({ user, onlineUsers }) {
     console.log("XXX EFFECT NEW ROUND LIMIT " + roundLimit);
   }, [roundLimit]);
   useEffect(() => {
+    //once game starts, update the round limit for all users
+    if (start && roundLimit) {
+      socket.emit("update-roundLimit", {
+        //send round limit to players
+        roomId,
+        roundLimit,
+      });
+    }
+  }, [start, roundLimit, roomId, socket]);
+  useEffect(() => {
     if (socket) {
       socket.emit("join-room", { roomId });
       socket.on("start-GuessThief", () => {
@@ -48,8 +58,13 @@ function GuessThiefGame({ user, onlineUsers }) {
         setFinish(true);
       });
       socket.on("update-roundLimit", ({ roundLimit }) => {
-        console.log("UPDATING ROUND LIMIT TO XXX:  " + roundLimit);
-        setRoundLimit(roundLimit);
+        setRoundLimit((prevRoundLimit) => {
+          if (!prevRoundLimit && roundLimit) {
+            return roundLimit;
+          } else {
+            return prevRoundLimit;
+          }
+        });
       });
     }
     return () => {
@@ -125,11 +140,6 @@ function GuessThiefGame({ user, onlineUsers }) {
       setOpenSnackBar(true);
     } else {
       playersToInvite.forEach((playerToInvite) => {
-        socket.emit("update-roundLimit", {
-          //send round limit to players
-          roomId: playerToInvite.socketId,
-          roundLimit,
-        });
         socket.emit("open-main-snackbar", {
           //confirm invitation from players
           roomId: playerToInvite.socketId,
