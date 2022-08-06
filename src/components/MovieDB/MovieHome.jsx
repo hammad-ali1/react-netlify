@@ -15,7 +15,7 @@ import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 
 //Image
 function MovieHome() {
-  const { state, loading, error } = useHomeFetch();
+  const { state, loading, error, setSearchTerm } = useHomeFetch();
   console.log(state);
   return (
     <Wrapper>
@@ -26,7 +26,7 @@ function MovieHome() {
           text={state.results[0].overview}
         />
       )}
-      <SearchBar setSearchTerm={""} />
+      <SearchBar setSearchTerm={setSearchTerm} />
       <Grid header="Popular Movies">
         {state.results.map((movie) => (
           <Thumb
