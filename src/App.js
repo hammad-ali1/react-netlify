@@ -13,6 +13,7 @@ import Todo from "./pages/Todo.page";
 import Socket from "./pages/Socket.page";
 import TTTGame from "./pages/TTTGame.page";
 import GuessThiefGame from "./pages/GuessThief.page";
+import MovieHome from "./pages/MovieHome.page";
 //apis
 import { getUser, logout } from "./api/auth.api";
 import axios from "axios";
@@ -131,6 +132,7 @@ function App() {
             path="/guess-thief"
             element={<GuessThiefGame onlineUsers={onlineUsers} user={user} />}
           />
+          <Route path="/movie-db" element={<MovieHome />} />
         </Routes>
         <SimpleSnackbar
           buttons={snackBarButtons}
