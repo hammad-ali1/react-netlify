@@ -9,11 +9,11 @@ import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../../config";
 //Components
 
 //Hooks
-import { useMovieFetch } from "../../hooks/MovieDB/useHomeFetch";
+import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 
 //Image
 function MovieHome() {
-  const { state, loading, error } = useMovieFetch();
+  const { state, loading, error } = useHomeFetch();
   console.log(state);
   return <Wrapper>Start Here</Wrapper>;
 }
