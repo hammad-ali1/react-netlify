@@ -16,6 +16,9 @@ function Home() {
         <Link style={{ textDecoration: "none" }} to={"/guess-thief"}>
           <li>Guess Thief</li>
         </Link>
+        <Link style={{ textDecoration: "none" }} to={"/movie-db"}>
+          <li>Movie DB</li>
+        </Link>
       </ul>
     </Wrapper>
   );
