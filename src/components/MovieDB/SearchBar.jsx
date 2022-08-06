@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //Icons
 import SearchIcon from "@mui/icons-material/Search";
@@ -7,11 +7,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Wrapper, Content } from "../../styles/MovieDB/SearchBar.styles";
 
 function SearchBar({ setSearchTerm }) {
+  const [state, setState] = useState("");
   return (
     <Wrapper>
       <Content>
         <SearchIcon />
-        <input type="text" placeholder="Search Movie" />
+        <input
+          type="text"
+          placeholder="Search Movie"
+          onChange={(event) => setState(event.currentTarget.value)}
+          value={state}
+        />
       </Content>
     </Wrapper>
   );

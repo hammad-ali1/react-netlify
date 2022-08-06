@@ -9,6 +9,7 @@ import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../../config";
 import HeroImage from "./HeroImage";
 import Grid from "./Grid";
 import Thumb from "./Thumb";
+import SearchBar from "./SearchBar";
 //Hooks
 import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 
@@ -25,6 +26,7 @@ function MovieHome() {
           text={state.results[0].overview}
         />
       )}
+      <SearchBar setSearchTerm={""} />
       <Grid header="Popular Movies">
         {state.results.map((movie) => (
           <Thumb
