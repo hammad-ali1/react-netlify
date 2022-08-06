@@ -7,9 +7,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Wrapper, Content } from "../../styles/MovieDB/SearchBar.styles";
 
 const TIME_DELAY_OF_SEARCH = 2000;
-function SearchBar({ setSearchTerm }) {
+function SearchBar({ setSearchTerm, searchTerm }) {
   //state
-  const [state, setState] = useState("");
+  const [state, setState] = useState(searchTerm);
   //refs
   const initialRender = useRef(true);
   //effects

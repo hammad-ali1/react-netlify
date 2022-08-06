@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 //Styles
 import { Wrapper } from "../../styles/MovieDB/MovieHome.styles";
-
+import Spinner from "../Spinner";
 //Config
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../../config";
 //Components
@@ -17,6 +17,8 @@ import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 function MovieHome() {
   const { state, loading, error, setSearchTerm, searchTerm } = useHomeFetch();
   console.log(state);
+
+  if (loading) return <Spinner />;
   return (
     <Wrapper>
       {!searchTerm && state.results[0] && (
@@ -26,7 +28,7 @@ function MovieHome() {
           text={state.results[0].overview}
         />
       )}
-      <SearchBar setSearchTerm={setSearchTerm} />
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <Grid header="Popular Movies">
         {state.results.map((movie) => (
           <Thumb
