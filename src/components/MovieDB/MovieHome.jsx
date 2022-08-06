@@ -10,13 +10,13 @@ import HeroImage from "./HeroImage";
 import Grid from "./Grid";
 import Thumb from "./Thumb";
 import SearchBar from "./SearchBar";
+import LoadButton from "./LoadButton";
 //Hooks
 import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 
 //Image
 function MovieHome() {
   const { state, loading, error, setSearchTerm, searchTerm } = useHomeFetch();
-  console.log(state);
 
   if (loading) return <Spinner />;
   return (
@@ -45,6 +45,7 @@ function MovieHome() {
           </Thumb>
         ))}
       </Grid>
+      {state.page < state.total_pages && <LoadButton text="Load More" />}
     </Wrapper>
   );
 }
