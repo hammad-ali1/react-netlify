@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-//API
-import API from "../../api/movie.api";
+
 //Styles
 import { Wrapper } from "../../styles/MovieDB/MovieHome.styles";
 
@@ -9,6 +8,7 @@ import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../../config";
 //Components
 import HeroImage from "./HeroImage";
 import Grid from "./Grid";
+import Thumb from "./Thumb";
 //Hooks
 import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 
@@ -27,7 +27,18 @@ function MovieHome() {
       )}
       <Grid header="Popular Movies">
         {state.results.map((movie) => (
-          <div key={movie.id}>{movie.title}</div>
+          <Thumb
+            key={movie.id}
+            clickable
+            image={
+              movie.poster_path
+                ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
+                : "NoImage"
+            }
+            movieId={movie.id}
+          >
+            {movie.title}
+          </Thumb>
         ))}
       </Grid>
     </Wrapper>
