@@ -8,6 +8,7 @@ import { Wrapper } from "../../styles/MovieDB/MovieHome.styles";
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../../config";
 //Components
 import HeroImage from "./HeroImage";
+import Grid from "./Grid";
 //Hooks
 import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 
@@ -24,6 +25,11 @@ function MovieHome() {
           text={state.results[0].overview}
         />
       )}
+      <Grid>
+        {state.results.map((movie) => (
+          <div key={movie.id}>{movie.title}</div>
+        ))}
+      </Grid>
     </Wrapper>
   );
 }
