@@ -132,7 +132,7 @@ function App() {
             path="/guess-thief"
             element={<GuessThiefGame onlineUsers={onlineUsers} user={user} />}
           />
-          <Route path="/movie-db" element={<MovieDB />} />
+          <Route path="/movie-db/*" element={<MovieDB />} />
         </Routes>
         <SimpleSnackbar
           buttons={snackBarButtons}
