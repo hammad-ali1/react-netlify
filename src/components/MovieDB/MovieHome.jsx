@@ -16,9 +16,9 @@ import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 
 //Image
 function MovieHome() {
-  const { state, loading, error, setSearchTerm, searchTerm } = useHomeFetch();
+  const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
+    useHomeFetch();
 
-  if (loading) return <Spinner />;
   return (
     <Wrapper>
       {!searchTerm && state.results[0] && (
@@ -45,7 +45,15 @@ function MovieHome() {
           </Thumb>
         ))}
       </Grid>
-      {state.page < state.total_pages && <LoadButton text="Load More" />}
+      {loading && <Spinner />}
+      {state.page < state.total_pages && !loading && (
+        <LoadButton
+          text="Load More"
+          callback={() => {
+            setIsLoadingMore(true);
+          }}
+        />
+      )}
     </Wrapper>
   );
 }
