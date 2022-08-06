@@ -5,7 +5,7 @@ import { Image } from "../../styles/MovieDB/Thumb.styles";
 function Thumb({ image, movieId, clickable }) {
   return (
     <div>
-      <Image src={image} alt="movie-thumb"></Image>;
+      <Image src={image} alt="movie-thumb"></Image>
     </div>
   );
 }
