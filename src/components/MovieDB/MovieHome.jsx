@@ -25,7 +25,7 @@ function MovieHome() {
           text={state.results[0].overview}
         />
       )}
-      <Grid>
+      <Grid header="Popular Movies">
         {state.results.map((movie) => (
           <div key={movie.id}>{movie.title}</div>
         ))}
