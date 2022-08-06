@@ -28,7 +28,7 @@ function SearchBar({ setSearchTerm }) {
   return (
     <Wrapper>
       <Content>
-        <SearchIcon />
+        <SearchIcon className="searchIcon" />
         <input
           type="text"
           placeholder="Search Movie"
