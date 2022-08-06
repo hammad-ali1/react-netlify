@@ -8,7 +8,7 @@ const initialState = {
   total_pages: 0,
   total_results: 0,
 };
-export const useMovieFetch = () => {
+export const useHomeFetch = () => {
   //states
   const [state, setState] = useState(initialState);
   const [loading, setLoading] = useState(false);
