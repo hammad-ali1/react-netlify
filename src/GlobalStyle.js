@@ -18,12 +18,15 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Abel', sans-serif;
   }
 
+
+
   body {
+    position: relative;
+    height: 100vh;
     margin: 0;
     padding: 0;
     background-color : #0b0d15dc;
     color: #fffdfdc7;
-    
     h1 {
       font-size: 2rem;
       font-weight: 600;

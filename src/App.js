@@ -5,6 +5,7 @@ import { GlobalStyle } from "./GlobalStyle";
 //components
 import Navbar from "./components/Navbar";
 import SimpleSnackbar from "./components/Snackbar";
+
 //pages
 import SignUp from "./pages/signUp.page";
 import LogIn from "./pages/logIn.page";
