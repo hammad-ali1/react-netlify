@@ -10,10 +10,11 @@ import HeroImage from "./HeroImage";
 import Grid from "./Grid";
 import Thumb from "./Thumb";
 import SearchBar from "./SearchBar";
-import LoadButton from "./LoadButton";
+import Button from "./Button";
 //Hooks
 import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
-
+//MUI Icons
+import HomeIcon from "@mui/icons-material/Home";
 //Image
 import NO_IMAGE from "../../images/no_image.jpg";
 function MovieHome() {
@@ -30,6 +31,13 @@ function MovieHome() {
         />
       )}
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      {searchTerm && (
+        <Button
+          icon={<HomeIcon />}
+          text={"Back To Home"}
+          callback={() => setSearchTerm("")}
+        />
+      )}
       <Grid header={searchTerm ? "Search Results" : "Popular Movies"}>
         {state.results.map((movie) => (
           <Thumb
@@ -48,7 +56,7 @@ function MovieHome() {
       </Grid>
       {loading && <Spinner />}
       {state.page < state.total_pages && !loading && (
-        <LoadButton
+        <Button
           text="Load More"
           callback={() => {
             setIsLoadingMore(true);

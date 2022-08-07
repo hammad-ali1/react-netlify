@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.button`
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   background: var(--darkGrey);
   font-size: var(--fontMed);
   margin: 25px auto;
@@ -11,7 +13,7 @@ export const Wrapper = styled.button`
   border-radius: 30px;
   color: var(--white);
   cursor: pointer;
-  padding: 15px 60px;
+  padding: 15px 40px;
   :hover {
     opacity: 0.8;
   }

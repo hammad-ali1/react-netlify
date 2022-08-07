@@ -25,6 +25,11 @@ function SearchBar({ setSearchTerm, searchTerm }) {
 
     return () => clearTimeout(timer);
   }, [setSearchTerm, state]);
+
+  useEffect(() => {
+    //if searach term is changed outside of the component. change the inside state too
+    setState(searchTerm);
+  }, [searchTerm]);
   return (
     <Wrapper>
       <Content>
