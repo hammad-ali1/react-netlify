@@ -12,6 +12,7 @@ import { useMovieFetch } from "../../hooks/MovieDB/useMovieFetch";
 //Image
 import NO_IMAGE from "../../images/no_image.jpg";
 import MovieInfo from "./MovieInfo";
+import MovieInfoBar from "./MovieInfoBar";
 function Movie() {
   const { movieId } = useParams();
   const { state: movie, loading, error } = useMovieFetch(movieId);
@@ -20,6 +21,11 @@ function Movie() {
     <Wrapper>
       <BreadCrumb movieTitle={movie.original_title} />
       <MovieInfo movie={movie} />
+      <MovieInfoBar
+        time={movie.runtime}
+        budget={movie.budget}
+        revenue={movie.revenue}
+      />
     </Wrapper>
   );
 }
