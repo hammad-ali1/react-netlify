@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   gap: 5px;
   color: var(--white);
@@ -16,9 +17,14 @@ export const Wrapper = styled.div`
     margin: 5px 0 0 0;
   }
 
+  .image {
+    height: 70%;
+  }
   .details {
     padding: 10px;
     margin-bottom: 10px;
+    height: 30%;
+    text-overflow: ellipsis;
   }
 `;
 
