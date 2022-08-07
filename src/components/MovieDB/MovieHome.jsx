@@ -15,6 +15,7 @@ import LoadButton from "./LoadButton";
 import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 
 //Image
+import NO_IMAGE from "../../images/no_image.jpg";
 function MovieHome() {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
     useHomeFetch();
@@ -37,7 +38,7 @@ function MovieHome() {
             image={
               movie.poster_path
                 ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
-                : "NoImage"
+                : NO_IMAGE
             }
             movieId={movie.id}
           >
