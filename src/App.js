@@ -42,7 +42,6 @@ function App() {
         <UserProvider>
           <SocketProvider>
             <Navbar baseUrl="/" title="React Projects" />
-            {/* {user && <h1>{`Welcome ${user.username}`}</h1>} */}
             <Routes>
               <Route
                 path="/"

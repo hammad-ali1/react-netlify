@@ -1,20 +1,16 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { SocketContext } from "../contexts/socket.context";
-import { useNavigate } from "react-router-dom";
 
-export default function SimpleSnackbar({
-  message,
-  open,
-  setOpen,
-  buttons,
-  user,
-}) {
-  const { socket } = React.useContext(SocketContext);
+import { useNavigate } from "react-router-dom";
+//Contexts
+import { UserContext, SocketContext } from "../context";
+export default function SimpleSnackbar({ message, open, setOpen, buttons }) {
+  const [socket] = useContext(SocketContext);
+  const [user] = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleClose = (event, reason) => {
