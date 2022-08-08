@@ -7,10 +7,16 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { useNavigate } from "react-router-dom";
 //Contexts
-import { UserContext, SocketContext } from "../context";
-export default function SimpleSnackbar({ message, open, setOpen, buttons }) {
+import { UserContext, SocketContext, SnackbarContext } from "../context";
+export default function SimpleSnackbar() {
   const [socket] = useContext(SocketContext);
   const [user] = useContext(UserContext);
+  const {
+    snackBarMessage: message,
+    openSnackBar: open,
+    snackBarButtons: buttons,
+    openSnackBar: setOpen,
+  } = useContext(SnackbarContext);
   const navigate = useNavigate();
 
   const handleClose = (event, reason) => {

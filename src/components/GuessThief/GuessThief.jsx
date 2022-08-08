@@ -3,8 +3,8 @@ import RoleCard from "./RoleCard";
 import PointsTable from "./PointsTable";
 import SimpleSnackbar from "../../components/Snackbar";
 //Context
-import { UserContext } from "../../context";
-import { SocketContext } from "../../contexts/socket.context";
+import { UserContext, SocketContext } from "../../context";
+// import { SocketContext } from "../../contexts/socket.context";
 
 const defaultCards = [
   {
@@ -45,14 +45,13 @@ function shuffleArray(array) {
 function GuessThief({
   players,
   roomId,
-
   handlePlayAgain,
   finish,
   start,
   isRoomFull,
   roundLimit,
 }) {
-  const { socket } = useContext(SocketContext);
+  const [socket] = useContext(SocketContext);
   const [user] = useContext(UserContext);
   console.log(user);
   //useStates
