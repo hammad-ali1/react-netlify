@@ -1,8 +1,10 @@
-import { SocketContext } from "../../contexts/socket.context";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import RoleCard from "./RoleCard";
 import PointsTable from "./PointsTable";
 import SimpleSnackbar from "../../components/Snackbar";
+//Context
+import { UserContext } from "../../context";
+import { SocketContext } from "../../contexts/socket.context";
 
 const defaultCards = [
   {
@@ -43,7 +45,7 @@ function shuffleArray(array) {
 function GuessThief({
   players,
   roomId,
-  user,
+
   handlePlayAgain,
   finish,
   start,
@@ -51,6 +53,8 @@ function GuessThief({
   roundLimit,
 }) {
   const { socket } = useContext(SocketContext);
+  const [user] = useContext(UserContext);
+  console.log(user);
   //useStates
   const [cards, setCards] = useState(defaultCards);
   const [currentRole, setCurrentRole] = useState(null);
@@ -88,11 +92,11 @@ function GuessThief({
   }, [players]);
   //useEffects
   useEffect(() => {
-    if (isRoomFull) {
+    if (isRoomFull && socket) {
       resetPoints();
       shuffleCards();
     }
-  }, [isRoomFull, shuffleCards, resetPoints]); //setting up points
+  }, [isRoomFull, shuffleCards, resetPoints, socket]); //setting up points
   useEffect(() => {
     if (socket) {
       socket.on("refresh-cards", ({ newCards }) => {
@@ -199,6 +203,9 @@ function GuessThief({
     ));
   };
 
+  if (!user) {
+    return <div>LOG IN</div>;
+  }
   if (!start) {
     return <></>;
   }

@@ -1,11 +1,13 @@
 import { Wrapper } from "../styles/TTTGame.styles";
-import { SocketContext } from "../contexts/socket.context";
 import { useContext, useEffect, useState } from "react";
 import { TextField, Autocomplete } from "@mui/material";
 import TicTacToe from "../components/TTTGame/TicTacToe";
+import { SocketContext } from "../contexts/socket.context";
+import { UserContext } from "../context";
 
-function TTTGame({ user, onlineUsers }) {
+function TTTGame({ onlineUsers }) {
   const { socket } = useContext(SocketContext);
+  const [user] = useContext(UserContext);
   const [marker, setMarker] = useState("X"); //the one who starts the room has the default marker of X
   const [roomId, setRoomId] = useState("ttt/" + (socket ? socket.id : ""));
   const [roomUsers, setRoomUsers] = useState([]);

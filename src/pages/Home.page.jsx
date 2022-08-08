@@ -1,8 +1,14 @@
+import React, { useContext } from "react";
+
 import { Link } from "react-router-dom";
 import { Wrapper } from "../styles/Home.styles";
+//Context
+import { UserContext } from "../context";
 function Home() {
+  const [user] = useContext(UserContext);
   return (
     <Wrapper>
+      {user && <h1>{`Hi ${user.username}`}</h1>}
       <ul>
         <Link style={{ textDecoration: "none" }} to={"/todo"}>
           <li>ToDo App</li>

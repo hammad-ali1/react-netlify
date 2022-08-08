@@ -57,11 +57,15 @@ function App() {
     setToken(localStorage.getItem("authtoken"));
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const socket = socketio.connect(SERVER_URL, {
+        auth: { token },
+      });
+      setSocket(socket);
       // getUser().then((user) => {
-      //   const socket = socketio.connect(SERVER_URL, {
-      //     auth: { token },
-      //   });
-      //   setSocket(socket);
+      // const socket = socketio.connect(SERVER_URL, {
+      //   auth: { token },
+      // });
+      // setSocket(socket);
       // });
     }
   }, [token]);
@@ -120,20 +124,18 @@ function App() {
               <Route path="/signup" element={<SignUp setToken={setToken} />} />
               <Route path="/login" element={<LogIn setToken={setToken} />} />
               <Route path="/todo" element={<Todo />} />
-              {/* <Route
+              <Route
                 path="/socket"
-                element={<Socket onlineUsers={onlineUsers} user={user} />}
+                element={<Socket onlineUsers={onlineUsers} />}
               />
               <Route
                 path="/tttgame"
-                element={<TTTGame onlineUsers={onlineUsers} user={user} />}
+                element={<TTTGame onlineUsers={onlineUsers} />}
               />
               <Route
                 path="/guess-thief"
-                element={
-                  <GuessThiefGame onlineUsers={onlineUsers} user={user} />
-                }
-              /> */}
+                element={<GuessThiefGame onlineUsers={onlineUsers} />}
+              />
               <Route path="/movie-db/*" element={<MovieDB />} />
             </Routes>
             <SimpleSnackbar

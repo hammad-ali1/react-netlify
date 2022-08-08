@@ -1,4 +1,3 @@
-import { SocketContext } from "../contexts/socket.context";
 import { useContext, useEffect, useState } from "react";
 import { TextField, Autocomplete } from "@mui/material";
 
@@ -6,15 +5,19 @@ import { Wrapper } from "../styles/GuessThief.styles";
 import SimpleSnackbar from "../components/Snackbar";
 
 import GuessThief from "../components/GuessThief/GuessThief";
+//Context
+import { UserContext } from "../context";
+import { SocketContext } from "../contexts/socket.context";
 
 const rounds = [3, 5, 7, 10];
-function GuessThiefGame({ user, onlineUsers }) {
+function GuessThiefGame({ onlineUsers }) {
   const {
     socket,
     setOpenSnackBar: setOpenMainSnackBar,
     setSnackBarMessage: setMainSnackBarMessage,
     setSnackBarButtons: setMainSnackBarButtons,
   } = useContext(SocketContext);
+  const [user] = useContext(UserContext);
 
   const [roomId, setRoomId] = useState(
     "GuessThief/" + (socket ? socket.id : "")
@@ -129,7 +132,7 @@ function GuessThiefGame({ user, onlineUsers }) {
     roomId,
     start,
     setMainSnackBarMessage,
-    user.username,
+    // user.username,
     setOpenMainSnackBar,
     setMainSnackBarButtons,
   ]);
