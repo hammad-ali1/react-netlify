@@ -18,7 +18,8 @@ import MovieDB from "./pages/MovieDB.page.tsx";
 //apis
 import { getUser, logout } from "./api/auth.api";
 import axios from "axios";
-//contexts
+//Context
+import { UserProvider, SocketProvider } from "./context";
 import socketio from "socket.io-client";
 import { SERVER_URL } from "./config.ts";
 
@@ -108,41 +109,47 @@ function App() {
       }}
     >
       <Router>
-        <Navbar
-          value={tabValue}
-          setValue={setTabValue}
-          links={navLinks}
-          baseUrl="/"
-          title="React Projects"
-        />
-        {user && <h1>{`Welcome ${user.username}`}</h1>}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<SignUp setToken={setToken} />} />
-          <Route path="/login" element={<LogIn setToken={setToken} />} />
-          <Route path="/todo" element={<Todo user={user} />} />
-          <Route
-            path="/socket"
-            element={<Socket onlineUsers={onlineUsers} user={user} />}
-          />
-          <Route
-            path="/tttgame"
-            element={<TTTGame onlineUsers={onlineUsers} user={user} />}
-          />
-          <Route
-            path="/guess-thief"
-            element={<GuessThiefGame onlineUsers={onlineUsers} user={user} />}
-          />
-          <Route path="/movie-db/*" element={<MovieDB />} />
-        </Routes>
-        <SimpleSnackbar
-          buttons={snackBarButtons}
-          message={snackBarMessage}
-          open={openSnackBar}
-          setOpen={setOpenSnackBar}
-          user={user}
-        />
-        <GlobalStyle />
+        <UserProvider>
+          <SocketProvider>
+            <Navbar
+              value={tabValue}
+              setValue={setTabValue}
+              links={navLinks}
+              baseUrl="/"
+              title="React Projects"
+            />
+            {user && <h1>{`Welcome ${user.username}`}</h1>}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/signup" element={<SignUp setToken={setToken} />} />
+              <Route path="/login" element={<LogIn setToken={setToken} />} />
+              <Route path="/todo" element={<Todo user={user} />} />
+              <Route
+                path="/socket"
+                element={<Socket onlineUsers={onlineUsers} user={user} />}
+              />
+              <Route
+                path="/tttgame"
+                element={<TTTGame onlineUsers={onlineUsers} user={user} />}
+              />
+              <Route
+                path="/guess-thief"
+                element={
+                  <GuessThiefGame onlineUsers={onlineUsers} user={user} />
+                }
+              />
+              <Route path="/movie-db/*" element={<MovieDB />} />
+            </Routes>
+            <SimpleSnackbar
+              buttons={snackBarButtons}
+              message={snackBarMessage}
+              open={openSnackBar}
+              setOpen={setOpenSnackBar}
+              user={user}
+            />
+            <GlobalStyle />
+          </SocketProvider>
+        </UserProvider>
       </Router>
     </SocketContext.Provider>
   );
