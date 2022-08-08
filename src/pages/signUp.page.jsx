@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Wrapper, Form } from "../styles/signUp.styles";
 import { register } from "../api/auth.api";
 import { useNavigate } from "react-router-dom";
-
-function SignUp({ setToken }) {
+//Context
+import { UserContext } from "../context";
+function SignUp() {
+  const [_user, setUser] = useContext(UserContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userid: "",
@@ -19,8 +21,8 @@ function SignUp({ setToken }) {
       username,
       password,
     };
-    register(userData).then((token) => {
-      setToken(token);
+    register(userData).then((user) => {
+      setUser(user);
       navigate("/", { replace: true });
     });
   };

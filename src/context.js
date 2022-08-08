@@ -1,12 +1,26 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import { getUser } from "./api/auth.api";
 
-export const Context = createContext();
+export const UserContext = createContext();
+export const SocketContext = createContext();
 
+//Providers
 export const UserProvider = ({ children }) => {
   const [state, setState] = useState(undefined);
-
+  useEffect(() => {
+    const token = localStorage.getItem("authtoken");
+    if (token) {
+      getUser(token).then((user) => {
+        // console.log(user);
+        // console.log(token);
+        setState(user);
+      });
+    }
+  }, []);
   return (
-    <Context.Provider value={[state, setState]}>{children}</Context.Provider>
+    <UserContext.Provider value={[state, setState]}>
+      {children}
+    </UserContext.Provider>
   );
 };
 
@@ -14,6 +28,8 @@ export const SocketProvider = ({ children }) => {
   const [state, setState] = useState(undefined);
 
   return (
-    <Context.Provider value={[state, setState]}> {children}</Context.Provider>
+    <SocketContext.Provider value={[state, setState]}>
+      {children}
+    </SocketContext.Provider>
   );
 };
