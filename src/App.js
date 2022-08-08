@@ -11,64 +11,47 @@ import SignUp from "./pages/signUp.page";
 import LogIn from "./pages/logIn.page";
 import Home from "./pages/Home.page";
 import Todo from "./pages/Todo.page";
-import Socket from "./pages/Socket.page";
 import TTTGame from "./pages/TTTGame.page";
 import GuessThiefGame from "./pages/GuessThief.page";
 import MovieDB from "./pages/MovieDB.page.tsx";
 //apis
-import { getUser, logout } from "./api/auth.api";
-import axios from "axios";
+import { logout } from "./api/auth.api";
+
 //Context
 import { UserProvider, SocketProvider } from "./context";
-import socketio from "socket.io-client";
-import { SERVER_URL } from "./config.ts";
 
 import { SocketContext } from "./contexts/socket.context";
 
 function App() {
   //states
-  const [token, setToken] = useState(null);
+  // const [token, setToken] = useState(null);
   const [tabValue, setTabValue] = useState(0);
   const [navLinks, setNavLinks] = useState([]);
-  const [socket, setSocket] = useState(null);
+  // const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [snackBarButtons, setSnackBarButtons] = useState([]);
 
   //hooks
-  //hook for online users
-  useEffect(() => {
-    if (socket) {
-      socket.on("new-users", (newUsers) => {
-        newUsers = newUsers.filter((newUser) => newUser.socketId !== socket.id);
-        console.log(newUsers);
-        setOnlineUsers(newUsers);
-      });
-      socket.on("open-main-snackbar", ({ message, buttons }) => {
-        setSnackBarButtons(buttons);
-        setSnackBarMessage(message);
-        setOpenSnackBar(true);
-      });
-    }
-  }, [socket]);
+
   //hook for fetching user from token
-  useEffect(() => {
-    setToken(localStorage.getItem("authtoken"));
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const socket = socketio.connect(SERVER_URL, {
-        auth: { token },
-      });
-      setSocket(socket);
-      // getUser().then((user) => {
-      // const socket = socketio.connect(SERVER_URL, {
-      //   auth: { token },
-      // });
-      // setSocket(socket);
-      // });
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   setToken(localStorage.getItem("authtoken"));
+  //   if (token) {
+  //     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  //     const socket = socketio.connect(SERVER_URL, {
+  //       auth: { token },
+  //     });
+  //     setSocket(socket);
+  // getUser().then((user) => {
+  // const socket = socketio.connect(SERVER_URL, {
+  //   auth: { token },
+  // });
+  // setSocket(socket);
+  // });
+  //   }
+  // }, [token]);
 
   //hook for setting up navbar links
   useEffect(() => {
@@ -80,8 +63,8 @@ function App() {
           href: "/",
           action: () => {
             logout();
-            setToken("");
-            socket.disconnect();
+            // setToken("");
+            // socket.disconnect();
           },
         },
       ];
@@ -96,13 +79,12 @@ function App() {
       setNavLinks(newLinks);
       setTabValue(0);
     }
-  }, [socket]);
+  }, []);
 
   //return statement
   return (
     <SocketContext.Provider
       value={{
-        socket,
         setSnackBarMessage,
         setSnackBarButtons,
         setOpenSnackBar,
@@ -120,14 +102,14 @@ function App() {
             />
             {/* {user && <h1>{`Welcome ${user.username}`}</h1>} */}
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/signup" element={<SignUp setToken={setToken} />} />
-              <Route path="/login" element={<LogIn setToken={setToken} />} />
-              <Route path="/todo" element={<Todo />} />
               <Route
-                path="/socket"
-                element={<Socket onlineUsers={onlineUsers} />}
+                path="/"
+                element={<Home setOnlineUsers={setOnlineUsers} />}
               />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/todo" element={<Todo />} />
+
               <Route
                 path="/tttgame"
                 element={<TTTGame onlineUsers={onlineUsers} />}

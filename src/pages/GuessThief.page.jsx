@@ -6,18 +6,18 @@ import SimpleSnackbar from "../components/Snackbar";
 
 import GuessThief from "../components/GuessThief/GuessThief";
 //Context
-import { UserContext } from "../context";
-import { SocketContext } from "../contexts/socket.context";
+import { UserContext, SocketContext } from "../context";
+import { SocketContext as SOMECONTEXT } from "../contexts/socket.context";
 
 const rounds = [3, 5, 7, 10];
 function GuessThiefGame({ onlineUsers }) {
   const {
-    socket,
     setOpenSnackBar: setOpenMainSnackBar,
     setSnackBarMessage: setMainSnackBarMessage,
     setSnackBarButtons: setMainSnackBarButtons,
-  } = useContext(SocketContext);
+  } = useContext(SOMECONTEXT);
   const [user] = useContext(UserContext);
+  const [socket] = useContext(SocketContext);
 
   const [roomId, setRoomId] = useState(
     "GuessThief/" + (socket ? socket.id : "")
