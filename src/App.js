@@ -24,62 +24,10 @@ import { SocketContext } from "./contexts/socket.context";
 
 function App() {
   //states
-  // const [token, setToken] = useState(null);
-
-  // const [navLinks, setNavLinks] = useState([]);
-  // const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [snackBarButtons, setSnackBarButtons] = useState([]);
-
-  //hooks
-
-  //hook for fetching user from token
-  // useEffect(() => {
-  //   setToken(localStorage.getItem("authtoken"));
-  //   if (token) {
-  //     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  //     const socket = socketio.connect(SERVER_URL, {
-  //       auth: { token },
-  //     });
-  //     setSocket(socket);
-  // getUser().then((user) => {
-  // const socket = socketio.connect(SERVER_URL, {
-  //   auth: { token },
-  // });
-  // setSocket(socket);
-  // });
-  //   }
-  // }, [token]);
-
-  //hook for setting up navbar links
-  // useEffect(() => {
-  //   if (false) {
-  //     const newLinks = [
-  //       { text: "Home", href: "/" },
-  //       {
-  //         text: "Log Out",
-  //         href: "/",
-  //         action: () => {
-  //           logout();
-  //           // setToken("");
-  //           // socket.disconnect();
-  //         },
-  //       },
-  //     ];
-  //     setNavLinks(newLinks);
-  //     setTabValue(0);
-  //   } else {
-  //     const newLinks = [
-  //       { text: "Home", href: "/" },
-  //       { text: "Sign Up", href: "/signup" },
-  //       { text: "Log In", href: "/login" },
-  //     ];
-  //     setNavLinks(newLinks);
-  //     setTabValue(0);
-  //   }
-  // }, []);
 
   //return statement
   return (
