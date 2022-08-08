@@ -25,8 +25,8 @@ import { SocketContext } from "./contexts/socket.context";
 function App() {
   //states
   // const [token, setToken] = useState(null);
-  const [tabValue, setTabValue] = useState(0);
-  const [navLinks, setNavLinks] = useState([]);
+
+  // const [navLinks, setNavLinks] = useState([]);
   // const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -54,32 +54,32 @@ function App() {
   // }, [token]);
 
   //hook for setting up navbar links
-  useEffect(() => {
-    if (false) {
-      const newLinks = [
-        { text: "Home", href: "/" },
-        {
-          text: "Log Out",
-          href: "/",
-          action: () => {
-            logout();
-            // setToken("");
-            // socket.disconnect();
-          },
-        },
-      ];
-      setNavLinks(newLinks);
-      setTabValue(0);
-    } else {
-      const newLinks = [
-        { text: "Home", href: "/" },
-        { text: "Sign Up", href: "/signup" },
-        { text: "Log In", href: "/login" },
-      ];
-      setNavLinks(newLinks);
-      setTabValue(0);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (false) {
+  //     const newLinks = [
+  //       { text: "Home", href: "/" },
+  //       {
+  //         text: "Log Out",
+  //         href: "/",
+  //         action: () => {
+  //           logout();
+  //           // setToken("");
+  //           // socket.disconnect();
+  //         },
+  //       },
+  //     ];
+  //     setNavLinks(newLinks);
+  //     setTabValue(0);
+  //   } else {
+  //     const newLinks = [
+  //       { text: "Home", href: "/" },
+  //       { text: "Sign Up", href: "/signup" },
+  //       { text: "Log In", href: "/login" },
+  //     ];
+  //     setNavLinks(newLinks);
+  //     setTabValue(0);
+  //   }
+  // }, []);
 
   //return statement
   return (
@@ -93,13 +93,7 @@ function App() {
       <Router>
         <UserProvider>
           <SocketProvider>
-            <Navbar
-              value={tabValue}
-              setValue={setTabValue}
-              links={navLinks}
-              baseUrl="/"
-              title="React Projects"
-            />
+            <Navbar baseUrl="/" title="React Projects" />
             {/* {user && <h1>{`Welcome ${user.username}`}</h1>} */}
             <Routes>
               <Route

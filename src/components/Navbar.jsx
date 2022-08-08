@@ -1,3 +1,5 @@
+import React, { useState, useContext, useEffect } from "react";
+
 import {
   AppBar,
   Grid,
@@ -10,8 +12,38 @@ import {
 } from "@mui/material";
 import DrawerComponent from "./Drawer";
 import { Link, useNavigate } from "react-router-dom";
+//apis
+import { logout } from "../api/auth.api";
+//Context
+import { UserContext } from "../context";
 
-function Navbar({ value, setValue, links, baseUrl, title }) {
+function Navbar({ baseUrl, title }) {
+  const [user, setUser] = useContext(UserContext);
+  const [tabValue, setTabValue] = useState(0);
+  const logInLinks = [
+    { text: "Home", href: "/" },
+    { text: "Sign Up", href: "/signup" },
+    { text: "Log In", href: "/login" },
+  ];
+  const logOutLinks = [
+    { text: "Home", href: "/" },
+    {
+      text: "Log Out",
+      href: "/",
+      action: () => {
+        logout();
+        setUser(undefined);
+      },
+    },
+  ];
+  const [links, setLinks] = useState(user ? logOutLinks : logInLinks);
+
+  useEffect(() => {
+    setTabValue(0);
+  }, [links]);
+  useEffect(() => {
+    setLinks(user ? logOutLinks : logInLinks);
+  }, [user]);
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
@@ -46,9 +78,9 @@ function Navbar({ value, setValue, links, baseUrl, title }) {
               </Grid>
               <Grid xs={8} item={true}>
                 <Tabs
-                  value={value}
+                  value={tabValue}
                   indicatorColor="primary"
-                  onChange={(e, val) => setValue(val)}
+                  onChange={(e, val) => setTabValue(val)}
                 >
                   {links.map((link, index) => {
                     return (
