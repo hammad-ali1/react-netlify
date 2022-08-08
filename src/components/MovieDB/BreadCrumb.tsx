@@ -2,7 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Wrapper, Content } from "../../styles/MovieDB/BreadCrumb.styles";
 
-function BreadCrumb({ movieTitle }) {
+//Types
+type PropTypes = {
+  movieTitle: string;
+};
+function BreadCrumb({ movieTitle }: PropTypes) {
   return (
     <Wrapper>
       <Content>

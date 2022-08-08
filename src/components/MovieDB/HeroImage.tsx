@@ -3,7 +3,13 @@ import React from "react";
 //Styles
 import { Wrapper, Content, Text } from "../../styles/MovieDB/HeroImage.styles";
 
-function HeroImage({ image, title, text }) {
+//Types
+type PropTypes = {
+  image: string;
+  title: string;
+  text: string;
+};
+function HeroImage({ image, title, text }: PropTypes) {
   return (
     <Wrapper image={image}>
       <Content>

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import axios from "axios";
-import { SERVER_URL } from "./config";
+import { SERVER_URL } from "./config.ts";
 
 axios.defaults.baseURL = `${SERVER_URL}/api`;
 

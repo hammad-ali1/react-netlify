@@ -3,7 +3,14 @@ import React from "react";
 import { Wrapper, Content } from "../../styles/MovieDB/MovieInfoBar.styles";
 //Helpers
 import { calcTime, convertMoney } from "../../helpers/MovieDB.helpers";
-function MovieInfoBar({ time, budget, revenue }) {
+
+//Types
+type PropTypes = {
+  time: number;
+  budget: number;
+  revenue: number;
+};
+function MovieInfoBar({ time, budget, revenue }: PropTypes) {
   return (
     <Wrapper>
       <Content>

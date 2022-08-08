@@ -6,8 +6,13 @@ import SearchIcon from "@mui/icons-material/Search";
 //Styles
 import { Wrapper, Content } from "../../styles/MovieDB/SearchBar.styles";
 
+//Types
+type PropTypes = {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+};
 const TIME_DELAY_OF_SEARCH = 2000;
-function SearchBar({ setSearchTerm, searchTerm }) {
+function SearchBar({ setSearchTerm, searchTerm }: PropTypes) {
   //state
   const [state, setState] = useState(searchTerm);
   //refs

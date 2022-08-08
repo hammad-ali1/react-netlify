@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 //API
-import API from "../../api/movie.api";
+import API, { Movie } from "../../api/movie.api";
 
 const initialState = {
   page: 0,
-  results: [],
+  results: [] as Movie[],
   total_pages: 0,
   total_results: 0,
 };
@@ -27,7 +27,7 @@ export const useHomeFetch = () => {
     setIsLoadingMore(false);
   }, [isLoadingMore, searchTerm, state.page]);
   //functions
-  const fetchMovies = async (page, searchTerm = "") => {
+  const fetchMovies = async (page: number, searchTerm = "") => {
     try {
       setError(false);
       setLoading(true);

@@ -11,8 +11,12 @@ import { POSTER_SIZE, IMAGE_BASE_URL } from "../../config";
 
 //Image
 import NO_IMAGE from "../../images/no_image.jpg";
-
-function MovieInfo({ movie }) {
+//Types
+import { MovieStateType } from "../../hooks/MovieDB/useMovieFetch";
+type PropTypes = {
+  movie: MovieStateType;
+};
+function MovieInfo({ movie }: PropTypes) {
   return (
     <Wrapper backdrop={movie.backdrop_path}>
       <Content>
@@ -32,9 +36,7 @@ function MovieInfo({ movie }) {
           <div className="rating-directors">
             <div>
               <h3>RATING</h3>
-              <div className="score">
-                {Number.parseFloat(movie.vote_average).toFixed(1)}
-              </div>
+              <div className="score">{movie.vote_average.toFixed(1)}</div>
             </div>
             <div className="director">
               <h3>DIRECTOR</h3>

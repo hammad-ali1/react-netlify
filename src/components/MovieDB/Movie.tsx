@@ -15,9 +15,11 @@ import NO_IMAGE from "../../images/no_image.jpg";
 import MovieInfo from "./MovieInfo";
 import MovieInfoBar from "./MovieInfoBar";
 import { IMAGE_BASE_URL, POSTER_SIZE } from "../../config";
+//Types
 function Movie() {
   const { movieId } = useParams();
-  const { state: movie, loading, error } = useMovieFetch(movieId);
+  const parsedMovieId: number = parseInt(movieId!);
+  const { state: movie, loading, error } = useMovieFetch(parsedMovieId);
   if (loading) return <Spinner />;
   return (
     <Wrapper>

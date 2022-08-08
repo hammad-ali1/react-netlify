@@ -14,13 +14,13 @@ import Todo from "./pages/Todo.page";
 import Socket from "./pages/Socket.page";
 import TTTGame from "./pages/TTTGame.page";
 import GuessThiefGame from "./pages/GuessThief.page";
-import MovieDB from "./pages/MovieDB.page";
+import MovieDB from "./pages/MovieDB.page.tsx";
 //apis
 import { getUser, logout } from "./api/auth.api";
 import axios from "axios";
 //contexts
 import socketio from "socket.io-client";
-import { SERVER_URL } from "./config";
+import { SERVER_URL } from "./config.ts";
 
 import { SocketContext } from "./contexts/socket.context";
 

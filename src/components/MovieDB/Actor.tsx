@@ -3,7 +3,13 @@ import React from "react";
 //Styles
 import { Wrapper, Image } from "../../styles/MovieDB/Actor.styles";
 
-function Actor({ name, character, imageUrl }) {
+//Types
+type PropTypes = {
+  name: string;
+  character: string;
+  imageUrl: string;
+};
+function Actor({ name, character, imageUrl }: PropTypes) {
   return (
     <Wrapper>
       <Image className="image" src={imageUrl} alt="actor-thumb" />

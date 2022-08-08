@@ -17,6 +17,7 @@ import { useHomeFetch } from "../../hooks/MovieDB/useHomeFetch";
 import HomeIcon from "@mui/icons-material/Home";
 //Image
 import NO_IMAGE from "../../images/no_image.jpg";
+
 function MovieHome() {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
     useHomeFetch();

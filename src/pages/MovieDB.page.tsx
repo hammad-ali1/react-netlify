@@ -1,8 +1,9 @@
-import MovieHome from "../components/MovieDB/MovieHome";
+import React from 'react';
 import { Routes, Route } from "react-router-dom";
 
 //Components
 import Movie from "../components/MovieDB/Movie";
+import MovieHome from "../components/MovieDB/MovieHome";
 import PageNotFound from "../components/PageNotFound";
 import TMDBAtribution from "../components/MovieDB/TMDBAttribution";
 
