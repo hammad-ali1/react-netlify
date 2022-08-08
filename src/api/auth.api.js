@@ -12,7 +12,8 @@ function createCustomAxios(token, baseURL = SERVER_URL) {
 const register = async (userData) => {
   try {
     const response = await (await axios.post(`/users`, userData)).data;
-    const { token, ...user } = response.user;
+    const { token } = response.user;
+    const user = response.user;
     localStorage.setItem("authtoken", token); //save user token
     createCustomAxios(token);
     return user;
@@ -27,7 +28,8 @@ const login = async (userData) => {
   try {
     const response = await (await axios.post(`/users/login`, userData)).data;
 
-    const { token, ...user } = response.user;
+    const { token } = response.user;
+    const user = response.user;
     localStorage.setItem("authtoken", token);
     createCustomAxios(token);
 
