@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import { Wrapper } from "../styles/Todo.styles";
 import { getTodos, addTodo, deleteTodo, updateTodo } from "../api/todos.api";
 import { useEffect, useState } from "react";
@@ -5,11 +6,15 @@ import Card from "../components/Card";
 import Spinner from "../components/Spinner";
 import Form from "../components/Form";
 import AddButton from "../components/AddButton";
+//Context
+import { UserContext } from "../context";
+function Todo() {
+  const [user] = useContext(UserContext);
 
-function Todo({ user }) {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [updateId, setUpdateId] = useState(null);
+
   //form hook starts here
   const initialFormData = {
     task: "",
@@ -74,7 +79,7 @@ function Todo({ user }) {
   useEffect(() => {
     if (user) {
       getTodos().then((todos) => {
-        setTodos(todos);
+        if (todos) setTodos(todos);
         setLoading(false);
       });
     }
@@ -147,6 +152,7 @@ function Todo({ user }) {
 
   return (
     <Wrapper>
+      <h1>{user.username}</h1>
       <AddButton onClick={handleClickOpen} min="20px" max="50px" />
       {todos.length === 0 ? (
         <p>Woo hoo!! You have no tasks todo!</p>

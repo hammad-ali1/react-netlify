@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Wrapper, Form } from "../styles/logIn.styles";
 import { login } from "../api/auth.api";
 import { useNavigate } from "react-router-dom";
-
-function LogIn({ setToken }) {
+//Context
+import { UserContext } from "../context";
+function LogIn() {
+  const [_user, setUser] = useContext(UserContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userid: "",
@@ -18,8 +20,8 @@ function LogIn({ setToken }) {
       password,
     };
 
-    login(userData).then((token) => {
-      setToken(token);
+    login(userData).then((user) => {
+      setUser(user);
       navigate("/", { replace: true });
     });
   };

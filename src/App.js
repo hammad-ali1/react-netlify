@@ -27,7 +27,6 @@ import { SocketContext } from "./contexts/socket.context";
 
 function App() {
   //states
-  const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [tabValue, setTabValue] = useState(0);
   const [navLinks, setNavLinks] = useState([]);
@@ -58,21 +57,18 @@ function App() {
     setToken(localStorage.getItem("authtoken"));
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      getUser().then((user) => {
-        setUser(user);
-        const socket = socketio.connect(SERVER_URL, {
-          auth: { token },
-        });
-        setSocket(socket);
-      });
-    } else {
-      setUser(null);
+      // getUser().then((user) => {
+      //   const socket = socketio.connect(SERVER_URL, {
+      //     auth: { token },
+      //   });
+      //   setSocket(socket);
+      // });
     }
   }, [token]);
 
   //hook for setting up navbar links
   useEffect(() => {
-    if (user) {
+    if (false) {
       const newLinks = [
         { text: "Home", href: "/" },
         {
@@ -96,7 +92,7 @@ function App() {
       setNavLinks(newLinks);
       setTabValue(0);
     }
-  }, [user, socket]);
+  }, [socket]);
 
   //return statement
   return (
@@ -118,13 +114,13 @@ function App() {
               baseUrl="/"
               title="React Projects"
             />
-            {user && <h1>{`Welcome ${user.username}`}</h1>}
+            {/* {user && <h1>{`Welcome ${user.username}`}</h1>} */}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<SignUp setToken={setToken} />} />
               <Route path="/login" element={<LogIn setToken={setToken} />} />
-              <Route path="/todo" element={<Todo user={user} />} />
-              <Route
+              <Route path="/todo" element={<Todo />} />
+              {/* <Route
                 path="/socket"
                 element={<Socket onlineUsers={onlineUsers} user={user} />}
               />
@@ -137,7 +133,7 @@ function App() {
                 element={
                   <GuessThiefGame onlineUsers={onlineUsers} user={user} />
                 }
-              />
+              /> */}
               <Route path="/movie-db/*" element={<MovieDB />} />
             </Routes>
             <SimpleSnackbar
@@ -145,7 +141,7 @@ function App() {
               message={snackBarMessage}
               open={openSnackBar}
               setOpen={setOpenSnackBar}
-              user={user}
+              // user={user}
             />
             <GlobalStyle />
           </SocketProvider>

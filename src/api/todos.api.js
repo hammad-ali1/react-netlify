@@ -1,4 +1,4 @@
-import axios from "axios";
+import { customAxios as axios } from "./auth.api";
 
 const getTodos = async () => {
   try {
