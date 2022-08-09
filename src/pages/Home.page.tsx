@@ -3,24 +3,34 @@ import { Link } from "react-router-dom";
 //Styles
 import { Wrapper } from "../styles/Home.styles";
 //Context
-import { UserContext, SocketContext } from "../context";
+import {
+  UserContext,
+  SocketContext,
+  UserContextType,
+  SocketContextType,
+} from "../context";
 
-function Home({ setOnlineUsers }) {
+//Types
+type HomeProps = {
+  //CHANGE LATER
+  setOnlineUsers: any;
+};
+function Home({ setOnlineUsers }: HomeProps) {
   //Context hooks
-  const [user] = useContext(UserContext);
-  const [socket] = useContext(SocketContext);
+  const [user] = useContext<UserContextType>(UserContext);
+  const [socket] = useContext<SocketContextType>(SocketContext);
 
   //Effects
   //hook for online users
   useEffect(() => {
     if (socket) {
-      socket.on("new-users", (newUsers) => {
+      socket.on("new-users", (newUsers: User[]) => {
         newUsers = newUsers.filter((newUser) => newUser.socketId !== socket.id);
         console.log(newUsers);
         setOnlineUsers(newUsers);
       });
     }
-  }, [socket]);
+  }, [socket, setOnlineUsers]);
 
   return (
     <Wrapper>

@@ -5,6 +5,7 @@ declare global {
     _id: string;
     userid: string;
     username: string;
+    socketId?: string;
   };
 
   type MyError = {
