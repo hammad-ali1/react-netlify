@@ -8,8 +8,10 @@ declare global {
     socketId?: string;
   };
 
-  type MyError = {
-    message: string;
-    err: any;
+  type MyTodo = {
+    _id: string;
+    user: string;
+    task: string;
+    title: string;
   };
 }

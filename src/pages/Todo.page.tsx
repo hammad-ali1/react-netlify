@@ -15,9 +15,9 @@ function Todo() {
   //Context hooks
   const [user] = useContext(UserContext);
   //States
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<MyTodo[]>([] as MyTodo[]);
   const [loading, setLoading] = useState(true);
-  const [updateId, setUpdateId] = useState(null);
+  const [updateId, setUpdateId] = useState("");
 
   //START FROM RELATED DATA
   const initialFormData = {
@@ -42,9 +42,12 @@ function Todo() {
     setOpen(false);
     setFormData(initialFormData);
     setFormFields(initialFormFields);
-    setUpdateId(null);
+    setUpdateId("");
   };
   const handleFormSubmit = () => {
+    if (!user) {
+      throw new Error("User not founde");
+    }
     if (updateId) {
       const newTodo = {
         task: formData.task,
@@ -55,11 +58,11 @@ function Todo() {
         getTodos().then((todos) => {
           setTodos(todos);
           setLoading(false);
-          setUpdateId(null);
+          setUpdateId("");
         });
       });
     } else {
-      addTodo(user.id, formData.task, formData.title).then(() => {
+      addTodo(user._id, formData.task, formData.title).then(() => {
         setLoading(true);
         getTodos().then((todos) => {
           setTodos(todos);
@@ -71,7 +74,7 @@ function Todo() {
     handleClose();
   };
 
-  const onChange = (event) => {
+  const onChange = (event: any) => {
     const { value, id } = event.target;
     setFormData({ ...formData, [id]: value });
     const indexOfField = formFields.findIndex((field) => field.id === id);
@@ -92,7 +95,7 @@ function Todo() {
   }, [user]);
 
   //deletes todo
-  const handleDelete = (id) => {
+  const handleDelete = (id: string) => {
     deleteTodo(id).then(() => {
       setLoading(true);
       getTodos().then((todos) => {
@@ -105,8 +108,11 @@ function Todo() {
   //update todo
   //WARNING BAD CODE CHANGE LATER
   //USE EITHER FORMDATA OR FORMFIELDS IN TABLE
-  const handleUpdate = (id) => {
+  const handleUpdate = (id: string) => {
     const selectedTodo = todos.find((todo) => (todo._id = id));
+    if (!selectedTodo) {
+      throw new Error("Invalid Todo id");
+    }
     setFormData({
       task: selectedTodo.task,
       title: selectedTodo.title,
@@ -138,6 +144,7 @@ function Todo() {
         description={todo.task}
         handleDelete={() => handleDelete(todo._id)}
         handleUpdate={() => handleUpdate(todo._id)}
+        subTitle=""
       />
     );
   });
