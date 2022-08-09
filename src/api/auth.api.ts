@@ -14,7 +14,7 @@ function createCustomAxios(token: string, baseURL = SERVER_URL) {
     return config;
   });
 }
-const register = async (userData: SignUpType): Promise<User | MyError> => {
+const register = async (userData: SignUpType): Promise<User> => {
   try {
     const response = await (await axios.post(`/users`, userData)).data;
     const { token } = response.user;
@@ -25,16 +25,12 @@ const register = async (userData: SignUpType): Promise<User | MyError> => {
   } catch (err: any | AxiosError) {
     console.log(err);
     window.alert(err.response.data.err);
-    const customError: MyError = {
-      message: "Error occured in registering user",
-      err: err,
-    };
-    return customError;
+    throw new Error("Error occured in registering user");
   }
 };
 
 // Login user
-const login = async (userData: LogInType): Promise<User | MyError> => {
+const login = async (userData: LogInType): Promise<User> => {
   try {
     const response = await (await axios.post(`/users/login`, userData)).data;
 
@@ -47,11 +43,7 @@ const login = async (userData: LogInType): Promise<User | MyError> => {
   } catch (err: any | AxiosError) {
     console.log(err);
     window.alert(err.response.data.err);
-    const customError: MyError = {
-      message: "Error occured in logging in user",
-      err: err,
-    };
-    return customError;
+    throw new Error("Error occured in logging in user");
   }
 };
 

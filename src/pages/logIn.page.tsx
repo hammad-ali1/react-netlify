@@ -41,13 +41,13 @@ function LogIn() {
       password,
     };
 
-    login(userData).then((user: User | MyError) => {
-      setUser(user);
+    login(userData).then((user: User) => {
+      setUser!(user);
       const authToken = localStorage.getItem("authtoken");
       const newSocket = socketio(SERVER_URL!, {
         auth: { token: authToken },
       });
-      setSocket(newSocket);
+      setSocket!(newSocket);
       navigate("/", { replace: true });
     });
   };

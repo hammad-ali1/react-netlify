@@ -39,12 +39,12 @@ function SignUp() {
       password,
     };
     register(userData).then((user) => {
-      setUser(user);
+      setUser!(user);
       const authToken = localStorage.getItem("authtoken");
       const newSocket = socketio(SERVER_URL!, {
         auth: { token: authToken },
       });
-      setSocket(newSocket);
+      setSocket!(newSocket);
       navigate("/", { replace: true });
     });
   };
