@@ -6,4 +6,9 @@ declare global {
     userid: string;
     username: string;
   };
+
+  type MyError = {
+    message: string;
+    err: any;
+  };
 }

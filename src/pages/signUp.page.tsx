@@ -2,39 +2,46 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import socketio from "socket.io-client";
 //Styles
-import { Wrapper, Form } from "../styles/logIn.styles";
+import { Wrapper, Form } from "../styles/signUp.styles";
 //Api
-import { login } from "../api/auth.api";
+import { register } from "../api/auth.api";
 //Config
-import { SERVER_URL } from "../config.ts";
+import { SERVER_URL } from "../config";
 //Context
 import { UserContext, SocketContext } from "../context";
 
-function LogIn() {
+//Types
+export type SignUpType = {
+  userid: string;
+  username: string;
+  password: string;
+};
+function SignUp() {
   //Context hooks
   const [, setUser] = useContext(UserContext);
   const [, setSocket] = useContext(SocketContext);
   //router navigator
   const navigate = useNavigate();
   //States
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SignUpType>({
     userid: "",
+    username: "",
     password: "",
   });
-  const { userid, password } = formData;
+  const { userid, username, password } = formData;
 
   //handlers
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const userData = {
+    const userData: SignUpType = {
       userid,
+      username,
       password,
     };
-
-    login(userData).then((user) => {
+    register(userData).then((user) => {
       setUser(user);
       const authToken = localStorage.getItem("authtoken");
-      const newSocket = socketio.connect(SERVER_URL, {
+      const newSocket = socketio(SERVER_URL!, {
         auth: { token: authToken },
       });
       setSocket(newSocket);
@@ -42,7 +49,7 @@ function LogIn() {
     });
   };
 
-  const onChange = (event) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
@@ -61,6 +68,14 @@ function LogIn() {
           onChange={onChange}
         />
         <input
+          type="text"
+          placeholder="user name"
+          required
+          name="username"
+          value={username}
+          onChange={onChange}
+        />
+        <input
           type="password"
           placeholder="password"
           required
@@ -68,10 +83,10 @@ function LogIn() {
           value={password}
           onChange={onChange}
         />
-        <input type="submit" value="Log In" />
+        <input type="submit" value="Create New Account" />
       </Form>
     </Wrapper>
   );
 }
 
-export default LogIn;
+export default SignUp;
