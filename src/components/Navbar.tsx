@@ -17,30 +17,36 @@ import { logout } from "../api/auth.api";
 //Context
 import { UserContext, SocketContext } from "../context";
 
-function Navbar({ baseUrl, title }) {
+//Types
+export type NavLink = { text: string; href: string; action: () => void };
+type PropTypes = { baseUrl: string; title: string };
+function Navbar({ baseUrl, title }: PropTypes) {
+  //Contexts
   const [user, setUser] = useContext(UserContext);
   const [socket, setSocket] = useContext(SocketContext);
+  //States
   const [tabValue, setTabValue] = useState(0);
   const logInLinks = [
-    { text: "Home", href: "/" },
-    { text: "Sign Up", href: "/signup" },
-    { text: "Log In", href: "/login" },
+    { text: "Home", href: "/", action: () => {} },
+    { text: "Sign Up", href: "/signup", action: () => {} },
+    { text: "Log In", href: "/login", action: () => {} },
   ];
   const logOutLinks = [
-    { text: "Home", href: "/" },
+    { text: "Home", href: "/", action: () => {} },
     {
       text: "Log Out",
       href: "/",
       action: () => {
         logout();
-        setUser(undefined);
-        socket.disconnect();
-        setSocket(undefined);
+        setUser!(null);
+        socket!.disconnect();
+        setSocket!(null);
       },
     },
   ];
   const [links, setLinks] = useState(user ? logOutLinks : logInLinks);
 
+  //Effects
   useEffect(() => {
     setTabValue(0);
   }, [links]);
@@ -49,6 +55,7 @@ function Navbar({ baseUrl, title }) {
   }, [user]);
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  //router navigator
   const navigate = useNavigate();
 
   return (
@@ -90,7 +97,7 @@ function Navbar({ baseUrl, title }) {
                       <Tab
                         style={{
                           color: "white",
-                          marginLeft: index === 0 && "auto",
+                          marginLeft: index === 0 ? "auto" : "0px",
                         }}
                         key={index}
                         label={link.text}

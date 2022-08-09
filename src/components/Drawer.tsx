@@ -10,7 +10,13 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-function DrawerComponent({ links }) {
+import { NavLink } from "./Navbar";
+
+//Types
+type PropTypes = {
+  links: NavLink[];
+};
+function DrawerComponent({ links }: PropTypes) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -35,7 +41,6 @@ function DrawerComponent({ links }) {
         </List>
       </Drawer>
       <IconButton sx={{ marginLeft: "auto" }} onClick={() => setOpen(true)}>
-        {" "}
         <MenuIcon style={{ color: "white" }} />
       </IconButton>
     </>
