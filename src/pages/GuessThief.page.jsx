@@ -117,7 +117,7 @@ function GuessThiefGame({ onlineUsers }) {
           if (start) {
             socket.emit("open-snackbar", {
               roomId,
-              message: `${user.username} got afraid and chickened out 😒. Here are the final results`,
+              message: `Someone got afraid and chickened out 😒. Here are the final results`,
             });
             socket.emit("finish-game", { roomId });
           }

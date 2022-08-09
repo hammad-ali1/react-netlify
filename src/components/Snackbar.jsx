@@ -15,7 +15,7 @@ export default function SimpleSnackbar() {
     snackBarMessage: message,
     openSnackBar: open,
     snackBarButtons: buttons,
-    openSnackBar: setOpen,
+    setOpenSnackBar: setOpen,
   } = useContext(SnackbarContext);
   const navigate = useNavigate();
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //styles
 import { GlobalStyle } from "./GlobalStyle";
@@ -14,10 +14,28 @@ import Todo from "./pages/Todo.page";
 import TTTGame from "./pages/TTTGame.page";
 import GuessThiefGame from "./pages/GuessThief.page";
 import MovieDB from "./pages/MovieDB.page.tsx";
-
+//Contexts
+import { SnackbarContext, SocketContext } from "./context";
 function App() {
+  const [socket] = useContext(SocketContext);
+  const { setSnackBarButtons, setSnackBarMessage, setOpenSnackBar } =
+    useContext(SnackbarContext);
   //states
   const [onlineUsers, setOnlineUsers] = useState([]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("open-main-snackbar", ({ message, buttons }) => {
+        setSnackBarButtons(buttons);
+        setSnackBarMessage(message);
+        setOpenSnackBar(true);
+      });
+
+      return () => {
+        socket.off("open-main-snackbar");
+      };
+    }
+  }, [socket, setSnackBarButtons, setSnackBarMessage, setOpenSnackBar]);
 
   //return statement
   return (
@@ -38,6 +56,7 @@ function App() {
         />
         <Route path="/movie-db/*" element={<MovieDB />} />
       </Routes>
+      <SimpleSnackbar />
       <GlobalStyle />
     </Router>
   );
