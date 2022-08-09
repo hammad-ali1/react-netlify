@@ -6,21 +6,46 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TextField } from "@mui/material";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
+import { TransitionProps } from "@mui/material/transitions";
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+//Types
+type FormFieldType = {
+  label: string;
+  placeholder: string;
+  id: string;
+  value: string;
+};
+
+type PropTypes = {
+  open: boolean;
+  handleClose: () => void;
+  // data,
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  handleFormSubmit: () => void;
+  title: string;
+  buttonText: string;
+  formFields: FormFieldType[];
+};
 
 export default function Form({
   open,
   handleClose,
-  // data,
   onChange,
   handleFormSubmit,
   title,
   buttonText,
   formFields,
-}) {
+}: PropTypes) {
   return (
     <div>
       <Dialog
