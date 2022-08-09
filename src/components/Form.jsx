@@ -14,7 +14,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Form({
   open,
   handleClose,
-  data,
+  // data,
   onChange,
   handleFormSubmit,
   title,

@@ -20,17 +20,12 @@ function Todo() {
   const [updateId, setUpdateId] = useState("");
 
   //START FROM RELATED DATA
-  const initialFormData = {
-    task: "",
-    title: "",
-  };
   const initialFormFields = [
     { label: "Title", placeholder: "Add Title", id: "title", value: "" },
     { label: "Task", placeholder: "Add Task", id: "task", value: "" },
   ]; //id should match with fromData fields
   //open form
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState(initialFormData);
   const [formFields, setFormFields] = useState(initialFormFields);
   //END FORM RELATED DATA
   //Handlers
@@ -40,19 +35,15 @@ function Todo() {
 
   const handleClose = () => {
     setOpen(false);
-    setFormData(initialFormData);
     setFormFields(initialFormFields);
     setUpdateId("");
   };
   const handleFormSubmit = () => {
     if (!user) {
-      throw new Error("User not founde");
+      throw new Error("User not found");
     }
     if (updateId) {
-      const newTodo = {
-        task: formData.task,
-        title: formData.title,
-      };
+      const newTodo = { task: formFields[0].value, title: formFields[1].value };
       updateTodo(updateId, newTodo).then(() => {
         setLoading(true);
         getTodos().then((todos) => {
@@ -62,7 +53,7 @@ function Todo() {
         });
       });
     } else {
-      addTodo(user._id, formData.task, formData.title).then(() => {
+      addTodo(user._id, formFields[0].value, formFields[1].value).then(() => {
         setLoading(true);
         getTodos().then((todos) => {
           setTodos(todos);
@@ -76,7 +67,6 @@ function Todo() {
 
   const onChange = (event: any) => {
     const { value, id } = event.target;
-    setFormData({ ...formData, [id]: value });
     const indexOfField = formFields.findIndex((field) => field.id === id);
     const newFields = [...formFields];
     newFields[indexOfField].value = value;
@@ -106,17 +96,13 @@ function Todo() {
   };
 
   //update todo
-  //WARNING BAD CODE CHANGE LATER
-  //USE EITHER FORMDATA OR FORMFIELDS IN TABLE
+
   const handleUpdate = (id: string) => {
     const selectedTodo = todos.find((todo) => (todo._id = id));
     if (!selectedTodo) {
       throw new Error("Invalid Todo id");
     }
-    setFormData({
-      task: selectedTodo.task,
-      title: selectedTodo.title,
-    });
+
     const newFields = [
       {
         label: "Title",
@@ -176,7 +162,6 @@ function Todo() {
       <Form
         open={open}
         handleClose={handleClose}
-        data={formData}
         onChange={onChange}
         handleFormSubmit={handleFormSubmit}
         formFields={formFields}
