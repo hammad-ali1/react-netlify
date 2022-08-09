@@ -10,6 +10,23 @@ import Form from "../components/Form";
 import AddButton from "../components/AddButton";
 //Context
 import { UserContext } from "../context";
+//Types
+type FormFieldType = {
+  label: string;
+  placeholder: string;
+  id: string;
+  value: string;
+};
+const initialFormFields = new Map<string, FormFieldType>([
+  [
+    "title",
+    { label: "Title", placeholder: "Add Title", id: "title", value: "" },
+  ],
+  [
+    "task",
+    { label: "Task", placeholder: "Write your Task", id: "task", value: "" },
+  ],
+]); //id should match with fromData fields
 
 function Todo() {
   //Context hooks
@@ -20,10 +37,7 @@ function Todo() {
   const [updateId, setUpdateId] = useState("");
 
   //START FROM RELATED DATA
-  const initialFormFields = [
-    { label: "Title", placeholder: "Add Title", id: "title", value: "" },
-    { label: "Task", placeholder: "Add Task", id: "task", value: "" },
-  ]; //id should match with fromData fields
+
   //open form
   const [open, setOpen] = useState(false);
   const [formFields, setFormFields] = useState(initialFormFields);
@@ -43,7 +57,10 @@ function Todo() {
       throw new Error("User not found");
     }
     if (updateId) {
-      const newTodo = { task: formFields[0].value, title: formFields[1].value };
+      const newTodo = {
+        task: formFields.get("task")!.value,
+        title: formFields.get("title")!.value,
+      };
       updateTodo(updateId, newTodo).then(() => {
         setLoading(true);
         getTodos().then((todos) => {
@@ -53,7 +70,11 @@ function Todo() {
         });
       });
     } else {
-      addTodo(user._id, formFields[0].value, formFields[1].value).then(() => {
+      addTodo(
+        user._id,
+        formFields.get("task")!.value,
+        formFields.get("title")!.value
+      ).then(() => {
         setLoading(true);
         getTodos().then((todos) => {
           setTodos(todos);
@@ -65,12 +86,15 @@ function Todo() {
     handleClose();
   };
 
-  const onChange = (event: any) => {
+  const onChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { value, id } = event.target;
-    const indexOfField = formFields.findIndex((field) => field.id === id);
-    const newFields = [...formFields];
-    newFields[indexOfField].value = value;
-    setFormFields(newFields);
+    setFormFields((prevFields) => {
+      const newFields = new Map(prevFields);
+      newFields.set(id, { ...prevFields.get(id)!, value });
+      return newFields;
+    });
   };
 
   //Effects
@@ -103,21 +127,27 @@ function Todo() {
       throw new Error("Invalid Todo id");
     }
 
-    const newFields = [
-      {
-        label: "Title",
-        placeholder: "Add Title",
-        id: "title",
-        value: selectedTodo.title,
-      },
-      {
-        label: "Task",
-        placeholder: "Add Task",
-        id: "task",
-        value: selectedTodo.task,
-      },
-    ];
-    setFormFields(newFields);
+    const newFormFields = new Map<string, FormFieldType>([
+      [
+        "title",
+        {
+          label: "Title",
+          placeholder: "Add Title",
+          id: "title",
+          value: selectedTodo.title,
+        },
+      ],
+      [
+        "task",
+        {
+          label: "Task",
+          placeholder: "Add Task",
+          id: "task",
+          value: selectedTodo.task,
+        },
+      ],
+    ]);
+    setFormFields(newFormFields);
     handleClickOpen();
     setUpdateId(id);
   };
@@ -164,7 +194,7 @@ function Todo() {
         handleClose={handleClose}
         onChange={onChange}
         handleFormSubmit={handleFormSubmit}
-        formFields={formFields}
+        formFields={Array.from(formFields.values())}
         title={"Add New Task"}
         buttonText={updateId ? "Update" : "Add"}
       ></Form>
