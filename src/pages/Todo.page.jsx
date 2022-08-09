@@ -1,21 +1,25 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+//Styles
 import { Wrapper } from "../styles/Todo.styles";
+//Api
 import { getTodos, addTodo, deleteTodo, updateTodo } from "../api/todos.api";
-import { useEffect, useState } from "react";
+//Components
 import Card from "../components/Card";
 import Spinner from "../components/Spinner";
 import Form from "../components/Form";
 import AddButton from "../components/AddButton";
 //Context
 import { UserContext } from "../context";
-function Todo() {
-  const [user] = useContext(UserContext);
 
+function Todo() {
+  //Context hooks
+  const [user] = useContext(UserContext);
+  //States
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [updateId, setUpdateId] = useState(null);
 
-  //form hook starts here
+  //START FROM RELATED DATA
   const initialFormData = {
     task: "",
     title: "",
@@ -28,7 +32,8 @@ function Todo() {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [formFields, setFormFields] = useState(initialFormFields);
-
+  //END FORM RELATED DATA
+  //Handlers
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -75,6 +80,7 @@ function Todo() {
     setFormFields(newFields);
   };
 
+  //Effects
   //form hook ends here
   useEffect(() => {
     if (user) {

@@ -1,13 +1,15 @@
 import React, { createContext, useEffect, useState, useRef } from "react";
-import { getUser } from "./api/auth.api";
 import socketio from "socket.io-client";
+//Api
+import { getUser } from "./api/auth.api";
+//config
 import { SERVER_URL } from "./config.ts";
 
 export const UserContext = createContext();
 export const SocketContext = createContext();
 export const SnackbarContext = createContext();
 
-//Providers
+//UserProvider
 export const UserProvider = ({ children }) => {
   const [state, setState] = useState(undefined);
   useEffect(() => {
@@ -25,6 +27,7 @@ export const UserProvider = ({ children }) => {
   );
 };
 
+//SocketProvider
 export const SocketProvider = ({ children }) => {
   const [state, setState] = useState(undefined);
   const socketCreated = useRef(false);
@@ -48,6 +51,7 @@ export const SocketProvider = ({ children }) => {
   );
 };
 
+//SnackbarProvider
 export const SnackbarProvider = ({ children }) => {
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");

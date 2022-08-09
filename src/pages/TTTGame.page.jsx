@@ -1,16 +1,23 @@
-import { Wrapper } from "../styles/TTTGame.styles";
 import { useContext, useEffect, useState } from "react";
+//MUI
 import { TextField, Autocomplete } from "@mui/material";
+//Styles
+import { Wrapper } from "../styles/TTTGame.styles";
+//Components
 import TicTacToe from "../components/TTTGame/TicTacToe";
+//Contexts
 import { UserContext, SocketContext } from "../context";
 
 function TTTGame({ onlineUsers }) {
+  //Context hooks
   const [socket] = useContext(SocketContext);
   const [user] = useContext(UserContext);
+  //States
   const [marker, setMarker] = useState("X"); //the one who starts the room has the default marker of X
   const [roomId, setRoomId] = useState("ttt/" + (socket ? socket.id : ""));
   const [roomUsers, setRoomUsers] = useState([]);
   const [secondPlayer, setSecondPlayer] = useState(null);
+  //Effects
   useEffect(() => {
     if (socket) {
       socket.emit("join-room", { roomId });
@@ -39,6 +46,7 @@ function TTTGame({ onlineUsers }) {
     };
   }, [socket, roomId]);
 
+  //Handlers
   const invite = () => {
     if (secondPlayer) {
       socket.emit("room-invite", { socketId: secondPlayer.socketId, roomId });

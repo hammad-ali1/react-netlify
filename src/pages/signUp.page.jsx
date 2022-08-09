@@ -1,16 +1,22 @@
 import React, { useState, useContext } from "react";
-import { Wrapper, Form } from "../styles/signUp.styles";
-import { register } from "../api/auth.api";
 import { useNavigate } from "react-router-dom";
+import socketio from "socket.io-client";
+//Styles
+import { Wrapper, Form } from "../styles/signUp.styles";
+//Api
+import { register } from "../api/auth.api";
+//Config
+import { SERVER_URL } from "../config.ts";
 //Context
 import { UserContext, SocketContext } from "../context";
-import socketio from "socket.io-client";
-import { SERVER_URL } from "../config.ts";
+
 function SignUp() {
+  //Context hooks
   const [, setUser] = useContext(UserContext);
   const [, setSocket] = useContext(SocketContext);
-
+  //router navigator
   const navigate = useNavigate();
+  //States
   const [formData, setFormData] = useState({
     userid: "",
     username: "",
@@ -18,6 +24,7 @@ function SignUp() {
   });
   const { userid, username, password } = formData;
 
+  //handlers
   const handleSubmit = (event) => {
     event.preventDefault();
     const userData = {

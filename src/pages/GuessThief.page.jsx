@@ -1,15 +1,18 @@
 import { useContext, useEffect, useState } from "react";
+//MUI
 import { TextField, Autocomplete } from "@mui/material";
-
+//Styles
 import { Wrapper } from "../styles/GuessThief.styles";
+//Components
 import SimpleSnackbar from "../components/Snackbar";
-
 import GuessThief from "../components/GuessThief/GuessThief";
 //Context
 import { UserContext, SocketContext, SnackbarContext } from "../context";
-
+//Number of Rounds
 const rounds = [3, 5, 7, 10];
+
 function GuessThiefGame({ onlineUsers }) {
+  //Context hooks
   const [user] = useContext(UserContext);
   const [socket] = useContext(SocketContext);
   const {
@@ -17,7 +20,7 @@ function GuessThiefGame({ onlineUsers }) {
     setSnackBarMessage: setMainSnackBarMessage,
     setSnackBarButtons: setMainSnackBarButtons,
   } = useContext(SnackbarContext);
-
+  //States
   const [roomId, setRoomId] = useState(
     "GuessThief/" + (socket ? socket.id : "")
   );
@@ -29,6 +32,7 @@ function GuessThiefGame({ onlineUsers }) {
   const [isRoomFull, setIsRoomFull] = useState(false);
   const [roundLimit, setRoundLimit] = useState(null);
 
+  //Effects
   useEffect(() => {
     console.log("XXX EFFECT NEW ROUND LIMIT " + roundLimit);
   }, [roundLimit]);

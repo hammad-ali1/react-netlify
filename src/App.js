@@ -5,7 +5,6 @@ import { GlobalStyle } from "./GlobalStyle";
 //components
 import Navbar from "./components/Navbar";
 import SimpleSnackbar from "./components/Snackbar";
-
 //pages
 import SignUp from "./pages/signUp.page";
 import LogIn from "./pages/logIn.page";
@@ -17,12 +16,13 @@ import MovieDB from "./pages/MovieDB.page.tsx";
 //Contexts
 import { SnackbarContext, SocketContext } from "./context";
 function App() {
+  //context hoooks
   const [socket] = useContext(SocketContext);
   const { setSnackBarButtons, setSnackBarMessage, setOpenSnackBar } =
     useContext(SnackbarContext);
   //states
   const [onlineUsers, setOnlineUsers] = useState([]);
-
+  //effects
   useEffect(() => {
     if (socket) {
       socket.on("open-main-snackbar", ({ message, buttons }) => {
