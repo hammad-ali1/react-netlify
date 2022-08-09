@@ -13,6 +13,7 @@ import Todo from "./pages/Todo.page";
 import TTTGame from "./pages/TTTGame.page";
 import GuessThiefGame from "./pages/GuessThief.page";
 import MovieDB from "./pages/MovieDB.page.tsx";
+import PageNotFound from "./components/PageNotFound";
 //Contexts
 import { SnackbarContext, SocketContext } from "./context";
 function App() {
@@ -55,6 +56,7 @@ function App() {
           element={<GuessThiefGame onlineUsers={onlineUsers} />}
         />
         <Route path="/movie-db/*" element={<MovieDB />} />
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <SimpleSnackbar />
       <GlobalStyle />
