@@ -3,9 +3,12 @@ import { Wrapper, Form } from "../styles/logIn.styles";
 import { login } from "../api/auth.api";
 import { useNavigate } from "react-router-dom";
 //Context
-import { UserContext } from "../context";
+import { UserContext, SocketContext } from "../context";
+import socketio from "socket.io-client";
+import { SERVER_URL } from "../config.ts";
 function LogIn() {
-  const [_user, setUser] = useContext(UserContext);
+  const [, setUser] = useContext(UserContext);
+  const [, setSocket] = useContext(SocketContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userid: "",
@@ -22,6 +25,11 @@ function LogIn() {
 
     login(userData).then((user) => {
       setUser(user);
+      const authToken = localStorage.getItem("authtoken");
+      const newSocket = socketio.connect(SERVER_URL, {
+        auth: { token: authToken },
+      });
+      setSocket(newSocket);
       navigate("/", { replace: true });
     });
   };

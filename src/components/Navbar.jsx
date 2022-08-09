@@ -15,10 +15,11 @@ import { Link, useNavigate } from "react-router-dom";
 //apis
 import { logout } from "../api/auth.api";
 //Context
-import { UserContext } from "../context";
+import { UserContext, SocketContext } from "../context";
 
 function Navbar({ baseUrl, title }) {
   const [user, setUser] = useContext(UserContext);
+  const [socket, setSocket] = useContext(SocketContext);
   const [tabValue, setTabValue] = useState(0);
   const logInLinks = [
     { text: "Home", href: "/" },
@@ -33,6 +34,8 @@ function Navbar({ baseUrl, title }) {
       action: () => {
         logout();
         setUser(undefined);
+        socket.disconnect();
+        setSocket(undefined);
       },
     },
   ];

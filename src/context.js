@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState, useContext } from "react";
+import React, { createContext, useEffect, useState, useRef } from "react";
 import { getUser } from "./api/auth.api";
 import socketio from "socket.io-client";
 import { SERVER_URL } from "./config.ts";
@@ -14,8 +14,6 @@ export const UserProvider = ({ children }) => {
     const token = localStorage.getItem("authtoken");
     if (token) {
       getUser(token).then((user) => {
-        // console.log(user);
-        // console.log(token);
         setState(user);
       });
     }
@@ -29,25 +27,20 @@ export const UserProvider = ({ children }) => {
 
 export const SocketProvider = ({ children }) => {
   const [state, setState] = useState(undefined);
-  const [user] = useContext(UserContext);
+  const socketCreated = useRef(false);
+
+  //retrieve token and create socket
   useEffect(() => {
-    if (user) {
-      const token = user.token;
-      console.log("CREATING A NEW SOCKET");
-      console.log(user);
-      setState((prevSocket) => {
-        if (prevSocket) {
-          prevSocket.disconnect();
-        }
-        console.log("PREV SOCKET");
-        console.log(prevSocket);
-        const newSocket = socketio.connect(SERVER_URL, {
-          auth: { token },
-        });
-        return newSocket;
+    const authToken = localStorage.getItem("authtoken");
+    if (authToken && !socketCreated.current) {
+      const newSocket = socketio.connect(SERVER_URL, {
+        auth: { token: authToken },
       });
+      setState(newSocket);
+      socketCreated.current = true;
     }
-  }, [user]);
+  }, []);
+
   return (
     <SocketContext.Provider value={[state, setState]}>
       {children}
