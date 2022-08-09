@@ -1,6 +1,12 @@
 import { Wrapper } from "../styles/AddButton.styles";
 
-function AddButton({ onClick, min, max }) {
+//Types
+type PropTypes = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  min: string;
+  max: string;
+};
+function AddButton({ onClick, min, max }: PropTypes) {
   return (
     <Wrapper>
       <button onClick={onClick}>+</button>

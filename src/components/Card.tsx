@@ -6,6 +6,15 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+//Types
+type PropTypes = {
+  heading: string;
+  mainTitle: string;
+  subTitle?: string;
+  description: string;
+  handleDelete: React.MouseEventHandler<HTMLButtonElement>;
+  handleUpdate: React.MouseEventHandler<HTMLButtonElement>;
+};
 export default function OutlinedCard({
   heading,
   mainTitle,
@@ -13,7 +22,7 @@ export default function OutlinedCard({
   description,
   handleDelete,
   handleUpdate,
-}) {
+}: PropTypes) {
   const card = (
     <React.Fragment>
       <CardContent>
