@@ -14,9 +14,7 @@ function createCustomAxios(token: string, baseURL = SERVER_URL) {
     return config;
   });
 }
-const register = async (
-  userData: SignUpType
-): Promise<User | MyError | void> => {
+const register = async (userData: SignUpType): Promise<User | MyError> => {
   try {
     const response = await (await axios.post(`/users`, userData)).data;
     const { token } = response.user;
@@ -36,7 +34,7 @@ const register = async (
 };
 
 // Login user
-const login = async (userData: LogInType): Promise<User | MyError | void> => {
+const login = async (userData: LogInType): Promise<User | MyError> => {
   try {
     const response = await (await axios.post(`/users/login`, userData)).data;
 

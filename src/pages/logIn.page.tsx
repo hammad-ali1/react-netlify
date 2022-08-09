@@ -8,7 +8,12 @@ import { login } from "../api/auth.api";
 //Config
 import { SERVER_URL } from "../config";
 //Context
-import { UserContext, SocketContext } from "../context";
+import {
+  UserContext,
+  SocketContext,
+  UserContextType,
+  SocketContextType,
+} from "../context";
 //Types
 export type LogInType = {
   userid: string;
@@ -17,8 +22,8 @@ export type LogInType = {
 
 function LogIn() {
   //Context hooks
-  const [, setUser] = useContext(UserContext);
-  const [, setSocket] = useContext(SocketContext);
+  const [, setUser] = useContext<UserContextType>(UserContext);
+  const [, setSocket] = useContext<SocketContextType>(SocketContext);
   //router navigator
   const navigate = useNavigate();
   //States
@@ -36,7 +41,7 @@ function LogIn() {
       password,
     };
 
-    login(userData).then((user) => {
+    login(userData).then((user: User | MyError) => {
       setUser(user);
       const authToken = localStorage.getItem("authtoken");
       const newSocket = socketio(SERVER_URL!, {

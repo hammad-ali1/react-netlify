@@ -5,12 +5,22 @@ import { getUser } from "./api/auth.api";
 //config
 import { SERVER_URL } from "./config";
 
-export const UserContext = createContext<
-  [User | null, React.Dispatch<React.SetStateAction<User | null>>] | null
->(null);
-export const SocketContext = createContext<
-  [Socket | null, React.Dispatch<React.SetStateAction<Socket | null>>] | null
->(null);
+//START USER CONTEXT
+export type UserContextType =
+  | []
+  | [User | null, React.Dispatch<React.SetStateAction<User | null>>];
+
+export const UserContext = createContext<UserContextType>([]);
+
+//END USER CONTEXT
+
+//START SOCKET CONTEXT
+export type SocketContextType =
+  | []
+  | [Socket | null, React.Dispatch<React.SetStateAction<Socket | null>>];
+export const SocketContext = createContext<SocketContextType>([]);
+
+//END SOCKET CONTEXT
 export const SnackbarContext = createContext<{} | null>(null);
 
 //UserProvider
