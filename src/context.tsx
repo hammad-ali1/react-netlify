@@ -1,17 +1,23 @@
 import React, { createContext, useEffect, useState, useRef } from "react";
-import socketio from "socket.io-client";
+import socketio, { Socket } from "socket.io-client";
 //Api
 import { getUser } from "./api/auth.api";
 //config
-import { SERVER_URL } from "./config.ts";
+import { SERVER_URL } from "./config";
 
-export const UserContext = createContext();
-export const SocketContext = createContext();
-export const SnackbarContext = createContext();
+export const UserContext = createContext<
+  [User | null, React.Dispatch<React.SetStateAction<User | null>>] | null
+>(null);
+export const SocketContext = createContext<
+  [Socket | null, React.Dispatch<React.SetStateAction<Socket | null>>] | null
+>(null);
+export const SnackbarContext = createContext<{} | null>(null);
 
 //UserProvider
-export const UserProvider = ({ children }) => {
-  const [state, setState] = useState(undefined);
+//@type
+type UserProviderProps = { children: React.ReactNode };
+export const UserProvider = ({ children }: UserProviderProps) => {
+  const [state, setState] = useState<User | null>(null);
   useEffect(() => {
     const token = localStorage.getItem("authtoken");
     if (token) {
@@ -28,15 +34,17 @@ export const UserProvider = ({ children }) => {
 };
 
 //SocketProvider
-export const SocketProvider = ({ children }) => {
-  const [state, setState] = useState(undefined);
+//@type
+type SocketProviderProps = { children: React.ReactNode };
+export const SocketProvider = ({ children }: SocketProviderProps) => {
+  const [state, setState] = useState<Socket | null>(null);
   const socketCreated = useRef(false);
 
   //retrieve token and create socket
   useEffect(() => {
     const authToken = localStorage.getItem("authtoken");
     if (authToken && !socketCreated.current) {
-      const newSocket = socketio.connect(SERVER_URL, {
+      const newSocket = socketio(SERVER_URL!, {
         auth: { token: authToken },
       });
       setState(newSocket);
@@ -52,7 +60,9 @@ export const SocketProvider = ({ children }) => {
 };
 
 //SnackbarProvider
-export const SnackbarProvider = ({ children }) => {
+//@type
+type SnackbarProviderProps = { children: React.ReactNode };
+export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [snackBarButtons, setSnackBarButtons] = useState([]);

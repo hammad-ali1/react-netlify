@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import socketio from "socket.io-client";
+import socketio, { Socket } from "socket.io-client";
 //Styles
 import { Wrapper, Form } from "../styles/logIn.styles";
 //Api
