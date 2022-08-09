@@ -11,7 +11,18 @@ import { useState } from "react";
 function PageNotFound() {
   const navigate = useNavigate();
   const [style, setStyle] = useState<React.CSSProperties>({});
-  const handleMovingBackGround: React.MouseEventHandler<HTMLDivElement> = (
+  const handleTouchMovement: React.TouchEventHandler<HTMLDivElement> = (
+    event
+  ) => {
+    let x = -event.touches[0].clientX;
+    let y = -event.touches[0].clientY;
+    console.log(event.touches[0].clientX);
+    const newStyle: React.CSSProperties = {};
+    newStyle.backgroundPositionX = x + "px";
+    newStyle.backgroundPositionY = y + "px";
+    setStyle(newStyle);
+  };
+  const handleMouseMovement: React.MouseEventHandler<HTMLDivElement> = (
     event
   ) => {
     let x = -event.clientX / 3;
@@ -22,7 +33,12 @@ function PageNotFound() {
     setStyle(newStyle);
   };
   return (
-    <Content style={style} img={P404} onMouseMove={handleMovingBackGround}>
+    <Content
+      style={style}
+      img={P404}
+      onMouseMove={handleMouseMovement}
+      onTouchMove={handleTouchMovement}
+    >
       <Text>
         <h2>404</h2>
         <WarningAmberRoundedIcon className="icon" />

@@ -11,11 +11,7 @@ export const Content = styled.div<props>`
   position: relative;
   overflow: auto;
   width: 100%;
-  height: 100vh;
-  /* top: 10%;
-  left: 10%;
-  right: 10%;
-  bottom: 10%; */
+  height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
