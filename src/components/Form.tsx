@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 //Types
-type FormFieldType = {
+export type FormFieldType = {
   label: string;
   placeholder: string;
   id: string;

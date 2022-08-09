@@ -6,17 +6,11 @@ import { getTodos, addTodo, deleteTodo, updateTodo } from "../api/todos.api";
 //Components
 import Card from "../components/Card";
 import Spinner from "../components/Spinner";
-import Form from "../components/Form";
+import Form, { FormFieldType } from "../components/Form";
 import AddButton from "../components/AddButton";
 //Context
 import { UserContext } from "../context";
-//Types
-type FormFieldType = {
-  label: string;
-  placeholder: string;
-  id: string;
-  value: string;
-};
+
 const initialFormFields = new Map<string, FormFieldType>([
   [
     "title",
