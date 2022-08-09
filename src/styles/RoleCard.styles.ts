@@ -7,7 +7,9 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const Card = styled.div`
+//Types
+type PropTypes = { show: boolean };
+export const Card = styled.div<PropTypes>`
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
     width: 100px;
@@ -34,8 +36,7 @@ export const Card = styled.div`
   margin: auto;
   color: black;
   padding: 5px;
-  animation: ${(props) =>
-    props.show ? "show 4s forwards" : "hide 4s forwards"};
+  animation: ${({ show }) => (show ? "show 4s forwards" : "hide 4s forwards")};
   @keyframes hide {
     from {
       color: transparent;
