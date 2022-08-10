@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 //Styles
 import { Wrapper } from "../styles/Home.styles";
+
+import HorizontalScroll from "../components/MovieDB/HorizontalScroll";
 //Context
 import {
   UserContext,
@@ -50,6 +52,7 @@ function Home({ setOnlineUsers }: HomeProps) {
           <li>Movie DB</li>
         </Link>
       </ul>
+      <HorizontalScroll />
     </Wrapper>
   );
 }

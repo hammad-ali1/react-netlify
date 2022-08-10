@@ -1,15 +1,16 @@
 import { customAxios as axios } from "./auth.api";
 
-const getTodos = async () => {
+const getTodos = async (): Promise<MyTodo[]> => {
   try {
     const response = await (await axios.get("/todos")).data;
     return response.todos;
   } catch (err) {
     console.log(err);
+    throw new Error("Error occured in getting todos");
   }
 };
 
-const addTodo = async (user, task, title) => {
+const addTodo = async (user: string, task: string, title: string) => {
   try {
     const response = await (
       await axios.post("/todos", { user, task, title })
@@ -20,7 +21,7 @@ const addTodo = async (user, task, title) => {
   }
 };
 
-const deleteTodo = async (id) => {
+const deleteTodo = async (id: string) => {
   try {
     const response = await (await axios.post(`/todos/${id}`)).data;
     return response;
@@ -29,7 +30,7 @@ const deleteTodo = async (id) => {
   }
 };
 
-const updateTodo = async (id, newTodo) => {
+const updateTodo = async (id: string, newTodo: MyTodo) => {
   try {
     const response = await (await axios.put(`/todos/${id}`, newTodo)).data;
     return response;

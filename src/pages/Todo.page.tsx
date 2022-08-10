@@ -51,9 +51,11 @@ function Todo() {
       throw new Error("User not found");
     }
     if (updateId) {
-      const newTodo = {
+      const newTodo: MyTodo = {
+        _id: updateId,
         task: formFields.get("task")!.value,
         title: formFields.get("title")!.value,
+        user: "",
       };
       updateTodo(updateId, newTodo).then(() => {
         setLoading(true);
