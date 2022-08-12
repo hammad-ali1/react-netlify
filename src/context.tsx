@@ -21,7 +21,21 @@ export type SocketContextType =
 export const SocketContext = createContext<SocketContextType>([]);
 
 //END SOCKET CONTEXT
-export const SnackbarContext = createContext<{} | null>(null);
+
+//START SNACKBAR CONTEXT
+export type SnackbarContextType = {
+  setSnackBarMessage: React.Dispatch<React.SetStateAction<string>>;
+  setSnackBarButtons: React.Dispatch<React.SetStateAction<never[]>>;
+  setOpenSnackBar: React.Dispatch<React.SetStateAction<boolean>>;
+  openSnackBar: boolean;
+  snackBarMessage: string;
+  snackBarButtons: never[];
+};
+export const SnackbarContext = createContext<SnackbarContextType>(
+  {} as SnackbarContextType
+);
+
+//END SNACKBAR CONTEXT
 
 //UserProvider
 //@type
@@ -76,7 +90,6 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [snackBarButtons, setSnackBarButtons] = useState([]);
-
   return (
     <SnackbarContext.Provider
       value={{

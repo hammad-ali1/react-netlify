@@ -11,7 +11,10 @@ import { UserContext, SocketContext, SnackbarContext } from "../context";
 //Number of Rounds
 const rounds = [3, 5, 7, 10];
 
-function GuessThiefGame({ onlineUsers }) {
+type PropTypes = {
+  onlineUsers: User[];
+};
+function GuessThiefGame({ onlineUsers }: PropTypes) {
   //Context hooks
   const [user] = useContext(UserContext);
   const [socket] = useContext(SocketContext);
@@ -24,19 +27,22 @@ function GuessThiefGame({ onlineUsers }) {
   const [roomId, setRoomId] = useState(
     "GuessThief/" + (socket ? socket.id : "")
   );
-  const [roomUsers, setRoomUsers] = useState([]);
-  const [playersToInvite, setPlayersToInvite] = useState([]);
+  const [roomUsers, setRoomUsers] = useState<User[]>([]);
+  const [playersToInvite, setPlayersToInvite] = useState<User[]>([]);
   const [start, setStart] = useState(false); //set players for starting the game
   const [finish, setFinish] = useState(false); //finsih the game
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [isRoomFull, setIsRoomFull] = useState(false);
-  const [roundLimit, setRoundLimit] = useState(null);
+  const [roundLimit, setRoundLimit] = useState(0);
 
   //Effects
   useEffect(() => {
     console.log("XXX EFFECT NEW ROUND LIMIT " + roundLimit);
   }, [roundLimit]);
   useEffect(() => {
+    if (!socket) {
+      return;
+    }
     //once game starts, update the round limit for all users
     if (start && roundLimit) {
       socket.emit("update-roundLimit", {
@@ -142,6 +148,9 @@ function GuessThiefGame({ onlineUsers }) {
 
   //handlers
   const handleStart = () => {
+    if (!socket || !user) {
+      return;
+    }
     if (playersToInvite.length !== 3) {
       setOpenSnackBar(true);
     } else {
@@ -172,6 +181,9 @@ function GuessThiefGame({ onlineUsers }) {
     }
   };
   const handlePlayAgain = () => {
+    if (!socket) {
+      return;
+    }
     socket.emit("play-again-GuessThief", { roomId });
   };
   if (!user || !socket) {
@@ -215,7 +227,7 @@ function GuessThiefGame({ onlineUsers }) {
               getOptionLabel={(option) => option.toString()}
               onChange={(event, newValue) => {
                 console.log("XXX onchange event of autocomplete");
-                setRoundLimit(newValue);
+                setRoundLimit(newValue!);
               }}
               renderInput={(params) => (
                 <TextField
@@ -239,7 +251,6 @@ function GuessThiefGame({ onlineUsers }) {
       <GuessThief
         players={roomUsers}
         roomId={roomId}
-        user={user}
         start={start}
         handlePlayAgain={handlePlayAgain}
         finish={finish}

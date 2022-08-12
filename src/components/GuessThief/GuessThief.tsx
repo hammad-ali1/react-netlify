@@ -1,47 +1,63 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import RoleCard from "./RoleCard";
-import PointsTable from "./PointsTable";
-import SimpleSnackbar from "../../components/Snackbar";
+import PointsTable, { Points } from "./PointsTable";
+import SimpleSnackbar from "../Snackbar";
 //Context
 import { UserContext, SocketContext } from "../../context";
 // import { SocketContext } from "../../contexts/socket.context";
+//Types
+type Card = {
+  points: number;
+  title: string;
+  player: User;
+  img: string;
+};
 
-const defaultCards = [
+const defaultCards: Card[] = [
   {
     points: 1000,
     title: "King",
-    player: false,
+    player: {} as User,
     img: "./images/king.webp",
   },
   {
     points: 500,
     title: "Queen",
-    player: false,
+    player: {} as User,
     img: "./images/queen.webp",
   },
 
   {
     points: 300,
     title: "Soldier",
-    player: false,
+    player: {} as User,
     img: "./images/soldier.jpg",
   },
   {
     points: 0,
     title: "Thief",
-    player: false,
+    player: {} as User,
     img: "./images/thief.jpg",
   },
 ];
 
 // const roundLimt = 2;
-function shuffleArray(array) {
+function shuffleArray(array: Array<any>) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
 
+type PropTypes = {
+  players: User[];
+  roomId: string;
+  handlePlayAgain: () => void;
+  finish: boolean;
+  start: boolean;
+  isRoomFull: boolean;
+  roundLimit: number;
+};
 function GuessThief({
   players,
   roomId,
@@ -50,14 +66,14 @@ function GuessThief({
   start,
   isRoomFull,
   roundLimit,
-}) {
+}: PropTypes) {
   const [socket] = useContext(SocketContext);
   const [user] = useContext(UserContext);
   console.log(user);
   //useStates
   const [cards, setCards] = useState(defaultCards);
   const [currentRole, setCurrentRole] = useState(null);
-  const [points, setPoints] = useState({});
+  const [points, setPoints] = useState<Points>({} as Points);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   //useRefs
@@ -66,6 +82,7 @@ function GuessThief({
 
   //useCallbacks
   const shuffleCards = useCallback(() => {
+    if (!socket) return;
     if (players.length === 4) {
       const shuffledPlayers = [...players];
       shuffleArray(shuffledPlayers);

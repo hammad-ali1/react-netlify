@@ -1,8 +1,19 @@
 import { useEffect, useState } from "react";
 import { Wrapper } from "../../styles/PointsTable.styles";
 
-function PointsTable({ currentPoints, players }) {
-  const [allPoints, setAllPoints] = useState([]);
+//Types
+export type Points = {
+  round: number;
+  //any string attribute
+};
+type PropTypes = {
+  currentPoints: Points;
+  players: User[];
+};
+function PointsTable({ currentPoints, players }: PropTypes) {
+  const [allPoints, setAllPoints] = useState<
+    { player: User; points: string }[]
+  >([]);
 
   useEffect(() => {
     const gameResults = players.map((player) => {

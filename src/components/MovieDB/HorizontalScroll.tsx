@@ -1,26 +1,20 @@
-import { Wrapper } from "../../styles/MovieDB/HorizontalScroll.styles";
+import {
+  PropsWithChildren,
+  createRef,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 
-function HorizontalScroll() {
+import { Wrapper, Content } from "../../styles/MovieDB/HorizontalScroll.styles";
+
+type PropTypes = {
+  children?: React.ReactNode;
+};
+function HorizontalScroll({ children }: PropsWithChildren<PropTypes>) {
   return (
     <Wrapper>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <Content className="content">{children}</Content>
     </Wrapper>
   );
 }

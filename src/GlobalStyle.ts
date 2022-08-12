@@ -21,6 +21,7 @@ export const GlobalStyle = createGlobalStyle`
 
 
   body {
+    overflow: overlay;
     position: relative;
     height: 100vh;
     margin: 0;
@@ -43,5 +44,21 @@ export const GlobalStyle = createGlobalStyle`
     a{
       color: #fffdfdc7;
     }
+    ::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.2);
+    border-radius: 20px;
+    opacity: 0.5;
+   
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: grey;
+    opacity: 0.5;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    
+  }
   }
 `;

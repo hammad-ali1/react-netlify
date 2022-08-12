@@ -14,8 +14,7 @@ import {
 
 //Types
 type HomeProps = {
-  //CHANGE LATER
-  setOnlineUsers: any;
+  setOnlineUsers: React.Dispatch<React.SetStateAction<User[]>>;
 };
 function Home({ setOnlineUsers }: HomeProps) {
   //Context hooks
