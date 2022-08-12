@@ -4,7 +4,7 @@ import { Wrapper } from "../../styles/PointsTable.styles";
 //Types
 export type Points = {
   round: number;
-  //any string attribute
+  [x: string]: number;
 };
 type PropTypes = {
   currentPoints: Points;
@@ -12,7 +12,7 @@ type PropTypes = {
 };
 function PointsTable({ currentPoints, players }: PropTypes) {
   const [allPoints, setAllPoints] = useState<
-    { player: User; points: string }[]
+    { player: User; points: number }[]
   >([]);
 
   useEffect(() => {

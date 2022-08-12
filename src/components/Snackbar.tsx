@@ -7,23 +7,40 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { useNavigate } from "react-router-dom";
 //Contexts
-import { UserContext, SocketContext, SnackbarContext } from "../context";
-export default function SimpleSnackbar() {
+import { UserContext, SocketContext } from "../context";
+
+//Types
+type SnackButton = {};
+type PropTypes = {
+  open: boolean;
+  message: string;
+  buttons?: never[];
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export default function SimpleSnackbar({
+  message,
+  open,
+  buttons,
+  setOpen,
+}: PropTypes) {
   const [socket] = useContext(SocketContext);
   const [user] = useContext(UserContext);
-  const {
-    snackBarMessage: message,
-    openSnackBar: open,
-    snackBarButtons: buttons,
-    setOpenSnackBar: setOpen,
-  } = useContext(SnackbarContext);
+  // const {
+  //   snackBarMessage: message,
+  //   openSnackBar: open,
+  //   snackBarButtons: buttons,
+  //   setOpenSnackBar: setOpen,
+  // } = useContext(SnackbarContext);
   const navigate = useNavigate();
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  // const handleClose = (event, reason) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
 
+  //   setOpen(false);
+  // };
+  const handleClose = () => {
     setOpen(false);
   };
 

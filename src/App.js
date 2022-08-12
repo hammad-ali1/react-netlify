@@ -21,6 +21,12 @@ function App() {
   const [socket] = useContext(SocketContext);
   const { setSnackBarButtons, setSnackBarMessage, setOpenSnackBar } =
     useContext(SnackbarContext);
+  const {
+    snackBarMessage: message,
+    openSnackBar: open,
+    snackBarButtons: buttons,
+    setOpenSnackBar: setOpen,
+  } = useContext(SnackbarContext);
   //states
   const [onlineUsers, setOnlineUsers] = useState([]);
   //effects
@@ -58,7 +64,12 @@ function App() {
         <Route path="/movie-db/*" element={<MovieDB />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
-      <SimpleSnackbar />
+      <SimpleSnackbar
+        message={message}
+        open={open}
+        buttons={buttons}
+        setOpen={setOpen}
+      />
       <GlobalStyle />
     </Router>
   );
