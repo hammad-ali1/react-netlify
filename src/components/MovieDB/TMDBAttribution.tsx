@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Wrapper,
   TMDBLogoImg,
@@ -13,7 +12,7 @@ function TMDBAtribution() {
           TMDB
         </p>
       </div>
-      <a href="www.themoviedb.com">
+      <a target="_blank" href="https://www.themoviedb.org/" rel="noreferrer">
         <TMDBLogoImg src={TMDB_LOGO} />
       </a>
     </Wrapper>

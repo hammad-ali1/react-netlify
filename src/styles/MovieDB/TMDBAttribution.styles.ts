@@ -2,14 +2,13 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   /* position: relative; */
-  margin-top: auto;
+  /* margin-top: auto; */
   bottom: 0px;
   width: 100%;
   background: var(--darkGrey);
   display: flex;
   gap: 5px;
   padding: 5px 30px;
-  margin-top: 10px;
   justify-content: space-between;
   .text {
     width: 100%;

@@ -1,8 +1,5 @@
 import styled from "styled-components";
-export const Wrapper = styled.div`
-  height: 100vh;
-  position: relative;
-`;
+export const Wrapper = styled.div``;
 
 type props = {
   img: "*.png" | "*.svg";
@@ -11,7 +8,7 @@ export const Content = styled.div<props>`
   position: relative;
   overflow: auto;
   width: 100%;
-  height: 90vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
