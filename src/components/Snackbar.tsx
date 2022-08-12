@@ -31,21 +31,9 @@ export default function SimpleSnackbar({
 }: PropTypes) {
   const [socket] = useContext(SocketContext);
   const [user] = useContext(UserContext);
-  // const {
-  //   snackBarMessage: message,
-  //   openSnackBar: open,
-  //   snackBarButtons: buttons,
-  //   setOpenSnackBar: setOpen,
-  // } = useContext(SnackbarContext);
+
   const navigate = useNavigate();
 
-  // const handleClose = (event, reason) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-
-  //   setOpen(false);
-  // };
   const handleClose = () => {
     setOpen(false);
   };

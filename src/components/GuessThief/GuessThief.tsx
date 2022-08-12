@@ -157,26 +157,24 @@ function GuessThief({
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
     if (!socket || !user) return;
+    const divElement = event.target as HTMLElement;
     if (currentRole.title !== "Queen" || !clickAllowed.current) return; //if not queen or click not allowed
     clickAllowed.current = false; //disallow further clicks
     const newPoints: Points = { ...points, round: points.round + 1 };
     cards.forEach((card) => {
-      //@ts-ignore
-      if (card.title === "Queen" && !event.target.innerText.includes("Thief"))
+      if (card.title === "Queen" && !divElement.innerText.includes("Thief"))
         //if wrong card was choosen update queen points to 0
         newPoints[card.player._id] = 0 + points[card.player._id];
       else if (
         card.title === "Thief" &&
-        //@ts-ignore
-        !event.target.innerText.includes("Thief")
+        !divElement.innerText.includes("Thief")
       )
         // if wrong card was choosen give thief queen's point
         newPoints[card.player._id] =
           defaultCards[1].points + points[card.player._id];
       else newPoints[card.player._id] = card.points + points[card.player._id];
     });
-    //@ts-ignore
-    if (event.target.innerText.includes("Thief")) {
+    if (divElement.innerText.includes("Thief")) {
       socket.emit("open-snackbar", {
         message: `${user.username} choose correct Thief 😎`,
         roomId,

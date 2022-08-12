@@ -240,7 +240,9 @@ function GuessThiefGame({ onlineUsers }: PropTypes) {
             />
           </div>
 
-          {roundLimit && <button onClick={handleStart}> Start Game </button>}
+          {roundLimit !== 0 && (
+            <button onClick={handleStart}> Start Game </button>
+          )}
           <SimpleSnackbar
             open={openSnackBar}
             setOpen={setOpenSnackBar}
