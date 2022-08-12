@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 import { Wrapper, Card } from "../../styles/RoleCard.styles";
 
+//Types
+type PropTypes = {
+  title: string;
+  points: number;
+  img: string;
+  player: User;
+  showAll: boolean;
+  handleClick: React.MouseEventHandler<HTMLDivElement>;
+  className: string;
+};
 function RoleCard({
   title,
   points,
   img,
   player,
-  currentRole,
   showAll,
   handleClick,
   className,
-}) {
+}: PropTypes) {
   useEffect(() => {
     if (title === "King" || title === "Queen") {
       setShow(true);

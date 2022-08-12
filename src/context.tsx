@@ -4,6 +4,8 @@ import socketio, { Socket } from "socket.io-client";
 import { getUser } from "./api/auth.api";
 //config
 import { SERVER_URL } from "./config";
+//Types
+import { SnackButton } from "./components/Snackbar";
 
 //START USER CONTEXT
 export type UserContextType =
@@ -25,11 +27,11 @@ export const SocketContext = createContext<SocketContextType>([]);
 //START SNACKBAR CONTEXT
 export type SnackbarContextType = {
   setSnackBarMessage: React.Dispatch<React.SetStateAction<string>>;
-  setSnackBarButtons: React.Dispatch<React.SetStateAction<never[]>>;
+  setSnackBarButtons: React.Dispatch<React.SetStateAction<SnackButton[]>>;
   setOpenSnackBar: React.Dispatch<React.SetStateAction<boolean>>;
   openSnackBar: boolean;
   snackBarMessage: string;
-  snackBarButtons: never[];
+  snackBarButtons: SnackButton[];
 };
 export const SnackbarContext = createContext<SnackbarContextType>(
   {} as SnackbarContextType
@@ -89,7 +91,7 @@ type SnackbarProviderProps = { children: React.ReactNode };
 export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
-  const [snackBarButtons, setSnackBarButtons] = useState([]);
+  const [snackBarButtons, setSnackBarButtons] = useState<SnackButton[]>([]);
   return (
     <SnackbarContext.Provider
       value={{

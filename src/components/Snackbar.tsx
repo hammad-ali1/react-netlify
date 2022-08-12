@@ -10,11 +10,17 @@ import { useNavigate } from "react-router-dom";
 import { UserContext, SocketContext } from "../context";
 
 //Types
-type SnackButton = {};
+export type SnackButton = {
+  type: string;
+  text: string;
+  roomId: "room-invite-accept" | "room-invite-reject";
+  variant: "outlined" | "contained" | "text" | undefined;
+  handler?: React.MouseEventHandler<HTMLButtonElement>;
+};
 type PropTypes = {
   open: boolean;
   message: string;
-  buttons?: never[];
+  buttons?: SnackButton[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default function SimpleSnackbar({
@@ -44,7 +50,8 @@ export default function SimpleSnackbar({
     setOpen(false);
   };
 
-  const evaluate = (buttonDetail) => {
+  const evaluate = (buttonDetail: SnackButton) => {
+    if (!socket || !user) return;
     const { type } = buttonDetail;
     if (type === "room-invite-accept") {
       navigate("/guess-thief", { replace: true });
@@ -69,12 +76,12 @@ export default function SimpleSnackbar({
               key={key}
               color="primary"
               variant={buttonDetail.variant ? buttonDetail.variant : "outlined"}
-              onClick={() => {
+              onClick={(event) => {
                 if (buttonDetail.type) {
                   evaluate(buttonDetail);
                 }
                 if (buttonDetail.handler) {
-                  buttonDetail.handler();
+                  buttonDetail.handler(event);
                 }
                 console.log(buttonDetail);
 

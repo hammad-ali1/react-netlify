@@ -58,6 +58,7 @@ type PropTypes = {
   isRoomFull: boolean;
   roundLimit: number;
 };
+
 function GuessThief({
   players,
   roomId,
@@ -72,13 +73,13 @@ function GuessThief({
   console.log(user);
   //useStates
   const [cards, setCards] = useState(defaultCards);
-  const [currentRole, setCurrentRole] = useState(null);
+  const [currentRole, setCurrentRole] = useState<Card>({} as Card);
   const [points, setPoints] = useState<Points>({} as Points);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   //useRefs
   const clickAllowed = useRef(true);
-  const timer = useRef(null);
+  const timer = useRef<any>(null);
 
   //useCallbacks
   const shuffleCards = useCallback(() => {
@@ -102,7 +103,7 @@ function GuessThief({
   }, [players, socket, roomId]);
 
   const resetPoints = useCallback(() => {
-    const newPoints = { round: 1 };
+    const newPoints: Points = { round: 1 };
     players.forEach((player) => (newPoints[player._id] = 0));
     setPoints(newPoints);
   }, [players]);
@@ -114,8 +115,9 @@ function GuessThief({
     }
   }, [isRoomFull, shuffleCards, resetPoints, socket]); //setting up points
   useEffect(() => {
+    if (!socket || !user) return;
     if (socket) {
-      socket.on("refresh-cards", ({ newCards }) => {
+      socket.on("refresh-cards", ({ newCards }: { newCards: Card[] }) => {
         setShowAll(false);
         setCards(newCards);
         newCards.forEach((card) => {
@@ -153,16 +155,19 @@ function GuessThief({
     console.log(points);
   }, [points]);
 
-  const handleClick = (event) => {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    if (!socket || !user) return;
     if (currentRole.title !== "Queen" || !clickAllowed.current) return; //if not queen or click not allowed
     clickAllowed.current = false; //disallow further clicks
-    const newPoints = { ...points, round: points.round + 1 };
+    const newPoints: Points = { ...points, round: points.round + 1 };
     cards.forEach((card) => {
+      //@ts-ignore
       if (card.title === "Queen" && !event.target.innerText.includes("Thief"))
         //if wrong card was choosen update queen points to 0
         newPoints[card.player._id] = 0 + points[card.player._id];
       else if (
         card.title === "Thief" &&
+        //@ts-ignore
         !event.target.innerText.includes("Thief")
       )
         // if wrong card was choosen give thief queen's point
@@ -170,7 +175,7 @@ function GuessThief({
           defaultCards[1].points + points[card.player._id];
       else newPoints[card.player._id] = card.points + points[card.player._id];
     });
-
+    //@ts-ignore
     if (event.target.innerText.includes("Thief")) {
       socket.emit("open-snackbar", {
         message: `${user.username} choose correct Thief 😎`,
@@ -199,6 +204,7 @@ function GuessThief({
   const [showAll, setShowAll] = useState(false);
 
   const renderCards = () => {
+    if (!user) return;
     let mainCard = cards.findIndex((card) => card.player._id === user._id);
     mainCard = mainCard === -1 ? 0 : mainCard;
     const newCards = [...cards];
@@ -212,7 +218,6 @@ function GuessThief({
         points={card.points}
         img={card.img}
         player={card.player}
-        currentRole={currentRole}
         handleClick={handleClick}
         showAll={showAll}
       />
