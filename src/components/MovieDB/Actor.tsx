@@ -1,5 +1,3 @@
-import React from "react";
-
 //Styles
 import { Wrapper, Image } from "../../styles/MovieDB/Actor.styles";
 
