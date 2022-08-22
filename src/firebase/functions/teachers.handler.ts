@@ -5,7 +5,6 @@ import {
   orderBy,
   startAt,
   endAt,
-  where,
 } from "firebase/firestore";
 import { db } from "../firebase";
 

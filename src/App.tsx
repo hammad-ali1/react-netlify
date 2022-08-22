@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { getTeacherByName } from "./firebase/handlers/teachers.handler";
+import { getTeacherByName } from "./firebase/functions/teachers.handler";
+import { addUser } from "./firebase/auth/signup.auth";
+
+// addUser("hammadkhalid22002@gmail.com", "12345678");
 function App() {
   const [teachers, setTeachers] = useState<any[]>([]);
   useEffect(() => {

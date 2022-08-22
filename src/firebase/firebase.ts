@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import {
+  getAuth,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_API_KEY,
   authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
@@ -11,6 +17,13 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 export const db = getFirestore();
+
+export const auth = getAuth();
+
+auth.onAuthStateChanged(function (user) {
+  console.log(user);
+  // user && sendEmailVerification(user);
+});
