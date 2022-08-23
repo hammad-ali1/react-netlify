@@ -1,15 +1,35 @@
-import { useSelector } from "react-redux";
-import type { RootState } from "../app/store";
+import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
 //Components
 import SearchBar from "../components/SearchBar/SearchBar";
+import SearchResults from "./SearchResults";
+import {
+  selectSearchTerm,
+  setSearchTerm,
+} from "../components/SearchBar/searchSlice";
+
+import useSearchFetch from "../hooks/useSearchFetch";
 
 function Home() {
-  const searchTerm = useSelector((state: RootState) => state.search.searchTerm);
+  const searchTerm = useAppSelector((store) => selectSearchTerm(store));
+  const dispatch = useAppDispatch();
 
+  const { employees } = useSearchFetch();
+  useEffect(() => {
+    console.log(employees);
+  }, [employees]);
   return (
     <div>
-      <SearchBar />
+      <SearchBar
+        onChangeHandler={(event) => {
+          dispatch(setSearchTerm(event.target.value));
+        }}
+      />
       {searchTerm}
+      <Routes>
+        <Route path="/search" element={<SearchResults />} />
+      </Routes>
     </div>
   );
 }

@@ -1,14 +1,10 @@
-import { useDispatch } from "react-redux";
-import { setSearchTerm } from "./searchSlice";
-
-function SearchBar() {
-  const dispatch = useDispatch();
+export type SearchBarProps = {
+  onChangeHandler: React.ChangeEventHandler<HTMLInputElement>;
+};
+function SearchBar({ onChangeHandler }: SearchBarProps) {
   return (
     <div>
-      <input
-        type="text"
-        onChange={(event) => dispatch(setSearchTerm(event.target.value))}
-      />
+      <input type="text" onChange={onChangeHandler} />
     </div>
   );
 }
