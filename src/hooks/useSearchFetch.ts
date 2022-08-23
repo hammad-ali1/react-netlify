@@ -10,6 +10,7 @@ import {
 export default function useSearchFetch() {
   const searchTerm = useAppSelector((store) => selectSearchTerm(store));
   const [employees, setEmployees] = useState(new Employees());
+  const [loading, setLoading] = useState(false);
   //navigate to search component when search term changes
   const navigator = useNavigate();
   useEffect(() => {
@@ -19,7 +20,11 @@ export default function useSearchFetch() {
   //updat employees when search term is spefcified
   useEffect(() => {
     if (!searchTerm) return;
-    fetchEmployees(searchTerm).then(setEmployees);
+    setLoading(true);
+    fetchEmployees(searchTerm).then((employees) => {
+      setEmployees(employees);
+      setLoading(false);
+    });
   }, [searchTerm]);
   async function fetchEmployees(name: string) {
     console.log(name);
@@ -27,5 +32,5 @@ export default function useSearchFetch() {
     return employees;
   }
 
-  return { employees };
+  return { employees, loading };
 }
