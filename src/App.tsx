@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <div className="App">
-      <h1>Welcome to Hammad's React projects</h1>
+      <Home />
     </div>
   );
 }
