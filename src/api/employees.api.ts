@@ -23,7 +23,7 @@ class Department {
   employees: Employee[] = [];
 }
 
-class Employee {
+export class Employee {
   empId: number = -1;
   imgURL: string = "";
   namePrefix: string = "";

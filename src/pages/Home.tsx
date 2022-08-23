@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 //Components
 import SearchBar from "../components/SearchBar/SearchBar";
-import SearchResults from "./SearchResults";
+import SearchResults from "../components/SearchResults";
 import {
   selectSearchTerm,
   setSearchTerm,
@@ -28,7 +28,14 @@ function Home() {
       />
       {searchTerm}
       <Routes>
-        <Route path="/search" element={<SearchResults />} />
+        <Route
+          path="/search"
+          element={
+            <SearchResults
+              employees={{ results: employees.results.slice(0, 20) }}
+            />
+          }
+        />
       </Routes>
     </div>
   );

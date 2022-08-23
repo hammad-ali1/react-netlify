@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API, { Employees } from "../api/employees.api";
 import { useAppSelector } from "../app/hooks";
-import {
-  selectSearchTerm,
-  setSearchTerm,
-} from "../components/SearchBar/searchSlice";
+import { selectSearchTerm } from "../components/SearchBar/searchSlice";
 
 export default function useSearchFetch() {
   const searchTerm = useAppSelector((store) => selectSearchTerm(store));
