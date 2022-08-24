@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { GlobalStyle } from "./GlobalStyles";
-import "./GlobalCSS.css";
+
 import Home from "./pages/Home";
 import Employee from "./pages/Employee";
 import Navbar from "./components/Navbar/Navbar";

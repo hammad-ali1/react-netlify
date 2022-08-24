@@ -25,6 +25,14 @@ export const GlobalStyle = createGlobalStyle`
       color : var(--textColor) !important;
 
     }
+    .unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
   body {
     margin: 0;
     padding: 0;
