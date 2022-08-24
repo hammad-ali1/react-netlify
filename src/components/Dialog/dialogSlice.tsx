@@ -41,7 +41,8 @@ export const dialogSlice = createSlice({
   },
 });
 
-export const { setIsOpen } = dialogSlice.actions;
+export const { setIsOpen, setDialogContent, setDialogTitle, setDialogActions } =
+  dialogSlice.actions;
 
 export const selectIsOpen = (state: RootState) => state.dialog.isOpen;
 export const selectDialogContent = (state: RootState) =>
