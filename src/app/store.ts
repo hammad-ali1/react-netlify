@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import searchReducer from "../components/SearchBar/searchSlice";
-
+import dialogReducer from "../components/Dialog/dialogSlice";
 const store = configureStore({
   reducer: {
     search: searchReducer,
+    dialog: dialogReducer,
   },
 });
 

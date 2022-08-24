@@ -21,7 +21,10 @@ export const GlobalStyle = createGlobalStyle`
   }
 
 
+  .textColor{
+      color : var(--textColor) !important;
 
+    }
   body {
     margin: 0;
     padding: 0;
@@ -42,11 +45,9 @@ export const GlobalStyle = createGlobalStyle`
     }
     a{
       text-decoration: none;
-      color : var(--textColor)
+      color : var(--textColor);
+      margin: none;
     }
-   
-    
-
- 
+  
   }
 `;
