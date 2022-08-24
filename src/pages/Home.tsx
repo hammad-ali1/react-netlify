@@ -1,24 +1,15 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { useAppDispatch } from "../app/hooks";
 //Components
 import SearchBar from "../components/SearchBar/SearchBar";
-import SearchResults from "../components/SearchResults";
-import {
-  selectSearchTerm,
-  setSearchTerm,
-} from "../components/SearchBar/searchSlice";
+import SearchResults from "../components/SearchResults/SearchResults";
+import { setSearchTerm } from "../components/SearchBar/searchSlice";
 
 import useSearchFetch from "../hooks/useSearchFetch";
 
 function Home() {
-  const searchTerm = useAppSelector((store) => selectSearchTerm(store));
   const dispatch = useAppDispatch();
-
   const { employees } = useSearchFetch();
-  useEffect(() => {
-    console.log(employees);
-  }, [employees]);
   return (
     <div>
       <SearchBar
@@ -26,7 +17,6 @@ function Home() {
           dispatch(setSearchTerm(event.target.value));
         }}
       />
-      {searchTerm}
       <Routes>
         <Route
           path="/search"

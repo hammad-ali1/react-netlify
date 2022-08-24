@@ -24,6 +24,7 @@ class Department {
 }
 
 export class Employee {
+  _id: string = "";
   empId: number = -1;
   imgURL: string = "";
   namePrefix: string = "";
