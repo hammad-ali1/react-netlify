@@ -53,6 +53,11 @@ const API = {
       await axios.get(`employees?name=${name}`)
     ).data;
   },
+  fetchEmployee: async (id: string): Promise<Employee> => {
+    return await (
+      await axios.get(`employees/${id}`)
+    ).data;
+  },
   fetchEmployeesByDepartment: async (
     department?: string
   ): Promise<Departments> => {
