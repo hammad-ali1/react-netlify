@@ -7,7 +7,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 //Redux
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectIsOpen, setIsOpen } from "./dialogSlice";
+import {
+  selectIsOpen,
+  setIsOpen,
+  selectDialogContent,
+  selectDialogTitle,
+  selectDialogActions,
+} from "./dialogSlice";
 
 import { TransitionProps } from "@mui/material/transitions";
 
@@ -22,6 +28,9 @@ const Transition = React.forwardRef(function Transition(
 
 export default function Form() {
   const isOpen = useAppSelector((state) => selectIsOpen(state));
+  const dialogContent = useAppSelector((state) => selectDialogContent(state));
+  const dialogTitle = useAppSelector((state) => selectDialogTitle(state));
+  const dialogActions = useAppSelector((state) => selectDialogActions(state));
   const dispatch = useAppDispatch();
   return (
     <Dialog
@@ -33,13 +42,9 @@ export default function Form() {
       }}
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle>Title</DialogTitle>
-      <DialogContent>Content</DialogContent>
-      <DialogActions>
-        <Button variant="outlined" color="secondary">
-          Buttons
-        </Button>
-      </DialogActions>
+      <DialogTitle>{dialogTitle}</DialogTitle>
+      <DialogContent>{dialogContent}</DialogContent>
+      <DialogActions>{dialogActions}</DialogActions>
     </Dialog>
   );
 }
