@@ -52,7 +52,7 @@ export default function LoginForm() {
     event.preventDefault();
   };
   const handleFormSubmit = () => {
-    dispatch(setIsOpen(true));
+    dispatch(setIsOpen(false));
   };
   const isEmailError =
     values.email !== "" &&
