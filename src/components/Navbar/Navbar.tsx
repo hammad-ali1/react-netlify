@@ -8,13 +8,18 @@ import {
   Toolbar,
   useTheme,
   useMediaQuery,
+  IconButton,
+  Stack,
 } from "@mui/material";
+import { AccountCircleRounded } from "@mui/icons-material";
 import DrawerComponent from "./Drawer";
 import LogoImage from "../../assets/logo.png";
 
 //Redux
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setSearchTerm } from "../SearchBar/searchSlice";
+import { selectUser } from "../User/userSlice";
+
 //Types
 export type NavLink = {
   text: string;
@@ -25,10 +30,15 @@ type PropTypes = { homePath?: string; title: string; navLinks: NavLink[] };
 function Navbar({ homePath, title, navLinks }: PropTypes) {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
+  const user = useAppSelector((state) => selectUser(state));
 
   const handleLogoClick = () => {
     dispatch(setSearchTerm(""));
     navigator("/", { replace: true });
+  };
+  const handleAccountButtonClick = () => {
+    dispatch(setSearchTerm(""));
+    navigator("/account", { replace: true });
   };
   //States
   const [tabValue, setTabValue] = useState(0);
@@ -60,6 +70,14 @@ function Navbar({ homePath, title, navLinks }: PropTypes) {
                 style={{ width: "50px", margin: "0" }}
               />
               <DrawerComponent links={navLinks} />
+              {user._id && (
+                <IconButton
+                  className="textColor"
+                  onClick={handleAccountButtonClick}
+                >
+                  <AccountCircleRounded />
+                </IconButton>
+              )}
             </>
           ) : (
             <Grid sx={{ placeItems: "center" }} container spacing={1}>
@@ -72,24 +90,33 @@ function Navbar({ homePath, title, navLinks }: PropTypes) {
                 />
               </Grid>
               <Grid xs={8} item={true}>
-                <Tabs
-                  sx={{ placeContent: "flex-end" }}
-                  value={tabValue}
-                  indicatorColor="primary"
-                  onChange={(e, val) => setTabValue(val)}
-                >
-                  {navLinks.map((link, index) => {
-                    return (
-                      <Tab
-                        key={index}
-                        label={link.text}
-                        className="textColor"
-                        sx={index === 0 ? { marginLeft: "auto" } : {}}
-                        onClick={link.onClickHandler}
-                      />
-                    );
-                  })}
-                </Tabs>
+                <Stack direction="row" justifyContent="flex-end">
+                  <Tabs
+                    sx={{ placeContent: "flex-end" }}
+                    value={tabValue}
+                    indicatorColor="primary"
+                    onChange={(e, val) => setTabValue(val)}
+                  >
+                    {navLinks.map((link, index) => {
+                      return (
+                        <Tab
+                          key={index}
+                          label={link.text}
+                          className="textColor"
+                          onClick={link.onClickHandler}
+                        />
+                      );
+                    })}
+                  </Tabs>
+                  {user._id && (
+                    <IconButton
+                      className="textColor"
+                      onClick={handleAccountButtonClick}
+                    >
+                      <AccountCircleRounded />
+                    </IconButton>
+                  )}
+                </Stack>
               </Grid>
             </Grid>
           )}
