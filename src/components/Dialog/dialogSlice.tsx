@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 import type { ReactElement } from "react";
+import SignUpForm from "../SignUpForm/SignUpForm";
+import LoginForm from "../LoginForm/LoginForm";
 export interface SearchState {
   isOpen: boolean;
   dialogContent: ReactElement<any, any>;
@@ -38,11 +40,27 @@ export const dialogSlice = createSlice({
     ) => {
       state.dialogActions = action.payload;
     },
+    openSignUpForm: (state) => {
+      state.isOpen = false;
+      state.dialogContent = <SignUpForm />;
+      state.isOpen = true;
+    },
+    openLoginForm: (state) => {
+      state.isOpen = false;
+      state.dialogContent = <LoginForm />;
+      state.isOpen = true;
+    },
   },
 });
 
-export const { setIsOpen, setDialogContent, setDialogTitle, setDialogActions } =
-  dialogSlice.actions;
+export const {
+  setIsOpen,
+  setDialogContent,
+  setDialogTitle,
+  setDialogActions,
+  openSignUpForm,
+  openLoginForm,
+} = dialogSlice.actions;
 
 export const selectIsOpen = (state: RootState) => state.dialog.isOpen;
 export const selectDialogContent = (state: RootState) =>

@@ -5,21 +5,18 @@ import Home from "./pages/Home";
 import Employee from "./pages/Employee";
 import Navbar from "./components/Navbar/Navbar";
 import Dialog from "./components/Dialog/Dialog";
-import SignUpForm from "./components/SignUpForm/SignUpForm";
-import LoginForm from "./components/LoginForm/LoginForm";
+
 //Redux
 import { useAppDispatch } from "./app/hooks";
-import { setIsOpen, setDialogContent } from "./components/Dialog/dialogSlice";
+import { openLoginForm, openSignUpForm } from "./components/Dialog/dialogSlice";
 
 function App() {
   const dispatch = useAppDispatch();
   const renderSignUpDialog = () => {
-    dispatch(setDialogContent(<SignUpForm />));
-    dispatch(setIsOpen(true));
+    dispatch(openSignUpForm());
   };
   const renderLoginDialog = () => {
-    dispatch(setDialogContent(<LoginForm />));
-    dispatch(setIsOpen(true));
+    dispatch(openLoginForm());
   };
   const navLinks = [
     { text: "Login", onClickHandler: renderLoginDialog },
