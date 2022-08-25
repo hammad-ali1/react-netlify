@@ -1,5 +1,4 @@
 import { useState } from "react";
-//@ts-ignore
 import LoginImage from "../../assets/login.jpg";
 import {
   Box,

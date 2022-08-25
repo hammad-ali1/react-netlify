@@ -1,5 +1,4 @@
 import { useState } from "react";
-//@ts-ignore
 import SignUpImage from "../../assets/signup.jpg";
 import {
   Box,
@@ -20,6 +19,10 @@ import {
 } from "@mui/icons-material";
 
 import Button from "../Button/Button";
+import AccountVerification from "../AccountVerification/AccountVerification";
+//Redux
+import { useAppDispatch } from "../../app/hooks";
+import { setIsOpen, setDialogContent } from "../Dialog/dialogSlice";
 
 interface State {
   name: string;
@@ -29,6 +32,8 @@ interface State {
   showPassword: boolean;
 }
 export default function SignUpForm() {
+  const dispatch = useAppDispatch();
+
   const [values, setValues] = useState<State>({
     name: "",
     email: "",
@@ -51,6 +56,10 @@ export default function SignUpForm() {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
+  };
+  const handleFormSubmit = () => {
+    dispatch(setDialogContent(<AccountVerification />));
+    dispatch(setIsOpen(true));
   };
 
   const isPasswordError =
@@ -183,7 +192,7 @@ export default function SignUpForm() {
               {isPasswordError && "Password does not match"}
             </FormHelperText>
           </FormControl>
-          <Button text="Sign Up" callback={() => 1} />
+          <Button text="Sign Up" callback={handleFormSubmit} />
         </Stack>
       </Box>
     </Stack>
