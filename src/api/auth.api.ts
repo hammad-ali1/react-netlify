@@ -43,6 +43,11 @@ const API = {
       await axios.get(`users?token=${token}`)
     ).data;
   },
+  sendVerificationEmail: async (_id: string): Promise<string> => {
+    return await (
+      await axios.post("users/verify", { _id })
+    ).data.message;
+  },
 };
 
 export default API;

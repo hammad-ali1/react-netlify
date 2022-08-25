@@ -1,7 +1,14 @@
 import { Stack, Typography, Box } from "@mui/material";
 import Button from "../Button/Button";
 import VerificationImage from "../../assets/verification.jpg";
+import API from "../../api/auth.api";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setIsOpen } from "../Dialog/dialogSlice";
+import { selectUser } from "../User/userSlice";
 function AccountVerification() {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => selectUser(state));
+  if (!user._id) return <div>User not logged in or signed up</div>;
   return (
     <Stack direction="row">
       <Box sx={{ display: "flex" }}>
@@ -18,7 +25,13 @@ function AccountVerification() {
         <Typography variant="h6" textAlign="center">
           Make Sure To Check Your Spam Folder
         </Typography>
-        <Button text="Send Verification Email" callback={() => {}} />
+        <Button
+          text="Send Verification Email"
+          callback={() => {
+            dispatch(setIsOpen(false));
+            API.sendVerificationEmail(user._id);
+          }}
+        />
       </Stack>
     </Stack>
   );
