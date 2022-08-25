@@ -13,7 +13,10 @@ function AccountVerification() {
       </Box>
       <Stack minWidth="300px" justifyContent="center" alignItems="center">
         <Typography variant="h5" textAlign="center">
-          Account Created Successfully 😀
+          Account Created Successfully 😀.
+        </Typography>
+        <Typography variant="h6" textAlign="center">
+          Make Sure To Check Your Spam Folder
         </Typography>
         <Button text="Send Verification Email" callback={() => {}} />
       </Stack>

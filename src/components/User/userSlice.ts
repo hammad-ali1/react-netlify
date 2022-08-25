@@ -24,6 +24,7 @@ export const userSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
       state._id = action.payload._id;
+      state.isEmailVerified = action.payload.isEmailVerified;
     },
   },
 });
