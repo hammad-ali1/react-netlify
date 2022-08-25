@@ -12,8 +12,8 @@ export interface SearchState {
 const initialState: SearchState = {
   isOpen: false,
   dialogContent: <>Dialog Content</>,
-  dialogTitle: <>Title</>,
-  dialogActions: <>Dialog Actions</>,
+  dialogTitle: <></>,
+  dialogActions: <></>,
 };
 
 export const dialogSlice = createSlice({

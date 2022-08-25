@@ -6,6 +6,7 @@ import Employee from "./pages/Employee";
 import Navbar from "./components/Navbar/Navbar";
 import Dialog from "./components/Dialog/Dialog";
 import SignUpForm from "./components/SignUpForm/SignUpForm";
+import LoginForm from "./components/LoginForm/LoginForm";
 //Redux
 import { useAppDispatch } from "./app/hooks";
 import { setIsOpen, setDialogContent } from "./components/Dialog/dialogSlice";
@@ -17,7 +18,7 @@ function App() {
     dispatch(setIsOpen(true));
   };
   const renderLoginDialog = () => {
-    dispatch(setDialogContent(<>LOGIN</>));
+    dispatch(setDialogContent(<LoginForm />));
     dispatch(setIsOpen(true));
   };
   const navLinks = [

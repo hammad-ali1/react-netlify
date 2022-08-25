@@ -33,6 +33,23 @@ export const GlobalStyle = createGlobalStyle`
     -ms-user-select: none;
     user-select: none;
   }
+  .blueHeading{
+    color:#4075e0;
+    position:relative;
+    margin-bottom:15px !important;
+  }
+  .blueHeading::before{
+    position:absolute;
+    bottom:0;
+    height:4px;
+    width:50%;
+    display:block;
+    margin:0;
+    border-radius: 10px;
+    content:"";
+    background: rgb(64,117,224);
+background: linear-gradient(90deg, rgba(64,117,224,0.9196720924698004) 0%, rgba(64,117,224,0.46589057986475846) 49%, rgba(64,117,224,0) 100%);
+  }
   body {
     margin: 0;
     padding: 0;

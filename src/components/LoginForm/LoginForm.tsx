@@ -1,6 +1,6 @@
 import { useState } from "react";
 //@ts-ignore
-import SignUpImage from "../../assets/signup.jpg";
+import LoginImage from "../../assets/login.jpg";
 import {
   Box,
   Typography,
@@ -12,7 +12,6 @@ import {
   FormHelperText,
 } from "@mui/material";
 import {
-  AccountCircle,
   MailRounded,
   LockRounded,
   Visibility,
@@ -22,18 +21,14 @@ import {
 import Button from "../Button/Button";
 
 interface State {
-  name: string;
   email: string;
   password: string;
-  confirmPassword: string;
   showPassword: boolean;
 }
-export default function SignUpForm() {
+export default function LoginForm() {
   const [values, setValues] = useState<State>({
-    name: "",
     email: "",
     password: "",
-    confirmPassword: "",
     showPassword: false,
   });
   const handleChange =
@@ -53,8 +48,6 @@ export default function SignUpForm() {
     event.preventDefault();
   };
 
-  const isPasswordError =
-    values.confirmPassword !== "" && values.password !== values.confirmPassword;
   const isEmailError =
     values.email !== "" &&
     !new RegExp("^[a-z0-9]{4}-[a-z]{3}-[0-9]{3}$", "i").test(values.email) &&
@@ -63,7 +56,7 @@ export default function SignUpForm() {
     <Stack direction="row">
       <Box sx={{ display: "flex" }}>
         <img
-          src={SignUpImage}
+          src={LoginImage}
           alt="login"
           width="100%"
           style={{ objectFit: "contain" }}
@@ -71,28 +64,9 @@ export default function SignUpForm() {
       </Box>
       <Box sx={{ "& > :not(style)": { m: 1 } }} minWidth="300px">
         <Typography className="blueHeading" variant="h5">
-          Create An Account
+          Login To Account
         </Typography>
         <Stack spacing={3}>
-          <FormControl>
-            <TextField
-              id="name"
-              label="Name"
-              placeholder="name"
-              onChange={handleChange("name")}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              }}
-              variant="standard"
-            />
-            <FormHelperText sx={{ textAlign: "center" }}>
-              You don't have to give your real name
-            </FormHelperText>
-          </FormControl>
           <FormControl>
             <TextField
               id="email"
@@ -122,7 +96,6 @@ export default function SignUpForm() {
 
           <TextField
             id="password"
-            error={isPasswordError}
             label="Password"
             placeholder="password"
             value={values.password}
@@ -149,41 +122,8 @@ export default function SignUpForm() {
             }}
             variant="standard"
           />
-          <FormControl>
-            <TextField
-              id="confirmPassword"
-              placeholder="password"
-              error={isPasswordError}
-              label="Confirm Password"
-              type={values.showPassword ? "text" : "password"}
-              value={values.confirmPassword}
-              onChange={handleChange("confirmPassword")}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockRounded />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              variant="standard"
-            />
-            <FormHelperText error>
-              {isPasswordError && "Password does not match"}
-            </FormHelperText>
-          </FormControl>
-          <Button text="Sign Up" callback={() => 1} />
+
+          <Button text="Log In" callback={() => 1} />
         </Stack>
       </Box>
     </Stack>
