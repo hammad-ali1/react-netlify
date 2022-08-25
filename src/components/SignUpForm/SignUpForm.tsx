@@ -1,4 +1,3 @@
-import { useState } from "react";
 import SignUpImage from "../../assets/signup.jpg";
 import {
   Box,
@@ -29,25 +28,14 @@ import {
   openLoginForm,
 } from "../Dialog/dialogSlice";
 
-interface State {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  showPassword: boolean;
-}
+//Hooks
+import useSignUp, { Values } from "../../hooks/useSignUp";
 export default function SignUpForm() {
   const dispatch = useAppDispatch();
+  const { values, setValues, setShouldSubmit } = useSignUp();
 
-  const [values, setValues] = useState<State>({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    showPassword: false,
-  });
   const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    (prop: keyof Values) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({ ...values, [prop]: event.target.value });
     };
 
@@ -63,6 +51,7 @@ export default function SignUpForm() {
     event.preventDefault();
   };
   const handleFormSubmit = () => {
+    setShouldSubmit(true);
     dispatch(setDialogContent(<AccountVerification />));
     dispatch(setIsOpen(true));
   };
@@ -130,7 +119,7 @@ export default function SignUpForm() {
                 }}
                 variant="standard"
               />
-              <FormHelperText>
+              <FormHelperText error>
                 {isEmailError && "Enter reg no as fa20-bcs-000"}
               </FormHelperText>
             </FormControl>

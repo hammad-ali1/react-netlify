@@ -6,6 +6,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 //Redux
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+//Items that can be displayed inside dialog
+import SignUpForm from "../SignUpForm/SignUpForm";
+import LoginForm from "../LoginForm/LoginForm";
+import AccountVerification from "../AccountVerification/AccountVerification";
+
 import {
   selectIsOpen,
   setIsOpen,
