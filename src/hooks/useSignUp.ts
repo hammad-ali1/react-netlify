@@ -43,7 +43,7 @@ export default function useSignUp() {
         values.password
       );
       localStorage.setItem("token", result.token);
-      dispatch(setUser({ name: result.user.name, email: result.user.email }));
+      dispatch(setUser(result.user));
       dispatch(openAccountVerification());
     } else {
       setSubmitErrorMessage("Please fill all fields");

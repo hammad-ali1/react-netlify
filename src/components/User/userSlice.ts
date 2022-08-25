@@ -5,11 +5,13 @@ import type { RootState } from "../../app/store";
 export interface UserState {
   name: string;
   email: string;
+  _id: string;
 }
 
 const initialState: UserState = {
   name: "",
   email: "",
+  _id: "",
 };
 
 export const userSlice = createSlice({
@@ -19,6 +21,7 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<UserState>) => {
       state.name = action.payload.name;
       state.email = action.payload.email;
+      state._id = action.payload._id;
     },
   },
 });

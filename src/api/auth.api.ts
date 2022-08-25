@@ -14,8 +14,8 @@ axios.interceptors.response.use(
 //TYPES
 
 export class User {
+  _id: string = "";
   email: string = "";
-  password: string = "";
   name: string = "";
   isEmailVerified: boolean = false;
 }
@@ -36,6 +36,11 @@ const API = {
   ): Promise<{ user: User; token: string }> => {
     return await (
       await axios.post(`users/login`, { email, password })
+    ).data;
+  },
+  getUserFromToken: async (token: string): Promise<User> => {
+    return await (
+      await axios.get(`users?token=${token}`)
     ).data;
   },
 };
