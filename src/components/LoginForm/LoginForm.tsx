@@ -1,4 +1,3 @@
-import { useState } from "react";
 import LoginImage from "../../assets/login.jpg";
 import {
   Button as MUIButton,
@@ -21,43 +20,25 @@ import {
 import Button from "../Button/Button";
 //Redux
 import { useAppDispatch } from "../../app/hooks";
-import { setIsOpen, openSignUpForm } from "../Dialog/dialogSlice";
-interface State {
-  email: string;
-  password: string;
-  showPassword: boolean;
-}
+import { openSignUpForm } from "../Dialog/dialogSlice";
+//Hooks
+import useLogIn from "../../hooks/useLogin";
 export default function LoginForm() {
   const dispatch = useAppDispatch();
+  const {
+    values,
+    handleChange,
+    handleClickShowPassword,
+    handleFormSubmit,
+    isEmailError,
+  } = useLogIn();
 
-  const [values, setValues] = useState<State>({
-    email: "",
-    password: "",
-    showPassword: false,
-  });
-  const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
-    };
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
-  const handleFormSubmit = () => {
-    dispatch(setIsOpen(false));
-  };
-  const isEmailError =
-    values.email !== "" &&
-    !new RegExp("^[a-z0-9]{4}-[a-z]{3}-[0-9]{3}$", "i").test(values.email) &&
-    values.email.length !== 12;
+
   return (
     <Box>
       <Stack direction="row">
