@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -14,9 +14,9 @@ import AccountVerification from "../AccountVerification/AccountVerification";
 import {
   selectIsOpen,
   setIsOpen,
-  selectDialogContent,
-  selectDialogTitle,
-  selectDialogActions,
+  selectShoudlShowLoginForm,
+  selectShouldShowAccountVerificaton,
+  selectShouldShowSignUpForm,
 } from "./dialogSlice";
 
 import { TransitionProps } from "@mui/material/transitions";
@@ -32,10 +32,24 @@ const Transition = React.forwardRef(function Transition(
 
 export default function Form() {
   const isOpen = useAppSelector((state) => selectIsOpen(state));
-  const dialogContent = useAppSelector((state) => selectDialogContent(state));
-  const dialogTitle = useAppSelector((state) => selectDialogTitle(state));
-  const dialogActions = useAppSelector((state) => selectDialogActions(state));
+  const shouldShowSignUpForm = useAppSelector((state) =>
+    selectShouldShowSignUpForm(state)
+  );
+  const shoudlShowLoginForm = useAppSelector((state) =>
+    selectShoudlShowLoginForm(state)
+  );
+  const shouldShowAccountVerificaton = useAppSelector((state) =>
+    selectShouldShowAccountVerificaton(state)
+  );
+
   const dispatch = useAppDispatch();
+
+  const renderDialogContent = () => {
+    if (shoudlShowLoginForm) return <LoginForm />;
+    if (shouldShowSignUpForm) return <SignUpForm />;
+    if (shouldShowAccountVerificaton) return <AccountVerification />;
+  };
+
   return (
     <Dialog
       open={isOpen}
@@ -46,9 +60,7 @@ export default function Form() {
       }}
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle>{dialogTitle}</DialogTitle>
-      <DialogContent>{dialogContent}</DialogContent>
-      <DialogActions>{dialogActions}</DialogActions>
+      <DialogContent>{renderDialogContent()}</DialogContent>
     </Dialog>
   );
 }

@@ -6,16 +6,16 @@ import SignUpForm from "../SignUpForm/SignUpForm";
 import LoginForm from "../LoginForm/LoginForm";
 export interface SearchState {
   isOpen: boolean;
-  dialogContent: ReactElement<any, any>;
-  dialogTitle: ReactElement<any, any>;
-  dialogActions: ReactElement<any, any>;
+  shouldShowSignUpForm: boolean;
+  shoudlShowLoginForm: boolean;
+  shouldShowAccountVerificaton: boolean;
 }
 
 const initialState: SearchState = {
   isOpen: false,
-  dialogContent: <>Dialog Content</>,
-  dialogTitle: <></>,
-  dialogActions: <></>,
+  shoudlShowLoginForm: false,
+  shouldShowSignUpForm: false,
+  shouldShowAccountVerificaton: false,
 };
 
 export const dialogSlice = createSlice({
@@ -25,29 +25,20 @@ export const dialogSlice = createSlice({
     setIsOpen: (state, action: PayloadAction<boolean>) => {
       state.isOpen = action.payload;
     },
-    setDialogContent: (
-      state,
-      action: PayloadAction<ReactElement<any, any>>
-    ) => {
-      state.dialogContent = action.payload;
-    },
-    setDialogTitle: (state, action: PayloadAction<ReactElement<any, any>>) => {
-      state.dialogTitle = action.payload;
-    },
-    setDialogActions: (
-      state,
-      action: PayloadAction<ReactElement<any, any>>
-    ) => {
-      state.dialogActions = action.payload;
-    },
+
     openSignUpForm: (state) => {
-      state.isOpen = false;
-      state.dialogContent = <SignUpForm />;
+      Object.assign(state, initialState);
+      state.shouldShowSignUpForm = true;
       state.isOpen = true;
     },
     openLoginForm: (state) => {
-      state.isOpen = false;
-      state.dialogContent = <LoginForm />;
+      Object.assign(state, initialState);
+      state.shoudlShowLoginForm = true;
+      state.isOpen = true;
+    },
+    openAccountVerification: (state) => {
+      Object.assign(state, initialState);
+      state.shouldShowAccountVerificaton = true;
       state.isOpen = true;
     },
   },
@@ -55,18 +46,18 @@ export const dialogSlice = createSlice({
 
 export const {
   setIsOpen,
-  setDialogContent,
-  setDialogTitle,
-  setDialogActions,
+
   openSignUpForm,
   openLoginForm,
+  openAccountVerification,
 } = dialogSlice.actions;
 
 export const selectIsOpen = (state: RootState) => state.dialog.isOpen;
-export const selectDialogContent = (state: RootState) =>
-  state.dialog.dialogContent;
-export const selectDialogTitle = (state: RootState) => state.dialog.dialogTitle;
-export const selectDialogActions = (state: RootState) =>
-  state.dialog.dialogActions;
+export const selectShouldShowSignUpForm = (state: RootState) =>
+  state.dialog.shouldShowSignUpForm;
+export const selectShoudlShowLoginForm = (state: RootState) =>
+  state.dialog.shoudlShowLoginForm;
+export const selectShouldShowAccountVerificaton = (state: RootState) =>
+  state.dialog.shouldShowAccountVerificaton;
 
 export default dialogSlice.reducer;

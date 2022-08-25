@@ -24,7 +24,7 @@ import AccountVerification from "../AccountVerification/AccountVerification";
 import { useAppDispatch } from "../../app/hooks";
 import {
   setIsOpen,
-  setDialogContent,
+  openAccountVerification,
   openLoginForm,
 } from "../Dialog/dialogSlice";
 
@@ -52,8 +52,7 @@ export default function SignUpForm() {
   };
   const handleFormSubmit = () => {
     setShouldSubmit(true);
-    dispatch(setDialogContent(<AccountVerification />));
-    dispatch(setIsOpen(true));
+    dispatch(openAccountVerification());
   };
 
   const isPasswordError =
