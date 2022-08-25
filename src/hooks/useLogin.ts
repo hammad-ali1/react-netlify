@@ -39,7 +39,7 @@ export default function useSignUp() {
         values.email + "@cuilahore.edu.pk",
         values.password
       );
-      console.log(result.token);
+      localStorage.setItem("token", result.token);
       dispatch(setUser({ name: result.user.name, email: result.user.email }));
       dispatch(setIsOpen(false));
     } else {
