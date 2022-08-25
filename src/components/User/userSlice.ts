@@ -6,12 +6,14 @@ export interface UserState {
   name: string;
   email: string;
   _id: string;
+  isEmailVerified: boolean;
 }
 
 const initialState: UserState = {
   name: "",
   email: "",
   _id: "",
+  isEmailVerified: false,
 };
 
 export const userSlice = createSlice({
