@@ -1,11 +1,9 @@
+import { Password } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import API from "../api/auth.api";
 //Redux
 import { useAppDispatch } from "../app/hooks";
-import {
-  openAccountVerification,
-  openLoginForm,
-} from "../components/Dialog/dialogSlice";
+import { openAccountVerification } from "../components/Dialog/dialogSlice";
 
 export interface Values {
   name: string;
@@ -25,11 +23,39 @@ export default function useSignUp() {
     confirmPassword: "",
     showPassword: false,
   });
+  const [submitErrorMessage, setSubmitErrorMessage] = useState("");
+  const isPasswordError =
+    values.confirmPassword !== "" && values.password !== values.confirmPassword;
+  const isEmailError =
+    values.email !== "" &&
+    !new RegExp("^[a-z0-9]{4}-[a-z]{3}-[0-9]{3}$", "i").test(values.email) &&
+    values.email.length !== 12;
 
-  const handleFormSubmit = () => {
-    console.log("HEHE");
-    dispatch(openAccountVerification());
+  const handleFormSubmit = async () => {
+    if (
+      values.email &&
+      values.name &&
+      values.password &&
+      values.confirmPassword
+    ) {
+      const result = await API.signUp(
+        values.name,
+        values.email + "@cuilahore.edu.pk",
+        values.password
+      );
+      console.log(result.token);
+      dispatch(openAccountVerification());
+    } else {
+      setSubmitErrorMessage("Please fill all fields");
+    }
   };
 
-  return { values, setValues, handleFormSubmit };
+  return {
+    values,
+    setValues,
+    handleFormSubmit,
+    isPasswordError,
+    isEmailError,
+    submitErrorMessage,
+  };
 }

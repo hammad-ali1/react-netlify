@@ -27,7 +27,14 @@ import { openLoginForm } from "../Dialog/dialogSlice";
 import useSignUp, { Values } from "../../hooks/useSignUp";
 export default function SignUpForm() {
   const dispatch = useAppDispatch();
-  const { values, setValues, handleFormSubmit } = useSignUp();
+  const {
+    values,
+    setValues,
+    handleFormSubmit,
+    isEmailError,
+    isPasswordError,
+    submitErrorMessage,
+  } = useSignUp();
 
   const handleChange =
     (prop: keyof Values) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,12 +53,6 @@ export default function SignUpForm() {
     event.preventDefault();
   };
 
-  const isPasswordError =
-    values.confirmPassword !== "" && values.password !== values.confirmPassword;
-  const isEmailError =
-    values.email !== "" &&
-    !new RegExp("^[a-z0-9]{4}-[a-z]{3}-[0-9]{3}$", "i").test(values.email) &&
-    values.email.length !== 12;
   return (
     <Box>
       <Stack direction="row">
@@ -67,91 +68,62 @@ export default function SignUpForm() {
           <Typography className="blueHeading" variant="h5">
             Create An Account
           </Typography>
-          <Stack spacing={3}>
-            <FormControl>
-              <TextField
-                id="name"
-                label="Name"
-                placeholder="name"
-                onChange={handleChange("name")}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  ),
-                }}
-                variant="standard"
-              />
-              <FormHelperText sx={{ textAlign: "center" }}>
-                You don't have to give your real name
-              </FormHelperText>
-            </FormControl>
-            <FormControl>
-              <TextField
-                id="email"
-                label="Email"
-                type="email"
-                error={isEmailError}
-                placeholder="fa20-bcs-000"
-                onChange={handleChange("email")}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <MailRounded />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Typography>@cuilahore.edu.pk</Typography>
-                    </InputAdornment>
-                  ),
-                }}
-                variant="standard"
-              />
-              <FormHelperText error>
-                {isEmailError && "Enter reg no as fa20-bcs-000"}
-              </FormHelperText>
-            </FormControl>
+          <FormControl>
+            <Stack spacing={3}>
+              <FormControl>
+                <TextField
+                  id="name"
+                  label="Name"
+                  placeholder="name"
+                  onChange={handleChange("name")}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle />
+                      </InputAdornment>
+                    ),
+                  }}
+                  variant="standard"
+                />
+                <FormHelperText sx={{ textAlign: "center" }}>
+                  You don't have to give your real name
+                </FormHelperText>
+              </FormControl>
+              <FormControl>
+                <TextField
+                  id="email"
+                  label="Email"
+                  type="email"
+                  error={isEmailError}
+                  placeholder="fa20-bcs-000"
+                  onChange={handleChange("email")}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <MailRounded />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Typography>@cuilahore.edu.pk</Typography>
+                      </InputAdornment>
+                    ),
+                  }}
+                  variant="standard"
+                />
+                <FormHelperText error>
+                  {isEmailError && "Enter reg no as fa20-bcs-000"}
+                </FormHelperText>
+              </FormControl>
 
-            <TextField
-              id="password"
-              error={isPasswordError}
-              label="Password"
-              placeholder="password"
-              value={values.password}
-              onChange={handleChange("password")}
-              type={values.showPassword ? "text" : "password"}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockRounded />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              variant="standard"
-            />
-            <FormControl>
               <TextField
-                id="confirmPassword"
-                placeholder="password"
+                id="password"
                 error={isPasswordError}
-                label="Confirm Password"
+                label="Password"
+                placeholder="password"
+                value={values.password}
+                onChange={handleChange("password")}
                 type={values.showPassword ? "text" : "password"}
-                value={values.confirmPassword}
-                onChange={handleChange("confirmPassword")}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -177,12 +149,48 @@ export default function SignUpForm() {
                 }}
                 variant="standard"
               />
-              <FormHelperText error>
-                {isPasswordError && "Password does not match"}
-              </FormHelperText>
-            </FormControl>
-            <Button text="Sign Up" callback={handleFormSubmit} />
-          </Stack>
+              <FormControl>
+                <TextField
+                  id="confirmPassword"
+                  placeholder="password"
+                  error={isPasswordError}
+                  label="Confirm Password"
+                  type={values.showPassword ? "text" : "password"}
+                  value={values.confirmPassword}
+                  onChange={handleChange("confirmPassword")}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockRounded />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {values.showPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  variant="standard"
+                />
+                <FormHelperText error>
+                  {isPasswordError && "Password does not match"}
+                </FormHelperText>
+              </FormControl>
+              <Button text="Sign Up" callback={handleFormSubmit} />
+            </Stack>
+            <FormHelperText error>{submitErrorMessage}</FormHelperText>
+          </FormControl>
         </Box>
       </Stack>
       <Stack direction="row" justifyContent="center">
