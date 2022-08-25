@@ -19,20 +19,15 @@ import {
 } from "@mui/icons-material";
 
 import Button from "../Button/Button";
-import AccountVerification from "../AccountVerification/AccountVerification";
 //Redux
 import { useAppDispatch } from "../../app/hooks";
-import {
-  setIsOpen,
-  openAccountVerification,
-  openLoginForm,
-} from "../Dialog/dialogSlice";
+import { openLoginForm } from "../Dialog/dialogSlice";
 
 //Hooks
 import useSignUp, { Values } from "../../hooks/useSignUp";
 export default function SignUpForm() {
   const dispatch = useAppDispatch();
-  const { values, setValues, setShouldSubmit } = useSignUp();
+  const { values, setValues, handleFormSubmit } = useSignUp();
 
   const handleChange =
     (prop: keyof Values) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,10 +44,6 @@ export default function SignUpForm() {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
-  };
-  const handleFormSubmit = () => {
-    setShouldSubmit(true);
-    dispatch(openAccountVerification());
   };
 
   const isPasswordError =

@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 import API from "../api/auth.api";
+//Redux
+import { useAppDispatch } from "../app/hooks";
+import {
+  openAccountVerification,
+  openLoginForm,
+} from "../components/Dialog/dialogSlice";
 
 export interface Values {
   name: string;
@@ -10,6 +16,8 @@ export interface Values {
 }
 
 export default function useSignUp() {
+  const dispatch = useAppDispatch();
+
   const [values, setValues] = useState<Values>({
     name: "",
     email: "",
@@ -17,12 +25,11 @@ export default function useSignUp() {
     confirmPassword: "",
     showPassword: false,
   });
-  const [shouldSubmit, setShouldSubmit] = useState(false);
 
-  useEffect(() => {
-    if (shouldSubmit) {
-      console.log("Submitting");
-    }
-  }, [shouldSubmit]);
-  return { values, setValues, setShouldSubmit };
+  const handleFormSubmit = () => {
+    console.log("HEHE");
+    dispatch(openAccountVerification());
+  };
+
+  return { values, setValues, handleFormSubmit };
 }
