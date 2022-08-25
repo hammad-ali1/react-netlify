@@ -12,9 +12,7 @@ axios.interceptors.response.use(
 );
 
 //TYPES
-export type Token = {
-  token: string;
-};
+
 export class User {
   email: string = "";
   password: string = "";
@@ -27,12 +25,15 @@ const API = {
     name: string,
     email: string,
     password: string
-  ): Promise<User & Token> => {
+  ): Promise<{ user: User; token: string }> => {
     return await (
       await axios.post(`users/signup`, { name, email, password })
     ).data;
   },
-  logIn: async (email: string, password: string): Promise<User & Token> => {
+  logIn: async (
+    email: string,
+    password: string
+  ): Promise<{ user: User; token: string }> => {
     return await (
       await axios.post(`users/login`, { email, password })
     ).data;

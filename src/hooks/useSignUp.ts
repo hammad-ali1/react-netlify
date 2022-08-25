@@ -3,7 +3,7 @@ import API from "../api/auth.api";
 //Redux
 import { useAppDispatch } from "../app/hooks";
 import { openAccountVerification } from "../components/Dialog/dialogSlice";
-
+import { setUser } from "../components/User/userSlice";
 export interface Values {
   name: string;
   email: string;
@@ -43,6 +43,7 @@ export default function useSignUp() {
         values.password
       );
       console.log(result.token);
+      dispatch(setUser({ name: result.user.name, email: result.user.email }));
       dispatch(openAccountVerification());
     } else {
       setSubmitErrorMessage("Please fill all fields");
