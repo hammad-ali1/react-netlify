@@ -8,5 +8,7 @@ export const Wrapper = styled.div`
 `;
 export const Image = styled.img`
   max-width: 200px;
+  min-width: 150px;
+  max-height: 150px;
   border-radius: 10px;
 `;

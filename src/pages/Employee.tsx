@@ -4,7 +4,7 @@ import Spinner from "../components/Spinner/Spinner";
 import EmployeeInfo from "../components/EmployeeInfo/EmployeeInfo";
 import Reviews from "../components/Reviews/Reviews";
 import EmployeeRatings from "../components/EmployeeRatings/EmployeeRatings";
-
+import TabView from "../components/TabView/TabView";
 function Employee() {
   const { id } = useParams();
   const { employee, loading } = useEmployeeFetch(id!);
@@ -12,8 +12,14 @@ function Employee() {
     <div>
       {loading && <Spinner />}
       <EmployeeInfo employee={employee} />
-      <EmployeeRatings employee={employee} />
-      <Reviews employee={employee} />
+
+      <TabView
+        tabs={["Ratings", "Reviews"]}
+        panels={[
+          <EmployeeRatings employee={employee} />,
+          <Reviews employee={employee} />,
+        ]}
+      />
     </div>
   );
 }
