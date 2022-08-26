@@ -7,7 +7,7 @@ import Employee from "./pages/Employee";
 import Account from "./pages/Account";
 import Navbar from "./components/Navbar/Navbar";
 import Dialog from "./components/Dialog/Dialog";
-
+import SnackBar from "./components/SnackBar/SnackBar";
 //Redux
 import { useAppDispatch } from "./app/hooks";
 import { openLoginForm, openSignUpForm } from "./components/Dialog/dialogSlice";
@@ -47,6 +47,7 @@ function App() {
     <div>
       <Navbar navLinks={navLinks} title="Rate Yor Professor" />
       <Dialog />
+      <SnackBar />
       <Routes>
         <Route path="/*" element={<Home />} />
         <Route path="/employee/:id" element={<Employee />} />

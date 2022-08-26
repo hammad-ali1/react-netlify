@@ -3,15 +3,18 @@ import { useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { selectUser } from "../User/userSlice";
 import API from "../../api/employees.api";
+import { useAppDispatch } from "../../app//hooks";
+import { showSnackMessage } from "../SnackBar/snackBarSlice";
 
 function useGiveRating(employeeId: string) {
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => selectUser(state));
   const [ratingValue, setRatingValue] = useState<number | null>(3);
   const shouldDisableButton = !user || !user.isEmailVerified;
   const submitRatingHandler = async () => {
     if (ratingValue && !shouldDisableButton) {
       const result = await API.addRating(employeeId, ratingValue);
-      console.log(result.message);
+      dispatch(showSnackMessage(result.message));
     }
   };
 
