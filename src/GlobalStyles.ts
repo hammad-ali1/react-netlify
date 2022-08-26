@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-    --maxWidth: 1280px;
+    /* --maxWidth: 1280px;
     --white: #fff;
     --secondary: #353535;
     --primary: #1c1c1c;
@@ -11,20 +11,20 @@ export const GlobalStyle = createGlobalStyle`
     --fontSuperBig: 2.5rem;
     --fontBig: 1.5rem;
     --fontMed: 1.2rem;
-    --fontSmall: 1rem;
+    --fontSmall: 1rem; */
   }
-
+/* 
   * {
     box-sizing: border-box;
     margin: 0;
     font-family: 'Abel', sans-serif;
-  }
+  } */
 
 
-  .textColor{
+  /* .textColor{
       color : var(--textColor) !important;
 
-    }
+    } */
     .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -50,7 +50,7 @@ export const GlobalStyle = createGlobalStyle`
     background: rgb(64,117,224);
 background: linear-gradient(90deg, rgba(64,117,224,0.9196720924698004) 0%, rgba(64,117,224,0.46589057986475846) 49%, rgba(64,117,224,0) 100%);
   }
-  body {
+  /* body {
     margin: 0;
     padding: 0;
     background-color : var(--secondary);
@@ -74,5 +74,5 @@ background: linear-gradient(90deg, rgba(64,117,224,0.9196720924698004) 0%, rgba(
       margin: none;
     }
   
-  }
+  } */
 `;

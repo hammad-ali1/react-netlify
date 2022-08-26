@@ -1,10 +1,14 @@
+import { Box, InputAdornment } from "@mui/material";
+import {
+  BorderLessTextInput,
+  CenterAlignedStack,
+} from "../../theme/styledComponents";
 import { useAppSelector } from "../../app/hooks";
 import { selectSearchTerm } from "../SearchBar/searchSlice";
 
 //Icons
 import SearchIcon from "@mui/icons-material/Search";
-//Styles
-import { Wrapper, Content } from "./SearchBar.styles";
+
 //Types
 export type SearchBarProps = {
   onChangeHandler: React.ChangeEventHandler<HTMLInputElement>;
@@ -12,17 +16,24 @@ export type SearchBarProps = {
 function SearchBar({ onChangeHandler }: SearchBarProps) {
   const searchTerm = useAppSelector((store) => selectSearchTerm(store));
   return (
-    <Wrapper>
-      <Content>
-        <SearchIcon className="searchIcon" />
-        <input
-          type="text"
+    <Box>
+      <CenterAlignedStack direction="row" sx={{ padding: "10px" }}>
+        <BorderLessTextInput
+          fullWidth
+          variant="outlined"
           placeholder="Search Teachers"
           onChange={onChangeHandler}
           value={searchTerm}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
         />
-      </Content>
-    </Wrapper>
+      </CenterAlignedStack>
+    </Box>
   );
 }
 

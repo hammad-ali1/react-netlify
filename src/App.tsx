@@ -16,7 +16,7 @@ import { setUser } from "./components/User/userSlice";
 import API from "./api/auth.api";
 //MuiTheme
 import theme from "./theme/muitheme";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, CssBaseline } from "@mui/material";
 function App() {
   const navigator = useNavigate();
   const dispatch = useAppDispatch();
@@ -56,6 +56,7 @@ function App() {
         <Route path="/account" element={<Account />} />
       </Routes>
       <GlobalStyle />
+      <CssBaseline />
     </ThemeProvider>
   );
 }
