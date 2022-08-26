@@ -40,6 +40,14 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
         <h1>{employee.name}</h1>
         <span>{`(${employee.designation})`}</span>
         <h3>{employee.department}</h3>
+        <h3>
+          {employee.averageRating === 0 || !employee.averageRating
+            ? "No ratings yet"
+            : `Average Rating: ${employee.averageRating} (${
+                labels[employee.averageRating]
+              })`}
+        </h3>
+
         <Stack direction="row" alignItems="center">
           <Rating
             emptyIcon={<StarBorder fontSize="inherit" className="textColor" />}

@@ -39,6 +39,7 @@ export class Employee {
   department: string = "";
   qualifications: Qualification[] = [];
   experience: Experience[] = [];
+  averageRating: number = 0;
 }
 
 class Qualification {
