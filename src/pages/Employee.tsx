@@ -3,6 +3,7 @@ import useEmployeeFetch from "../hooks/useEmployeeFetch";
 import Spinner from "../components/Spinner/Spinner";
 import EmployeeInfo from "../components/EmployeeInfo/EmployeeInfo";
 import Reviews from "../components/Reviews/Reviews";
+import EmployeeRatings from "../components/EmployeeRatings/EmployeeRatings";
 
 function Employee() {
   const { id } = useParams();
@@ -11,6 +12,7 @@ function Employee() {
     <div>
       {loading && <Spinner />}
       <EmployeeInfo employee={employee} />
+      <EmployeeRatings employee={employee} />
       <Reviews employee={employee} />
     </div>
   );
