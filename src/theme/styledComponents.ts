@@ -5,6 +5,7 @@ export const BorderLessTextInput = styled(TextField)`
   background-color: ${(props) => props.theme.palette.grey[500]};
   & .MuiOutlinedInput-input {
     font-size: 1.2rem;
+    color: ${(props) => props.theme.palette.grey[900]};
   }
   & .MuiOutlinedInput-root {
     & > fieldset {

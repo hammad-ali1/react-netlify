@@ -27,7 +27,7 @@ function SearchBar({ onChangeHandler }: SearchBarProps) {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon />
+                <SearchIcon fontSize="large" />
               </InputAdornment>
             ),
           }}
