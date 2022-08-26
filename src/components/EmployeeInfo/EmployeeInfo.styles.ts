@@ -10,7 +10,3 @@ export const Image = styled.img`
   max-width: 200px;
   border-radius: 10px;
 `;
-export const Text = styled.p`
-  flex: 1;
-  align-self: center;
-`;

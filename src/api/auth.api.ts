@@ -4,6 +4,11 @@ const axios = axiosCreator.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
 });
 //set axios configuration
+axios.interceptors.request.use((request) => {
+  const token = localStorage.getItem("token");
+  request.headers!["Authorization"] = `Bearer ${token}`;
+  return request;
+});
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
