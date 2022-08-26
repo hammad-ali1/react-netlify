@@ -40,6 +40,11 @@ export class Employee {
   qualifications: Qualification[] = [];
   experience: Experience[] = [];
   averageRating: number = 0;
+  ratings: Rating[] = [];
+}
+class Rating {
+  value: number = -1;
+  user: { name: string; _id: string } = { name: "", _id: "" };
 }
 
 class Qualification {

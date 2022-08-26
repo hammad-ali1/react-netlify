@@ -73,6 +73,9 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
             Rate
           </Button>
         )}
+        {employee.ratings.map((rating) => (
+          <div>{rating.user.name}</div>
+        ))}
       </Stack>
     </Wrapper>
   );
