@@ -14,7 +14,9 @@ import { openLoginForm, openSignUpForm } from "./components/Dialog/dialogSlice";
 import { setSearchTerm } from "./components/SearchBar/searchSlice";
 import { setUser } from "./components/User/userSlice";
 import API from "./api/auth.api";
-
+//MuiTheme
+import theme from "./theme/muitheme";
+import { ThemeProvider } from "@mui/material/styles";
 function App() {
   const navigator = useNavigate();
   const dispatch = useAppDispatch();
@@ -44,7 +46,7 @@ function App() {
     }
   }, [dispatch]);
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <Navbar navLinks={navLinks} title="Rate Yor Professor" />
       <Dialog />
       <SnackBar />
@@ -54,7 +56,7 @@ function App() {
         <Route path="/account" element={<Account />} />
       </Routes>
       <GlobalStyle />
-    </div>
+    </ThemeProvider>
   );
 }
 
