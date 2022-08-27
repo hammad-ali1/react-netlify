@@ -29,8 +29,11 @@ export const ColoredStack = styled(Stack)`
 `;
 
 export const Thumb = styled(Box)`
-  max-width: 200px;
-  min-width: 80px;
+  max-width: 100px;
+  min-width: 100px;
+  ${(props) => props.theme.breakpoints.up("sm")} {
+    max-width: 200px;
+  }
   & > * {
     width: 100%;
     border-radius: 10px;
