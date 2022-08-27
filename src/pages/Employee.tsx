@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
 //Mui
-import { CircularProgress, Box } from "@mui/material";
+import { Box } from "@mui/material";
+import { CenteredSpinner } from "../theme/styledComponents";
 import useEmployeeFetch from "../hooks/useEmployeeFetch";
 import EmployeeInfo from "../components/EmployeeInfo/EmployeeInfo";
 import Reviews from "../components/Reviews/Reviews";
@@ -10,7 +11,7 @@ function Employee() {
   const { id } = useParams();
   const { employee, loading } = useEmployeeFetch(id!);
 
-  if (loading || !employee._id) return <CircularProgress />;
+  if (loading || !employee._id) return <CenteredSpinner />;
   return (
     <div>
       <EmployeeInfo employee={employee} />

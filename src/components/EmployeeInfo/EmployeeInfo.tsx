@@ -50,7 +50,7 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
           alt="profile-pic"
         />
       </Thumb>
-      <Stack justifyContent="center" spacing={0.5}>
+      <Stack flex={1} justifyContent="center" spacing={0.5}>
         <Typography variant="h4">{employee.name}</Typography>
         <Typography variant="caption">{`(${employee.designation})`}</Typography>
         <Typography sx={{ fontWeight: "bold" }} variant="body1">
@@ -101,6 +101,7 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
               Rate
             </Button>
             <TextField
+              fullWidth
               variant="standard"
               placeholder="comment (optional)"
               value={ratingDetails}

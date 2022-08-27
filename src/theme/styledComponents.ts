@@ -1,4 +1,11 @@
-import { TextField, Stack, styled, Button, Box } from "@mui/material";
+import {
+  TextField,
+  Stack,
+  styled,
+  Button,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 
 export const BorderLessTextInput = styled(TextField)`
   border-radius: 50px;
@@ -45,5 +52,13 @@ export const HoverEffect = styled(Box)`
   cursor: pointer;
   &:hover {
     opacity: 0.5;
+  }
+`;
+
+export const CenteredSpinner = styled(CircularProgress)`
+  & .MuiCircularProgress-root {
+    left: 43%;
+    position: absolute;
+    top: 44vh;
   }
 `;
