@@ -1,4 +1,5 @@
 import { Rating, Stack, Avatar } from "@mui/material";
+import { ColoredStack } from "../../theme/styledComponents";
 import MenuButton from "../MenuButton/MenuButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
@@ -11,9 +12,9 @@ function EmployeeRatings({ employee }: EmployeeInfoProps) {
   return (
     <div>
       {employee.ratings.length === 0 && "No Ratings yet"}
-      <Stack>
+      <Stack spacing={1}>
         {employee.ratings.map((rating) => (
-          <Stack sx={{ border: "1px solid white" }} spacing={0.5}>
+          <ColoredStack spacing={0.5}>
             <Stack
               direction="row"
               justifyContent={"space-between"}
@@ -30,7 +31,7 @@ function EmployeeRatings({ employee }: EmployeeInfoProps) {
             </Stack>
             <Rating size="small" readOnly value={rating.value} />
             <div>Rating Details</div>
-          </Stack>
+          </ColoredStack>
         ))}
         <div>Test</div>
         <div>Test</div>

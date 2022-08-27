@@ -77,7 +77,12 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
         {shouldDisableButton ? (
           <Box>*You must have an account to use rating feature</Box>
         ) : (
-          <Button onClick={submitRatingHandler} sx={{ alignSelf: "baseline" }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={submitRatingHandler}
+            sx={{ alignSelf: "baseline" }}
+          >
             Rate
           </Button>
         )}

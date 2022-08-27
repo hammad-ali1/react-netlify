@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 //Mui
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Box } from "@mui/material";
 import useEmployeeFetch from "../hooks/useEmployeeFetch";
 import EmployeeInfo from "../components/EmployeeInfo/EmployeeInfo";
 import Reviews from "../components/Reviews/Reviews";
@@ -13,14 +13,15 @@ function Employee() {
     <div>
       {loading && <CircularProgress />}
       <EmployeeInfo employee={employee} />
-
-      <TabView
-        tabs={["Ratings", "Reviews"]}
-        panels={[
-          <EmployeeRatings employee={employee} />,
-          <Reviews employee={employee} />,
-        ]}
-      />
+      <Box sx={{ p: 1 }}>
+        <TabView
+          tabs={["Ratings", "Reviews"]}
+          panels={[
+            <EmployeeRatings employee={employee} />,
+            <Reviews employee={employee} />,
+          ]}
+        />
+      </Box>
     </div>
   );
 }
