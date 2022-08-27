@@ -1,5 +1,7 @@
-import { Rating, Stack, IconButton, Avatar } from "@mui/material";
+import { Rating, Stack, Avatar } from "@mui/material";
+import MenuButton from "../MenuButton/MenuButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 //Types
 import type { Employee } from "../../api/employees.api";
 type EmployeeInfoProps = {
@@ -21,9 +23,10 @@ function EmployeeRatings({ employee }: EmployeeInfoProps) {
                 <Avatar>{rating.user.name[0]}</Avatar>
                 <div>{rating.user.name}</div>
               </Stack>
-              <IconButton sx={{ margin: 0 }}>
-                <MoreVertIcon fontSize="small" className="textColor" />
-              </IconButton>
+              <MenuButton
+                icon={<MoreVertIcon fontSize="small" />}
+                items={[{ text: "report" }]}
+              />
             </Stack>
             <Rating size="small" readOnly value={rating.value} />
             <div>Rating Details</div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AppBar,
@@ -14,7 +15,7 @@ import {
 import { AccountCircleRounded } from "@mui/icons-material";
 import DrawerComponent from "./Drawer";
 import LogoImage from "../../assets/logo.png";
-
+import MenuButton from "../MenuButton/MenuButton";
 //Redux
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setSearchTerm } from "../SearchBar/searchSlice";
@@ -36,7 +37,7 @@ function Navbar({ homePath, title, navLinks }: PropTypes) {
     dispatch(setSearchTerm(""));
     navigator("/", { replace: true });
   };
-  const handleAccountButtonClick = () => {
+  const handleGoToProfile: React.MouseEventHandler<HTMLLIElement> = (event) => {
     dispatch(setSearchTerm(""));
     navigator("/account", { replace: true });
   };
@@ -51,6 +52,15 @@ function Navbar({ homePath, title, navLinks }: PropTypes) {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const accountMenu = (
+    <MenuButton
+      icon={<AccountCircleRounded />}
+      items={[
+        { text: "LogOut" },
+        { text: "MainProfile", onClickHandler: handleGoToProfile },
+      ]}
+    />
+  );
   return (
     <>
       <AppBar
@@ -70,14 +80,7 @@ function Navbar({ homePath, title, navLinks }: PropTypes) {
                 style={{ width: "50px", margin: "0" }}
               />
               <DrawerComponent links={navLinks} />
-              {user._id && (
-                <IconButton
-                  className="textColor"
-                  onClick={handleAccountButtonClick}
-                >
-                  <AccountCircleRounded />
-                </IconButton>
-              )}
+              {user._id && accountMenu}
             </>
           ) : (
             <Grid sx={{ placeItems: "center" }} container spacing={1}>
@@ -108,14 +111,7 @@ function Navbar({ homePath, title, navLinks }: PropTypes) {
                       );
                     })}
                   </Tabs>
-                  {user._id && (
-                    <IconButton
-                      className="textColor"
-                      onClick={handleAccountButtonClick}
-                    >
-                      <AccountCircleRounded />
-                    </IconButton>
-                  )}
+                  {user._id && accountMenu}
                 </Stack>
               </Grid>
             </Grid>
