@@ -45,4 +45,11 @@ const theme = createTheme({
     danger: orange[500],
   },
 });
+
+theme.typography.h4 = {
+  fontSize: "1.5rem",
+  [theme.breakpoints.up("md")]: {
+    fontSize: "2.4rem",
+  },
+};
 export default theme;

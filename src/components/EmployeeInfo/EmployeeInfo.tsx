@@ -6,6 +6,7 @@ import {
   Box,
   Typography,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import { ColoredStack, Thumb } from "../../theme/styledComponents";
 import { StarBorder } from "@mui/icons-material";
@@ -50,38 +51,42 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
         />
       </Thumb>
       <Stack justifyContent="center" spacing={0.5}>
-        <Typography variant="h4">
-          {employee.name}
-          <Typography variant="caption">{`(${employee.designation})`}</Typography>
-        </Typography>
+        <Typography variant="h4">{employee.name}</Typography>
+        <Typography variant="caption">{`(${employee.designation})`}</Typography>
         <Typography sx={{ fontWeight: "bold" }} variant="body1">
           {employee.department}
         </Typography>
         <Typography variant="body1">
           {employee.averageRating === 0 || !employee.averageRating
             ? "No ratings yet"
-            : `Average Rating: ${employee.averageRating} (${
-                labels[employee.averageRating]
-              })`}
+            : `Average Rating: ${employee.averageRating} 
+            `}
+        </Typography>
+        <Typography variant="caption">
+          {employee.averageRating === 0 || !employee.averageRating
+            ? ""
+            : `(${labels[employee.averageRating]})
+            `}
         </Typography>
 
-        <Stack direction="row" alignItems="center">
-          <Rating
-            emptyIcon={<StarBorder fontSize="inherit" className="textColor" />}
-            getLabelText={getLabelText}
-            value={ratingValue}
-            onChange={(event, newValue) => setRatingValue(newValue)}
-            onChangeActive={(event, newHover) => {
-              setHover(newHover);
-            }}
-            precision={0.5}
-          />
-          {ratingValue !== null && (
-            <Box sx={{ ml: 2 }}>
-              {labels[hover !== -1 ? hover : ratingValue]}
-            </Box>
-          )}
-        </Stack>
+        <Tooltip
+          title={ratingValue ? labels[hover !== -1 ? hover : ratingValue] : ""}
+        >
+          <Box>
+            <Rating
+              emptyIcon={
+                <StarBorder fontSize="inherit" className="textColor" />
+              }
+              getLabelText={getLabelText}
+              value={ratingValue}
+              onChange={(event, newValue) => setRatingValue(newValue)}
+              onChangeActive={(event, newHover) => {
+                setHover(newHover);
+              }}
+              precision={0.5}
+            />
+          </Box>
+        </Tooltip>
 
         {shouldDisableButton ? (
           <Box>*You must have an account to use rating feature</Box>

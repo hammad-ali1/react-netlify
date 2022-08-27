@@ -30,6 +30,7 @@ export const ColoredStack = styled(Stack)`
 
 export const Thumb = styled(Box)`
   max-width: 200px;
+  min-width: 80px;
   & > * {
     width: 100%;
     border-radius: 10px;
