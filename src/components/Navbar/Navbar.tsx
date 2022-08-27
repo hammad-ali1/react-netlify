@@ -18,8 +18,7 @@ import MenuButton from "../MenuButton/MenuButton";
 //Redux
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setSearchTerm } from "../SearchBar/searchSlice";
-import { selectUser } from "../User/userSlice";
-import useLogOut from "../../hooks/useLogOut";
+import { selectUser, resetUser } from "../User/userSlice";
 
 //Types
 export type NavLink = {
@@ -30,9 +29,12 @@ export type NavLink = {
 type PropTypes = { homePath?: string; title: string; navLinks: NavLink[] };
 function Navbar({ homePath, title, navLinks }: PropTypes) {
   const dispatch = useAppDispatch();
-  const logout = useLogOut();
   const navigator = useNavigate();
   const user = useAppSelector((state) => selectUser(state));
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    dispatch(resetUser());
+  };
 
   const handleLogoClick = () => {
     dispatch(setSearchTerm(""));
@@ -57,7 +59,7 @@ function Navbar({ homePath, title, navLinks }: PropTypes) {
     <MenuButton
       icon={<AccountCircleRounded />}
       items={[
-        { text: "LogOut", onClickHandler: logout },
+        { text: "LogOut", onClickHandler: logoutHandler },
         { text: "MainProfile", onClickHandler: handleGoToProfile },
       ]}
     />

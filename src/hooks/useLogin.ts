@@ -35,13 +35,17 @@ export default function useSignUp() {
   };
   const handleFormSubmit = async () => {
     if (values.email && values.password) {
-      const result = await API.logIn(
-        values.email + "@cuilahore.edu.pk",
-        values.password
-      );
-      localStorage.setItem("token", result.token);
-      dispatch(setUser(result.user));
-      dispatch(setIsOpen(false));
+      try {
+        const result = await API.logIn(
+          values.email + "@cuilahore.edu.pk",
+          values.password
+        );
+        localStorage.setItem("token", result.token);
+        dispatch(setUser(result.user));
+        dispatch(setIsOpen(false));
+      } catch (err) {
+        setSubmitErrorMessage("email or password is wrong");
+      }
     } else {
       setSubmitErrorMessage("Please fill all fields");
     }

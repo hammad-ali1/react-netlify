@@ -22,8 +22,10 @@ export default function MenuButton(props: MenuButtonProps) {
     <div>
       <IconButton onClick={handleClick}>{props.icon}</IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {props.items.map((item) => (
-          <MenuItem onClick={item.onClickHandler}>{item.text}</MenuItem>
+        {props.items.map((item, index) => (
+          <MenuItem key={index} onClick={item.onClickHandler}>
+            {item.text}
+          </MenuItem>
         ))}
       </Menu>
     </div>
