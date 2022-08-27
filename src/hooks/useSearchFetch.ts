@@ -24,7 +24,6 @@ export default function useSearchFetch() {
     });
   }, [searchTerm]);
   async function fetchEmployees(name: string) {
-    console.log(name);
     const employees = await API.fetchEmployees(name);
     return employees;
   }
