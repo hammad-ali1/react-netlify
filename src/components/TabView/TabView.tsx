@@ -49,13 +49,13 @@ export default function BasicTabs({ tabs, panels }: BasicTabsProps) {
           aria-label="basic tabs example"
         >
           {tabs.map((tab, index) => (
-            <Tab label={tab} {...a11yProps(index)} />
+            <Tab key={index} label={tab} {...a11yProps(index)} />
           ))}
         </Tabs>
       </Box>
       <Box>
         {panels.map((panel, index) => (
-          <TabPanel value={value} index={index}>
+          <TabPanel value={value} key={index} index={index}>
             {panel}
           </TabPanel>
         ))}
