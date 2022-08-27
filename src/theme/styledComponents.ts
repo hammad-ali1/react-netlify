@@ -56,9 +56,7 @@ export const HoverEffect = styled(Box)`
 `;
 
 export const CenteredSpinner = styled(CircularProgress)`
-  & .MuiCircularProgress-root {
-    left: 43%;
-    position: absolute;
-    top: 44vh;
-  }
+  position: absolute;
+  left: 50%;
+  top: 50%;
 `;

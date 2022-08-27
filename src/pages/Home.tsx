@@ -5,13 +5,11 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import SearchResults from "../components/SearchResults/SearchResults";
 import HomeItems from "../components/HomeItems/HomeItems";
 import { setSearchTerm } from "../components/SearchBar/searchSlice";
-import { CenteredSpinner } from "../theme/styledComponents";
 import useSearchFetch from "../hooks/useSearchFetch";
 
 function Home() {
   const dispatch = useAppDispatch();
   const { employees, loading } = useSearchFetch();
-  if (loading) return <CenteredSpinner />;
   return (
     <div>
       <SearchBar
@@ -25,6 +23,7 @@ function Home() {
           path="search"
           element={
             <SearchResults
+              loading={loading}
               employees={{ results: employees.results.slice(0, 20) }}
             />
           }
