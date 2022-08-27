@@ -4,8 +4,7 @@ import { useAppDispatch } from "../../app/hooks";
 import { setSearchTerm } from "../SearchBar/searchSlice";
 
 import SearchResultItem from "../SearchResultItem/SearchResultItem";
-//Styles
-import { Wrapper } from "./SearchResults.styles";
+
 type SearchResultsProps = {
   employees: Employees;
 };
@@ -14,7 +13,7 @@ function SearchResults({ employees }: SearchResultsProps) {
   const navigator = useNavigate();
 
   return (
-    <Wrapper>
+    <div style={{ padding: "10px" }}>
       {employees.results.map((employee) => (
         <SearchResultItem
           key={employee.empId}
@@ -25,7 +24,7 @@ function SearchResults({ employees }: SearchResultsProps) {
           }}
         />
       ))}
-    </Wrapper>
+    </div>
   );
 }
 

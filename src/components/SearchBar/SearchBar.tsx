@@ -1,8 +1,5 @@
-import { Box, InputAdornment } from "@mui/material";
-import {
-  BorderLessTextInput,
-  CenterAlignedStack,
-} from "../../theme/styledComponents";
+import { Box, InputAdornment, Stack } from "@mui/material";
+import { BorderLessTextInput } from "../../theme/styledComponents";
 import { useAppSelector } from "../../app/hooks";
 import { selectSearchTerm } from "../SearchBar/searchSlice";
 
@@ -17,7 +14,11 @@ function SearchBar({ onChangeHandler }: SearchBarProps) {
   const searchTerm = useAppSelector((store) => selectSearchTerm(store));
   return (
     <Box>
-      <CenterAlignedStack direction="row" sx={{ padding: "10px" }}>
+      <Stack
+        classes={[".centerAlignStackItem"]}
+        direction="row"
+        sx={{ padding: "10px" }}
+      >
         <BorderLessTextInput
           fullWidth
           variant="outlined"
@@ -32,7 +33,7 @@ function SearchBar({ onChangeHandler }: SearchBarProps) {
             ),
           }}
         />
-      </CenterAlignedStack>
+      </Stack>
     </Box>
   );
 }

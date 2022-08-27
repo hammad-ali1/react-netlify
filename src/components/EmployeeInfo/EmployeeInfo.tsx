@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Rating, Button, Stack, Box } from "@mui/material";
+import { Rating, Button, Stack, Box, Typography } from "@mui/material";
+import { ColoredStack, Thumb } from "../../theme/styledComponents";
 import { StarBorder } from "@mui/icons-material";
 //Hooks
 import useGiveRating from "./useGiveRating";
-//Styles
-import { Wrapper, Image } from "./EmployeeInfo.styles";
 //Types
 import type { Employee } from "../../api/employees.api";
 type EmployeeInfoProps = {
@@ -34,19 +33,28 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
   } = useGiveRating(employee._id);
   const [hover, setHover] = useState(-1);
   return (
-    <Wrapper>
-      <Image src={"https://lahore.comsats.edu.pk" + employee.imgURL} />
-      <Stack justifyContent="center" spacing={1}>
-        <h1>{employee.name}</h1>
-        <span>{`(${employee.designation})`}</span>
-        <h3>{employee.department}</h3>
-        <h3>
+    <ColoredStack direction="row" spacing={1}>
+      <Thumb>
+        <img
+          src={"https://lahore.comsats.edu.pk" + employee.imgURL}
+          alt="profile-pic"
+        />
+      </Thumb>
+      <Stack justifyContent="center" spacing={0.5}>
+        <Typography variant="h4">
+          {employee.name}
+          <Typography variant="caption">{`(${employee.designation})`}</Typography>
+        </Typography>
+        <Typography sx={{ fontWeight: "bold" }} variant="body1">
+          {employee.department}
+        </Typography>
+        <Typography variant="body1">
           {employee.averageRating === 0 || !employee.averageRating
             ? "No ratings yet"
             : `Average Rating: ${employee.averageRating} (${
                 labels[employee.averageRating]
               })`}
-        </h3>
+        </Typography>
 
         <Stack direction="row" alignItems="center">
           <Rating
@@ -74,7 +82,7 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
           </Button>
         )}
       </Stack>
-    </Wrapper>
+    </ColoredStack>
   );
 }
 

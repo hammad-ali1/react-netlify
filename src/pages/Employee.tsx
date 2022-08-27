@@ -1,6 +1,7 @@
 import { useParams } from "react-router";
+//Mui
+import { CircularProgress } from "@mui/material";
 import useEmployeeFetch from "../hooks/useEmployeeFetch";
-import Spinner from "../components/Spinner/Spinner";
 import EmployeeInfo from "../components/EmployeeInfo/EmployeeInfo";
 import Reviews from "../components/Reviews/Reviews";
 import EmployeeRatings from "../components/EmployeeRatings/EmployeeRatings";
@@ -10,7 +11,7 @@ function Employee() {
   const { employee, loading } = useEmployeeFetch(id!);
   return (
     <div>
-      {loading && <Spinner />}
+      {loading && <CircularProgress />}
       <EmployeeInfo employee={employee} />
 
       <TabView

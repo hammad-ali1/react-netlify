@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { GlobalStyle } from "./GlobalStyles";
-
+import "./GlobalClasses.css";
 import Home from "./pages/Home";
 import Employee from "./pages/Employee";
 import Account from "./pages/Account";
@@ -55,7 +54,6 @@ function App() {
         <Route path="/employee/:id" element={<Employee />} />
         <Route path="/account" element={<Account />} />
       </Routes>
-      <GlobalStyle />
       <CssBaseline />
     </ThemeProvider>
   );

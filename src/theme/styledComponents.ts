@@ -1,4 +1,4 @@
-import { TextField, Stack, styled, Button } from "@mui/material";
+import { TextField, Stack, styled, Button, Box } from "@mui/material";
 
 export const BorderLessTextInput = styled(TextField)`
   border-radius: 50px;
@@ -14,11 +14,6 @@ export const BorderLessTextInput = styled(TextField)`
   }
 `;
 
-export const CenterAlignedStack = styled(Stack)(({ theme }) => ({
-  justifyContent: "center",
-  alignItems: "center",
-}));
-
 export const RoundedButton = styled(Button)`
   width: 100%;
   border-radius: 20px;
@@ -27,3 +22,24 @@ RoundedButton.defaultProps = {
   variant: "contained",
   color: "secondary",
 };
+
+export const ColoredStack = styled(Stack)`
+  background-color: ${(props) => props.theme.palette.secondary.dark};
+  padding: 10px;
+`;
+
+export const Thumb = styled(Box)`
+  max-width: 200px;
+  & > * {
+    width: 100%;
+    border-radius: 10px;
+  }
+`;
+
+export const HoverEffect = styled(Box)`
+  transition: all 1s;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+`;
