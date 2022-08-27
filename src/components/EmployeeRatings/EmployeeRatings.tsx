@@ -1,4 +1,4 @@
-import { Rating, Stack, Avatar } from "@mui/material";
+import { Rating, Stack, Avatar, Typography } from "@mui/material";
 import { ColoredStack } from "../../theme/styledComponents";
 import MenuButton from "../MenuButton/MenuButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -30,31 +30,11 @@ function EmployeeRatings({ employee }: EmployeeInfoProps) {
               />
             </Stack>
             <Rating size="small" readOnly value={rating.value} />
-            <div>Rating Details</div>
+            <Typography>
+              {rating.comments ? rating.comments : "comment not provided"}
+            </Typography>
           </ColoredStack>
         ))}
-        <div>Test</div>
-        <div>Test</div>
-
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
-        <div>Test</div>
       </Stack>
     </div>
   );

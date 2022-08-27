@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Rating, Button, Stack, Box, Typography } from "@mui/material";
+import {
+  Rating,
+  Button,
+  Stack,
+  Box,
+  Typography,
+  TextField,
+} from "@mui/material";
 import { ColoredStack, Thumb } from "../../theme/styledComponents";
 import { StarBorder } from "@mui/icons-material";
 //Hooks
@@ -30,6 +37,8 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
     setRatingValue,
     submitRatingHandler,
     shouldDisableButton,
+    ratingDetails,
+    setRatingDetails,
   } = useGiveRating(employee._id);
   const [hover, setHover] = useState(-1);
   return (
@@ -77,14 +86,24 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
         {shouldDisableButton ? (
           <Box>*You must have an account to use rating feature</Box>
         ) : (
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={submitRatingHandler}
-            sx={{ alignSelf: "baseline" }}
-          >
-            Rate
-          </Button>
+          <Stack spacing={0.5}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={submitRatingHandler}
+              sx={{ alignSelf: "baseline" }}
+            >
+              Rate
+            </Button>
+            <TextField
+              variant="standard"
+              placeholder="comment (optional)"
+              value={ratingDetails}
+              onChange={(event) => {
+                setRatingDetails(event.target.value);
+              }}
+            />
+          </Stack>
         )}
       </Stack>
     </ColoredStack>

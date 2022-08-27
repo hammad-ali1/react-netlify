@@ -26,10 +26,13 @@ export const userSlice = createSlice({
       state._id = action.payload._id;
       state.isEmailVerified = action.payload.isEmailVerified;
     },
+    resetUser: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, resetUser } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;
 

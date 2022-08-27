@@ -45,6 +45,7 @@ export class Employee {
 class Rating {
   value: number = -1;
   user: { name: string; _id: string } = { name: "", _id: "" };
+  comments: string = "";
 }
 
 class Qualification {
@@ -78,10 +79,15 @@ const API = {
   },
   addRating: async (
     employeeId: string,
-    ratingValue: number
+    ratingValue: number,
+    comments: string
   ): Promise<{ message: string }> => {
     return await (
-      await axios.post("employees/ratings", { employeeId, ratingValue })
+      await axios.post("employees/ratings", {
+        employeeId,
+        ratingValue,
+        comments,
+      })
     ).data;
   },
 };
