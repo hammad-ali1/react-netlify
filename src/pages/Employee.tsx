@@ -9,9 +9,10 @@ import TabView from "../components/TabView/TabView";
 function Employee() {
   const { id } = useParams();
   const { employee, loading } = useEmployeeFetch(id!);
+
+  if (loading || !employee._id) return <CircularProgress />;
   return (
     <div>
-      {loading && <CircularProgress />}
       <EmployeeInfo employee={employee} />
       <Box sx={{ p: 1 }}>
         <TabView
