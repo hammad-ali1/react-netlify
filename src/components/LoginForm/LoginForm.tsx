@@ -16,8 +16,7 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-
-import Button from "../Button/Button";
+import { RoundedButton } from "../../theme/styledComponents";
 //Redux
 import { useAppDispatch } from "../../app/hooks";
 import { openSignUpForm } from "../Dialog/dialogSlice";
@@ -110,8 +109,7 @@ export default function LoginForm() {
               }}
               variant="standard"
             />
-
-            <Button text="Log In" callback={handleFormSubmit} />
+            <RoundedButton onClick={handleFormSubmit}>Log In</RoundedButton>
           </Stack>
         </Box>
       </Stack>

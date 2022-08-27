@@ -17,8 +17,7 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-
-import Button from "../Button/Button";
+import { RoundedButton } from "../../theme/styledComponents";
 //Redux
 import { useAppDispatch } from "../../app/hooks";
 import { openLoginForm } from "../Dialog/dialogSlice";
@@ -56,7 +55,7 @@ export default function SignUpForm() {
   return (
     <Box>
       <Stack direction="row">
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", backgroundColor: "white" }}>
           <img
             src={SignUpImage}
             alt="login"
@@ -187,7 +186,7 @@ export default function SignUpForm() {
                   {isPasswordError && "Password does not match"}
                 </FormHelperText>
               </FormControl>
-              <Button text="Sign Up" callback={handleFormSubmit} />
+              <RoundedButton onClick={handleFormSubmit}>Sign Up</RoundedButton>
             </Stack>
             <FormHelperText error>{submitErrorMessage}</FormHelperText>
           </FormControl>

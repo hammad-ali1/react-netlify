@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { orange, lightBlue } from "@mui/material/colors";
+import { orange, lightBlue, grey } from "@mui/material/colors";
 import { Color } from "@mui/material";
 declare module "@mui/material/styles" {
   interface Theme extends ThemeOptions {}
@@ -24,6 +24,7 @@ declare module "@mui/material/styles" {
 const theme = createTheme({
   palette: {
     mode: "dark",
+    secondary: grey,
     tertiary: lightBlue,
     background: { default: "#202124" },
     myColors: {

@@ -1,7 +1,8 @@
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { selectUser } from "../components/User/userSlice";
 import { openAccountVerification } from "../components/Dialog/dialogSlice";
-import Button from "../components/Button/Button";
+//Mui
+import { RoundedButton } from "../theme/styledComponents";
 function Account() {
   const user = useAppSelector((state) => selectUser(state));
   const dispatch = useAppDispatch();
@@ -10,12 +11,13 @@ function Account() {
       {!user.isEmailVerified && (
         <>
           {`${user.name}'s account verification is still pending`}
-          <Button
-            text="Verify Account"
-            callback={() => {
+          <RoundedButton
+            onClick={() => {
               dispatch(openAccountVerification());
             }}
-          />
+          >
+            Verify Account
+          </RoundedButton>
         </>
       )}
     </div>

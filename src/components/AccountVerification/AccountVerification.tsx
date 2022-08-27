@@ -1,5 +1,5 @@
 import { Stack, Typography, Box } from "@mui/material";
-import Button from "../Button/Button";
+import { RoundedButton } from "../../theme/styledComponents";
 import VerificationImage from "../../assets/verification.jpg";
 import API from "../../api/auth.api";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -25,13 +25,14 @@ function AccountVerification() {
         <Typography variant="h6" textAlign="center">
           Make Sure To Check Your Spam Folder
         </Typography>
-        <Button
-          text="Send Verification Email"
-          callback={() => {
+        <RoundedButton
+          onClick={() => {
             dispatch(setIsOpen(false));
             API.sendVerificationEmail(user._id);
           }}
-        />
+        >
+          Send Verification Email
+        </RoundedButton>
       </Stack>
     </Stack>
   );

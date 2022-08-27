@@ -9,7 +9,6 @@ import {
   Toolbar,
   useTheme,
   useMediaQuery,
-  IconButton,
   Stack,
 } from "@mui/material";
 import { AccountCircleRounded } from "@mui/icons-material";
