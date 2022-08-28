@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Slide, DialogContent, Dialog, Box } from "@mui/material";
+import { Slide, DialogContent, Dialog } from "@mui/material";
 //Redux
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 //Items that can be displayed inside dialog

@@ -3,7 +3,6 @@ import {
   Rating,
   Button,
   Stack,
-  Box,
   Typography,
   TextField,
   Tooltip,
@@ -70,26 +69,35 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
         </Typography>
 
         <Tooltip
+          placement="top-start"
           title={ratingValue ? labels[hover !== -1 ? hover : ratingValue] : ""}
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: "common.black",
+                "& .MuiTooltip-arrow": {
+                  color: "common.black",
+                },
+              },
+            },
+          }}
         >
-          <Box>
-            <Rating
-              emptyIcon={
-                <StarBorder fontSize="inherit" className="textColor" />
-              }
-              getLabelText={getLabelText}
-              value={ratingValue}
-              onChange={(event, newValue) => setRatingValue(newValue)}
-              onChangeActive={(event, newHover) => {
-                setHover(newHover);
-              }}
-              precision={0.5}
-            />
-          </Box>
+          <Rating
+            emptyIcon={<StarBorder fontSize="inherit" className="textColor" />}
+            getLabelText={getLabelText}
+            value={ratingValue}
+            onChange={(event, newValue) => setRatingValue(newValue)}
+            onChangeActive={(event, newHover) => {
+              setHover(newHover);
+            }}
+            precision={0.5}
+          />
         </Tooltip>
 
         {shouldDisableButton ? (
-          <Box>*You must have an account to use rating feature</Box>
+          <Typography>
+            *You must have an account to use rating feature
+          </Typography>
         ) : (
           <Stack spacing={0.5}>
             <Button
