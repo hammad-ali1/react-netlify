@@ -9,6 +9,8 @@ import {
   TextField,
   FormControl,
   FormHelperText,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   MailRounded,
@@ -23,6 +25,8 @@ import { openSignUpForm } from "../Dialog/dialogSlice";
 //Hooks
 import useLogIn from "../../hooks/useLogin";
 export default function LoginForm() {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useAppDispatch();
   const {
     values,
@@ -42,7 +46,7 @@ export default function LoginForm() {
   return (
     <Box>
       <Stack direction="row">
-        <Box sx={{ display: "flex" }}>
+        <Box flex={isSmallScreen ? 0 : 0.5} sx={{ display: "flex" }}>
           <img
             src={LoginImage}
             alt="login"
@@ -50,7 +54,14 @@ export default function LoginForm() {
             style={{ objectFit: "contain" }}
           />
         </Box>
-        <Box sx={{ "& > :not(style)": { m: 1 } }} minWidth="300px">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            "& > :not(style)": { m: 1 },
+          }}
+          flex={isSmallScreen ? 1 : 0.5}
+        >
           <Typography className="blueHeading" variant="h5">
             Login To Account
           </Typography>
