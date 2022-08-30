@@ -17,7 +17,6 @@ function SearchResults({ employees, loading, searchTerm }: SearchResultsProps) {
   const [currentResults, setCurrentResults] = useState(
     employees.results.slice(0, NUMBER_OF_RESULTS_AT_A_TIME)
   );
-  console.log(currentResults);
   const handleLoadMore = () => {
     setCurrentResults((prevResults) => [
       ...prevResults,

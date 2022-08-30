@@ -113,6 +113,8 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
               Rate
             </Button>
             <TextField
+              multiline
+              maxRows={4}
               fullWidth
               variant="standard"
               placeholder="comment (optional)"

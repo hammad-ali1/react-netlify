@@ -42,7 +42,7 @@ export class Employee {
   averageRating: number = 0;
   ratings: Rating[] = [];
 }
-class Rating {
+export class Rating {
   value: number = -1;
   user: { name: string; _id: string } = { name: "", _id: "" };
   comments: string = "";
@@ -61,8 +61,8 @@ class Experience {
 
 export class RatingGivenByUser {
   _id: string = "";
-  employeeName: string = "";
-  ratings: Rating[] = [];
+  name: string = "";
+  rating: Rating = new Rating();
 }
 
 const API = {

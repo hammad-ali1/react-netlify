@@ -16,7 +16,6 @@ export default function useSearchFetch(searchTerm: string) {
   }, [searchTerm]);
   useEffect(() => {
     if (!delayedSearchTerm) return;
-    console.log(delayedSearchTerm);
     setLoading(true);
     fetchEmployees(delayedSearchTerm).then((employees) => {
       setEmployees(employees);

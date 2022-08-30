@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import API, { RatingGivenByUser } from "../api/employees.api";
 
 function useProfileFetch(userid: string) {
-  const [ratings, setRatings] = useState<RatingGivenByUser[]>([]);
+  const [allRatings, setAllRatings] = useState<RatingGivenByUser[]>([]);
   useEffect(() => {
     if (userid) {
       API.getRatingsGivenByUser(userid).then((fetchedRatings) =>
-        setRatings(fetchedRatings)
+        setAllRatings(fetchedRatings)
       );
     }
   }, [userid]);
-  return { ratings };
+  return { allRatings };
 }
 
 export default useProfileFetch;
