@@ -30,9 +30,7 @@ function EmployeeRatings({ employee }: EmployeeInfoProps) {
               />
             </Stack>
             <Rating size="small" readOnly value={rating.value} />
-            <Typography>
-              {rating.comments ? rating.comments : "comment not provided"}
-            </Typography>
+            <Typography>{rating.comments}</Typography>
           </ColoredStack>
         ))}
       </Stack>

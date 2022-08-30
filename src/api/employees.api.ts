@@ -59,6 +59,12 @@ class Experience {
   date: string = "";
 }
 
+export class RatingGivenByUser {
+  _id: string = "";
+  employeeName: string = "";
+  ratings: Rating[] = [];
+}
+
 const API = {
   fetchEmployees: async (name: string): Promise<Employees> => {
     return await (
@@ -88,6 +94,13 @@ const API = {
         ratingValue,
         comments,
       })
+    ).data;
+  },
+  getRatingsGivenByUser: async (
+    userid: string
+  ): Promise<RatingGivenByUser[]> => {
+    return await (
+      await axios.get(`users/ratings?userid=${userid}`)
     ).data;
   },
 };

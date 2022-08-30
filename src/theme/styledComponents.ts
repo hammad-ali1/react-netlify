@@ -60,3 +60,7 @@ export const CenteredSpinner = styled(CircularProgress)`
   left: 50%;
   top: 50%;
 `;
+
+export const Wrapper = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(1),
+}));

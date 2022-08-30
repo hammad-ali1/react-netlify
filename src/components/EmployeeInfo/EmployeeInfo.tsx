@@ -41,6 +41,10 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
     setRatingDetails,
   } = useGiveRating(employee._id);
   const [hover, setHover] = useState(-1);
+  const averageRating =
+    employee.averageRating % 0.5 === 0
+      ? employee.averageRating
+      : Math.round(employee.averageRating);
   return (
     <ColoredStack direction="row" spacing={1}>
       <Thumb>
@@ -56,15 +60,15 @@ function EmployeeInfo({ employee }: EmployeeInfoProps) {
           {employee.department}
         </Typography>
         <Typography variant="body1">
-          {employee.averageRating === 0 || !employee.averageRating
+          {averageRating === 0 || !averageRating
             ? "No ratings yet"
-            : `Average Rating: ${employee.averageRating} 
+            : `Average Rating: ${averageRating} 
             `}
         </Typography>
         <Typography variant="caption">
-          {employee.averageRating === 0 || !employee.averageRating
+          {averageRating === 0 || !averageRating
             ? ""
-            : `(${labels[employee.averageRating]})
+            : `(${labels[averageRating]})
             `}
         </Typography>
 
