@@ -17,7 +17,6 @@ import LogoImage from "../../assets/logo.png";
 import MenuButton from "../MenuButton/MenuButton";
 //Redux
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { setSearchTerm } from "../SearchBar/searchSlice";
 import { selectUser, resetUser } from "../User/userSlice";
 
 //Types
@@ -37,11 +36,9 @@ function Navbar({ homePath, title, navLinks }: PropTypes) {
   };
 
   const handleLogoClick = () => {
-    dispatch(setSearchTerm(""));
     navigator("/", { replace: true });
   };
   const handleGoToProfile: React.MouseEventHandler<HTMLLIElement> = (event) => {
-    dispatch(setSearchTerm(""));
     navigator("/account", { replace: true });
   };
   //States

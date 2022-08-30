@@ -1,39 +1,47 @@
-import { Box, InputAdornment, Stack } from "@mui/material";
+import { useState } from "react";
+import { Box, InputAdornment, Popper } from "@mui/material";
 import { BorderLessTextInput } from "../../theme/styledComponents";
-import { useAppSelector } from "../../app/hooks";
-import { selectSearchTerm } from "../SearchBar/searchSlice";
-
+import useSearchFetch from "../../hooks/useSearchFetch";
+import SearchResults from "../SearchResults/SearchResults";
 //Icons
 import SearchIcon from "@mui/icons-material/Search";
 
-//Types
-export type SearchBarProps = {
-  onChangeHandler: React.ChangeEventHandler<HTMLInputElement>;
-};
-function SearchBar({ onChangeHandler }: SearchBarProps) {
-  const searchTerm = useAppSelector((store) => selectSearchTerm(store));
+function SearchBar() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [anchorEl, setAnchorEl] = useState<any>(null);
+
+  const { employees, loading } = useSearchFetch(searchTerm);
   return (
     <Box>
-      <Stack
-        classes={[".centerAlignStackItem"]}
-        direction="row"
-        sx={{ padding: "10px" }}
+      <BorderLessTextInput
+        fullWidth
+        variant="outlined"
+        placeholder="Search Teachers"
+        value={searchTerm}
+        onChange={(event) => {
+          setAnchorEl(event.target);
+          setSearchTerm(event.target.value);
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon fontSize="large" />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <Popper
+        anchorEl={anchorEl}
+        open={searchTerm.length > 0}
+        placement="bottom-start"
+        sx={{ width: "100%" }}
       >
-        <BorderLessTextInput
-          fullWidth
-          variant="outlined"
-          placeholder="Search Teachers"
-          onChange={onChangeHandler}
-          value={searchTerm}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="large" />
-              </InputAdornment>
-            ),
-          }}
+        <SearchResults
+          employees={employees}
+          loading={loading}
+          searchTerm={searchTerm}
         />
-      </Stack>
+      </Popper>
     </Box>
   );
 }

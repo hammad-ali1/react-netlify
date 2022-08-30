@@ -1,28 +1,28 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import API, { Employees } from "../api/employees.api";
-import { useAppSelector } from "../app/hooks";
-import { selectSearchTerm } from "../components/SearchBar/searchSlice";
 
-export default function useSearchFetch() {
-  const searchTerm = useAppSelector((store) => selectSearchTerm(store));
+const DELAY_IN_FETCH = 1000;
+export default function useSearchFetch(searchTerm: string) {
   const [employees, setEmployees] = useState(new Employees());
   const [loading, setLoading] = useState(false);
-  //navigate to search component when search term changes
-  const navigator = useNavigate();
+  const [delayedSearchTerm, setDelayedSearchTerm] = useState("");
+
   useEffect(() => {
-    if (searchTerm) navigator("./search", { replace: true });
-    else navigator("/", { replace: true });
-  }, [searchTerm, navigator]);
-  //updat employees when search term is spefcified
-  useEffect(() => {
-    if (!searchTerm) return;
     setLoading(true);
-    fetchEmployees(searchTerm).then((employees) => {
+    const timer = setTimeout(() => {
+      setDelayedSearchTerm(searchTerm);
+    }, DELAY_IN_FETCH);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+  useEffect(() => {
+    if (!delayedSearchTerm) return;
+    console.log(delayedSearchTerm);
+    setLoading(true);
+    fetchEmployees(delayedSearchTerm).then((employees) => {
       setEmployees(employees);
       setLoading(false);
     });
-  }, [searchTerm]);
+  }, [delayedSearchTerm]);
   async function fetchEmployees(name: string) {
     const employees = await API.fetchEmployees(name);
     return employees;

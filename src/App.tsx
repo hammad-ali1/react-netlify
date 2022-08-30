@@ -10,7 +10,6 @@ import SnackBar from "./components/SnackBar/SnackBar";
 //Redux
 import { useAppDispatch } from "./app/hooks";
 import { openLoginForm, openSignUpForm } from "./components/Dialog/dialogSlice";
-import { setSearchTerm } from "./components/SearchBar/searchSlice";
 import { setUser } from "./components/User/userSlice";
 import API from "./api/auth.api";
 //MuiTheme
@@ -29,7 +28,6 @@ function App() {
     {
       text: "Home",
       onClickHandler: () => {
-        dispatch(setSearchTerm(""));
         navigator("/", { replace: true });
       },
     },
